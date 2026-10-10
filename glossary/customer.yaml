@@ -1,0 +1,189 @@
+# GLOSSARY - customer master terms (MES Customers table). Canonical names, types and units follow docs/CANONICAL_STANDARDS.md.
+version: 0.1.0
+description: Business columns of the customer master (silver.mes_customer). Golden id term 'customer' is in entities.yaml.
+terms:
+  customer_id:
+    glossary_term_id: onto:column/customer_id
+    description: Customer number in the MES database (local id, unique only inside MES)
+    data_type: bigint
+    owner: MES team
+    status: active
+  customer_code:
+    glossary_term_id: onto:column/customer_code
+    description: Business code of the customer used on orders and invoices (e.g. CUST-US-001)
+    data_type: string
+    pattern: '^CUST-[A-Z]{2}-\d{3,}$'
+    owner: Sales
+    status: active
+  customer_name:
+    glossary_term_id: onto:column/customer_name
+    description: Legal or trading name of the customer
+    data_type: string
+    owner: Sales
+    status: active
+  business_partner_type_code:
+    glossary_term_id: onto:column/business_partner_type_code
+    description: MES business partner type code (meaning of the codes to confirm with the MES team - seen value 2)
+    data_type: int
+    owner: MES team
+    status: draft
+  credit_limit:
+    glossary_term_id: onto:column/credit_limit
+    description: Maximum open credit allowed for the customer, in the customer's currency (currency_id)
+    data_type: decimal(18,2)
+    valid_range: {min: 0}
+    range_basis: physical
+    owner: Finance
+    status: active
+  outstanding_sales_order_amount:
+    glossary_term_id: onto:column/outstanding_sales_order_amount
+    description: Value of open sales orders not yet delivered, in the customer's currency
+    data_type: decimal(18,2)
+    valid_range: {min: 0}
+    range_basis: physical
+    owner: Sales
+    status: active
+  address:
+    glossary_term_id: onto:column/address
+    description: Postal address of the customer (personal / contact data)
+    data_type: string
+    owner: Sales
+    status: active
+  email:
+    glossary_term_id: onto:column/email
+    description: Contact e-mail address, stored in lower case
+    data_type: string
+    pattern: '^[^@\s]+@[^@\s]+\.[^@\s]+$'
+    owner: Sales
+    status: active
+  contact_number:
+    glossary_term_id: onto:column/contact_number
+    description: Contact phone number in international format (+country code)
+    data_type: string
+    owner: Sales
+    status: active
+  fax_number:
+    glossary_term_id: onto:column/fax_number
+    description: Fax number (sample data holds placeholder values)
+    data_type: string
+    owner: Sales
+    status: draft
+  line_of_business:
+    glossary_term_id: onto:column/line_of_business
+    description: Industry of the customer (e.g. Automotive & Mobility)
+    data_type: string
+    owner: Sales
+    status: active
+  tax_id_number:
+    glossary_term_id: onto:column/tax_id_number
+    description: Tax identification number (TIN) - sensitive
+    data_type: string
+    owner: Finance
+    status: active
+  sec_registration_number:
+    glossary_term_id: onto:column/sec_registration_number
+    description: Company registration number (SEC) - sensitive
+    data_type: string
+    owner: Finance
+    status: active
+  contact_person_name:
+    glossary_term_id: onto:column/contact_person_name
+    description: Name of the main contact person at the customer (personal data)
+    data_type: string
+    owner: Sales
+    status: active
+  contact_person_position:
+    glossary_term_id: onto:column/contact_person_position
+    description: Job title of the main contact person
+    data_type: string
+    owner: Sales
+    status: active
+  remarks:
+    glossary_term_id: onto:column/remarks
+    description: Free-text remarks entered in MES
+    data_type: string
+    owner: MES team
+    status: active
+  is_active:
+    glossary_term_id: onto:column/is_active
+    description: True when the record can be used on new transactions (standard boolean - legacy codes mapped by source_codes)
+    data_type: boolean
+    source_codes:
+      MES_CORE: {"true": true, "false": false, "True": true, "False": false, "1": true, "0": false, "Y": true, "N": false, "A": true, "I": false}
+    owner: Data stewards
+    status: active
+  currency_id:
+    glossary_term_id: onto:column/currency_id
+    description: MES currency id of the customer (currency master to be added)
+    data_type: bigint
+    owner: Finance
+    status: active
+  payment_term_id:
+    glossary_term_id: onto:column/payment_term_id
+    description: MES payment term id (payment term master to be added)
+    data_type: bigint
+    owner: Finance
+    status: active
+  parent_customer_id:
+    glossary_term_id: onto:column/parent_customer_id
+    description: MES id of the parent (mother) customer - null when the customer has no parent
+    data_type: bigint
+    owner: Sales
+    status: active
+  sales_person_id:
+    glossary_term_id: onto:column/sales_person_id
+    description: MES user id of the responsible sales person (0 in the source = not assigned, stored as null)
+    data_type: bigint
+    owner: Sales
+    status: active
+  collector_id:
+    glossary_term_id: onto:column/collector_id
+    description: MES user id of the payment collector
+    data_type: bigint
+    owner: Finance
+    status: active
+  transport_time:
+    glossary_term_id: onto:column/transport_time
+    description: Transport lead time to the customer (unit to confirm with MES - assumed days)
+    data_type: int
+    unit: d
+    valid_range: {min: 0}
+    range_basis: physical
+    owner: Logistics
+    status: draft
+  website:
+    glossary_term_id: onto:column/website
+    description: Customer website
+    data_type: string
+    owner: Sales
+    status: active
+  custom_properties_json:
+    glossary_term_id: onto:column/custom_properties_json
+    description: MES custom property values as a JSON object (kept as text)
+    data_type: string
+    owner: MES team
+    status: active
+  created_by_user_id:
+    glossary_term_id: onto:column/created_by_user_id
+    description: MES user id that created the record
+    data_type: bigint
+    owner: MES team
+    status: active
+  created_at_utc:
+    glossary_term_id: onto:column/created_at_utc
+    description: When the record was created, UTC
+    data_type: timestamp
+    owner: MES team
+    status: active
+  updated_by_user_id:
+    glossary_term_id: onto:column/updated_by_user_id
+    description: MES user id that last changed the record
+    data_type: bigint
+    owner: MES team
+    status: active
+  updated_at_utc:
+    glossary_term_id: onto:column/updated_at_utc
+    description: When the record was last changed, UTC (null = never changed)
+    data_type: timestamp
+    owner: MES team
+    status: active

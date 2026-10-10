@@ -1,0 +1,38 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# DATA QUALITY - checks each row of this table must pass. error = row rejected, warn = counted. (DQDL generation is B3.6)
+table: silver.mdm_asset
+version: 0.1.0
+rules:
+- id: dq_mdm_asset_pk_unique
+  type: unique
+  columns:
+  - canonical_asset_id
+  - valid_from
+  severity: error
+  description: One row per grain
+- id: dq_mdm_asset_canonical_asset_id_not_null
+  type: not_null
+  column: canonical_asset_id
+  severity: error
+- id: dq_mdm_asset_valid_from_not_null
+  type: not_null
+  column: valid_from
+  severity: error
+- id: dq_mdm_asset_criticality_valid
+  type: accepted_values
+  column: criticality
+  values:
+  - A
+  - B
+  - C
+  severity: warn
+- id: dq_mdm_asset_asset_id_format
+  type: pattern
+  column: canonical_asset_id
+  pattern: ^AST-[A-Z]{3}-\d{6}$
+  severity: error
+  description: Unresolved assets go to ops rejects, never into Silver
+- id: dq_mdm_asset_valid_from_before_valid_to
+  type: expression
+  check: valid_from <= valid_to
+  severity: error

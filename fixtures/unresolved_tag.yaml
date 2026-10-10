@@ -1,0 +1,13 @@
+# FIXTURE (B2.10) - a reading that cannot be resolved to a canonical asset never enters Silver; it goes to ops rejects.
+name: unresolved_tag
+version: 0.1.0
+task: B2.10
+description: OPC node of an unknown machine (CuringPress09 is not in assets/) is rejected with reason UNRESOLVED_ASSET
+covers: [identity miss, ops.iiot_tag_reading_rejects, DQ dq_iiot_tag_reading_asset_id_format]
+input:
+  bronze.iiot_uns_events:
+    - {ingestion_id: ing-3001, event_id: evt-20260924-300001, schema_id: iiot.reading.v1, event_time: "2026-09-24T07:00:00Z", plant_asset_id: CuringPress09, tag_name: Bearing_Temperature, opc_node_id: "ns=2;s=test.opc.Simulation.Site01.Curing.CuringLine01.CuringPress09.Condition.Bearing_Temperature", value_raw: "54.7", quality_raw: Good}
+expected:
+  silver.iiot_tag_reading: []
+  ops.iiot_tag_reading_rejects:
+    - {bronze_row_id: ing-3001, opc_node_id: "ns=2;s=test.opc.Simulation.Site01.Curing.CuringLine01.CuringPress09.Condition.Bearing_Temperature", reject_reason: UNRESOLVED_ASSET}

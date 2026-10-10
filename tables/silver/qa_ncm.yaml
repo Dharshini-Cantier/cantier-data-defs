@@ -1,0 +1,61 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: silver.qa_ncm
+layer: silver
+version: 0.1.0
+description: 'per source record (SCD2 for masters). Source: NCMHeaders / NCMTransactions / LotActionNCMTransactions'
+grain: per source record (SCD2 for masters)
+primary_key:
+- ncm_id
+owner: Quality
+freshness: 15min
+glossary_term_id: onto:entity/ncr
+source: NCMHeaders / NCMTransactions / LotActionNCMTransactions
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/silver/qa_ncm/
+columns:
+- name: ncm_id
+  type: string
+  nullable: false
+  term: defect
+  description: NCMHeaders
+- name: lot_id
+  type: string
+  nullable: true
+  term: lot
+- name: lot_action_id
+  type: string
+  nullable: true
+  term: production_cycle
+  description: LotActionNCMTransactions
+- name: held_location
+  type: string
+  nullable: true
+  term: held_location
+- name: held_code
+  type: string
+  nullable: true
+  term: held_code
+- name: reason_code
+  type: string
+  nullable: true
+  term: reason_code
+  description: NCMReasons
+- name: failure_mode_group
+  type: string
+  nullable: true
+  term: failure_mode_group
+  description: NCMFailureModeGroups
+- name: hold_start_ts
+  type: timestamp
+  nullable: true
+  term: hold_start_ts
+- name: hold_end_ts
+  type: timestamp
+  nullable: true
+  term: hold_end_ts
+- name: disposition
+  type: string
+  nullable: true
+  term: disposition

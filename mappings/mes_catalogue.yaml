@@ -1,0 +1,640 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# MES CATALOGUE - which MES tables feed which Silver table and KPIs.
+version: 0.1.0
+description: MES DB tables to bring in with DMS CDC (sheet 04 Part B). One mapping file per table goes to mappings/mes/ once the MES schema export
+  (INFORMATION_SCHEMA) or sample parquet files are available (B2.6).
+tables:
+- mes_tables:
+  - JobOrders
+  module: Production
+  known_columns:
+  - Quantity
+  - ReleasedQuantity
+  - PendingQuantity
+  - PlannedStart/End
+  - ActualStart/End
+  ontology_class: Production Order
+  meaning: Production order for a SKU (PO-…)
+  bronze_tables:
+  - bronze.mes_cdc_job_orders
+  silver_target: silver.mes_job_order
+  kpis:
+  - 5
+  - 6
+  - 10
+  - 11
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - LotTravellers
+  module: Production
+  known_columns:
+  - StartDateTime
+  - ClosedDateTime
+  - ProductionLineId
+  ontology_class: Lot
+  meaning: Compound batch, component lot, green tyre / cured tyre (lot qty 1 = serial)
+  bronze_tables:
+  - bronze.mes_cdc_lot_travellers
+  silver_target: silver.mes_lot
+  kpis:
+  - 1
+  - 7
+  - 9
+  - 20
+  - 25
+  - 44
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - LotActions
+  module: Production
+  known_columns:
+  - QuantityIn
+  - QuantityOut
+  - ShiftName
+  - Cycletime
+  - StartDateTime
+  - EndDateTime
+  - WeldTestResultId
+  ontology_class: Production Cycle
+  meaning: 'One operation executed on a lot: Banbury batch, extrusion run, build, CURE, inspection → cycle_id'
+  bronze_tables:
+  - bronze.mes_cdc_lot_actions
+  silver_target: silver.mes_lot_action
+  kpis:
+  - 2
+  - 3
+  - 4
+  - 8
+  - 9
+  - 10
+  - 11
+  - 18
+  - 20
+  - 27
+  - 41
+  - 50
+  - 51
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - ProductionOperations
+  module: Production
+  ontology_class: Process Segment
+  meaning: Operation step in routing
+  bronze_tables:
+  - bronze.mes_cdc_production_operations
+  silver_target: silver.mdm_operation
+  kpis:
+  - 1
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - Processes
+  module: Production
+  ontology_class: Process Area
+  meaning: Mixing, Extrusion, Calendering, Building, Curing, Inspection
+  bronze_tables:
+  - bronze.mes_cdc_processes
+  silver_target: silver.mdm_process
+  kpis:
+  - 1
+  - 12
+  - 20
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - ProductSpecOperations
+  module: Production
+  known_columns:
+  - standard cycle time
+  ontology_class: Recipe / Routing step
+  meaning: Std cycle time per SKU × operation (Performance, CT vs std)
+  bronze_tables:
+  - bronze.mes_cdc_product_spec_operations
+  silver_target: silver.mdm_product_spec_operation
+  kpis:
+  - 8
+  - 50
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - Items
+  module: Production / Inventory
+  ontology_class: Product / Material
+  meaning: SKU, compounds, RM (NR, SBR, CB, silica, cord, bead wire)
+  bronze_tables:
+  - bronze.mes_cdc_items
+  silver_target: silver.mdm_item
+  kpis:
+  - 1
+  - 19
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - LotActionMachines
+  module: Production
+  ontology_class: relation runsOn
+  meaning: Action ↔ machine (CuringPress01 …) → canonical_asset_id
+  bronze_tables:
+  - bronze.mes_cdc_lot_action_machines
+  silver_target: silver.mes_lot_action_machine
+  kpis:
+  - 11
+  - 27
+  - 44
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - LotActionOperators
+  module: People
+  ontology_class: relation performedBy
+  meaning: Action ↔ operator (hashed)
+  bronze_tables:
+  - bronze.mes_cdc_lot_action_operators
+  silver_target: silver.mes_lot_action_operator
+  kpis:
+  - 41
+  - 43
+  - 44
+  relevance: Medium
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - LotActionTools
+  module: Equipment
+  ontology_class: relation usesTool
+  meaning: Mould / bladder / die used on action
+  bronze_tables:
+  - bronze.mes_cdc_lot_action_tools
+  silver_target: silver.mes_lot_action_tool
+  kpis:
+  - 30
+  relevance: High (mould & bladder life)
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - LotActionMaterials
+  - LotTravellerMaterials
+  module: Inventory
+  ontology_class: relation consumes (genealogy)
+  meaning: RM lot → batch → component → green tyre
+  bronze_tables:
+  - bronze.mes_cdc_lot_action_materials
+  - bronze.mes_cdc_lot_traveller_materials
+  silver_target: silver.mes_genealogy_edge
+  kpis:
+  - 22
+  - 44
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - LotActionMaterialCosts
+  module: Inventory
+  ontology_class: Cost
+  meaning: Material cost per action
+  bronze_tables:
+  - bronze.mes_cdc_lot_action_material_costs
+  silver_target: silver.mes_material_cost
+  kpis:
+  - 23
+  relevance: Medium
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - LotActionReworkDetails
+  - ReworkReasonCodes
+  module: Quality
+  ontology_class: Rework
+  meaning: Rework qty + reason
+  bronze_tables:
+  - bronze.mes_cdc_lot_action_rework_details
+  - bronze.mes_cdc_rework_reason_codes
+  silver_target: silver.qa_rework
+  kpis:
+  - 4
+  - 15
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - LotActionDefects
+  - Defects
+  - DefectGroups
+  module: Quality
+  ontology_class: Defect
+  meaning: Visual/X-ray/uniformity defect codes
+  bronze_tables:
+  - bronze.mes_cdc_lot_action_defects
+  - bronze.mes_cdc_defects
+  - bronze.mes_cdc_defect_groups
+  silver_target: silver.qa_defect
+  kpis:
+  - 14
+  - 43
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - LotActionDataCollectionParameterSets
+  - DataCollectionParameters
+  module: Quality (inline)
+  ontology_class: Measurement
+  meaning: INLINE QUALITY values captured on an action (RFV, LFV, balance, weight, dims…)
+  bronze_tables:
+  - bronze.mes_cdc_lot_action_data_collection_parameter_sets
+  - bronze.mes_cdc_data_collection_parameters
+  silver_target: silver.qa_measurement
+  kpis:
+  - 17
+  - 46
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - ProductSpecOperationDataCollectionParameterSets
+  module: Quality (inline)
+  ontology_class: Spec Limit
+  meaning: Required parameters + LSL/target/USL per SKU × operation — fills empty Variable Master limits
+  bronze_tables:
+  - bronze.mes_cdc_product_spec_operation_data_collection_parameter_sets
+  silver_target: silver.mdm_spec_limit
+  kpis:
+  - 46
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - NCMHeaders
+  - NCMTransactions
+  - LotActionNCMTransactions
+  module: Quality
+  known_columns:
+  - held location
+  - held code
+  ontology_class: NCR
+  meaning: Non-conformance + hold
+  bronze_tables:
+  - bronze.mes_cdc_ncmheaders
+  - bronze.mes_cdc_ncmtransactions
+  - bronze.mes_cdc_lot_action_ncmtransactions
+  silver_target: silver.qa_ncm
+  kpis:
+  - 12
+  - 16
+  - 43
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - NCMReasons
+  - NCMFailureReasons
+  - NCMFailureModeGroups
+  module: Quality
+  ontology_class: Failure Mode (quality)
+  meaning: NCM taxonomy
+  bronze_tables:
+  - bronze.mes_cdc_ncmreasons
+  - bronze.mes_cdc_ncmfailure_reasons
+  - bronze.mes_cdc_ncmfailure_mode_groups
+  silver_target: silver.mdm_ncm_code
+  kpis:
+  - 13
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - WeldSpecs
+  - WeldSpecJointTests
+  module: Quality
+  ontology_class: Test spec
+  meaning: Only if bead-wire / steel-cord butt welds are tested
+  bronze_tables:
+  - bronze.mes_cdc_weld_specs
+  - bronze.mes_cdc_weld_spec_joint_tests
+  silver_target: silver.qa_weld_test
+  kpis:
+  - 18
+  relevance: Low
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - ItemsInLocations
+  - Locations
+  module: Inventory
+  ontology_class: Inventory
+  meaning: Stock by location/locator (RM stores, green tyre racks, FG)
+  bronze_tables:
+  - bronze.mes_cdc_items_in_locations
+  - bronze.mes_cdc_locations
+  silver_target: silver.mes_inventory_snapshot
+  kpis:
+  - 19
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - StockAdjustments
+  - Details
+  - Reasons
+  module: Inventory
+  ontology_class: Inventory txn
+  meaning: Adjustments
+  bronze_tables:
+  - bronze.mes_cdc_stock_adjustments
+  - bronze.mes_cdc_details
+  - bronze.mes_cdc_reasons
+  silver_target: silver.mes_stock_adjustment
+  kpis:
+  - 21
+  relevance: Medium
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - InventoryCosts
+  - InventoryTransactionCosts
+  module: Inventory
+  ontology_class: Cost
+  bronze_tables:
+  - bronze.mes_cdc_inventory_costs
+  - bronze.mes_cdc_inventory_transaction_costs
+  silver_target: silver.mes_inventory_cost
+  kpis:
+  - 23
+  relevance: Medium
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - ItemReservations
+  - TrackedItemReservations
+  module: Inventory
+  ontology_class: Reservation
+  meaning: Reserved vs available
+  bronze_tables:
+  - bronze.mes_cdc_item_reservations
+  - bronze.mes_cdc_tracked_item_reservations
+  silver_target: silver.mes_item_reservation
+  kpis:
+  - 24
+  relevance: Medium
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - SubconDeliveries
+  - SubconDeliveryDetails
+  module: Inventory
+  ontology_class: Subcon
+  meaning: Outsourced ops
+  bronze_tables:
+  - bronze.mes_cdc_subcon_deliveries
+  - bronze.mes_cdc_subcon_delivery_details
+  silver_target: silver.mes_subcon_delivery
+  kpis:
+  - 25
+  relevance: Low
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - Packings
+  - PackingDetails
+  module: Inventory
+  ontology_class: Packing
+  meaning: FG tyre packing / dispatch
+  bronze_tables:
+  - bronze.mes_cdc_packings
+  - bronze.mes_cdc_packing_details
+  silver_target: silver.mes_packing
+  kpis:
+  - 26
+  relevance: Medium
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - Equipment
+  module: Equipment
+  ontology_class: Asset
+  meaning: MES equipment master → DynamoDB SRC#MES#<EquipmentId>
+  bronze_tables:
+  - bronze.mes_cdc_equipment
+  silver_target: silver.mdm_asset
+  kpis:
+  - 27
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - EquipmentUtilizations
+  - Details
+  module: Equipment
+  ontology_class: Utilization
+  meaning: Qty in/out per machine
+  bronze_tables:
+  - bronze.mes_cdc_equipment_utilizations
+  - bronze.mes_cdc_details
+  silver_target: silver.mes_equipment_utilization
+  kpis:
+  - 28
+  relevance: Medium
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - EquipmentStatuses
+  - EquipmentActivityLogs
+  module: Equipment
+  ontology_class: Machine State Event
+  meaning: Logged status time — reconcile with IIoT Machine_State
+  bronze_tables:
+  - bronze.mes_cdc_equipment_statuses
+  - bronze.mes_cdc_equipment_activity_logs
+  silver_target: silver.mes_equipment_status_log
+  kpis:
+  - 29
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - EquipmentProblems
+  - EquipmentProblemRootCauses
+  module: Equipment / CMMS
+  ontology_class: Downtime / Failure
+  meaning: Breakdown records + root cause
+  bronze_tables:
+  - bronze.mes_cdc_equipment_problems
+  - bronze.mes_cdc_equipment_problem_root_causes
+  silver_target: silver.mes_equipment_problem
+  kpis:
+  - 29
+  - 35
+  - 36
+  - 49
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - Cleanings
+  - ToolCleaningDetails
+  module: Equipment
+  ontology_class: Tool maintenance
+  meaning: Mould cleaning (dry-ice) frequency
+  bronze_tables:
+  - bronze.mes_cdc_cleanings
+  - bronze.mes_cdc_tool_cleaning_details
+  silver_target: silver.mes_tool_cleaning
+  kpis:
+  - 30
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - MachineMaterialSetups
+  - MachineMaterialIssuances
+  module: Equipment
+  ontology_class: Setup
+  meaning: Material loaded on machine (e.g. ply on builder)
+  bronze_tables:
+  - bronze.mes_cdc_machine_material_setups
+  - bronze.mes_cdc_machine_material_issuances
+  silver_target: silver.mes_machine_material_setup
+  kpis:
+  - 31
+  relevance: Medium
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - WorkOrders
+  module: CMMS
+  known_columns:
+  - MaintenanceStatus
+  - WorkOrderType
+  - ScheduleDate
+  - MaintenanceStartDateTime
+  - CompletionDateTime
+  ontology_class: Maintenance Work Order
+  meaning: PM / corrective / predictive WO
+  bronze_tables:
+  - bronze.mes_cdc_work_orders
+  silver_target: silver.cmms_work_order
+  kpis:
+  - 32
+  - 33
+  - 34
+  - 35
+  - 36
+  - 37
+  - 49
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - MaintenanceDefinitions
+  module: CMMS
+  ontology_class: PM Plan
+  meaning: PM schedule definitions
+  bronze_tables:
+  - bronze.mes_cdc_maintenance_definitions
+  silver_target: silver.cmms_pm_plan
+  kpis:
+  - 33
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - WorkOrderSupplies
+  - MaintenanceSupplies
+  module: CMMS
+  ontology_class: Spare Part usage
+  meaning: Spares per WO
+  bronze_tables:
+  - bronze.mes_cdc_work_order_supplies
+  - bronze.mes_cdc_maintenance_supplies
+  silver_target: silver.cmms_parts_usage
+  kpis:
+  - 38
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - WorkOrderAssignedTechnicians
+  - WorkOrderTechnicians
+  - Technician
+  module: CMMS
+  ontology_class: Person (technician)
+  meaning: Workload
+  bronze_tables:
+  - bronze.mes_cdc_work_order_assigned_technicians
+  - bronze.mes_cdc_work_order_technicians
+  - bronze.mes_cdc_technician
+  silver_target: silver.cmms_labour
+  kpis:
+  - 39
+  relevance: Medium
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - Projects
+  - ProjectTasks
+  - ProjectMilestones
+  - ProjectBudgetTrackers
+  module: CMMS
+  ontology_class: Project
+  meaning: Capex / shutdown projects
+  bronze_tables:
+  - bronze.mes_cdc_projects
+  - bronze.mes_cdc_project_tasks
+  - bronze.mes_cdc_project_milestones
+  - bronze.mes_cdc_project_budget_trackers
+  silver_target: silver.cmms_project
+  kpis:
+  - 40
+  relevance: Low
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - OperatorQualifications
+  - EmployeeSkillsets
+  - ProcessQualifiedRoles
+  module: People
+  ontology_class: Qualification
+  meaning: Operator certified per process
+  bronze_tables:
+  - bronze.mes_cdc_operator_qualifications
+  - bronze.mes_cdc_employee_skillsets
+  - bronze.mes_cdc_process_qualified_roles
+  silver_target: silver.mes_operator_qualification
+  kpis:
+  - 42
+  relevance: Medium
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - Shifts
+  - ShiftSchedules
+  module: Calendar
+  known_columns:
+  - ShiftName
+  ontology_class: Shift
+  meaning: Shift calendar → scheduled time for Availability
+  bronze_tables:
+  - bronze.mes_cdc_shifts
+  - bronze.mes_cdc_shift_schedules
+  silver_target: silver.mdm_shift_schedule
+  kpis:
+  - 11
+  - 49
+  relevance: High
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - AuditTrails
+  - AuditTrailDetails
+  module: Governance
+  ontology_class: Audit
+  meaning: Who changed what
+  bronze_tables:
+  - bronze.mes_cdc_audit_trails
+  - bronze.mes_cdc_audit_trail_details
+  silver_target: ops.mes_audit_trail
+  kpis:
+  - 45
+  relevance: Medium
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - ChecklistEvents
+  - ChecklistEventDetails
+  module: Governance
+  ontology_class: Checklist
+  meaning: Shift / equipment checklists
+  bronze_tables:
+  - bronze.mes_cdc_checklist_events
+  - bronze.mes_cdc_checklist_event_details
+  silver_target: silver.mes_checklist_event
+  kpis:
+  - 47
+  relevance: Medium
+  mapping_status: waiting_for_schema_export
+- mes_tables:
+  - SignatoryHistories
+  - RoleBaseSignatories
+  module: Governance
+  ontology_class: Approval
+  meaning: E-signature approvals
+  bronze_tables:
+  - bronze.mes_cdc_signatory_histories
+  - bronze.mes_cdc_role_base_signatories
+  silver_target: silver.mes_approval
+  kpis:
+  - 48
+  relevance: Medium
+  mapping_status: waiting_for_schema_export

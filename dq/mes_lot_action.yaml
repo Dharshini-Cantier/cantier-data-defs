@@ -1,0 +1,29 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# DATA QUALITY - checks each row of this table must pass. error = row rejected, warn = counted. (DQDL generation is B3.6)
+table: silver.mes_lot_action
+version: 0.1.0
+rules:
+- id: dq_mes_lot_action_pk_unique
+  type: unique
+  columns:
+  - lot_action_id
+  severity: error
+  description: One row per grain
+- id: dq_mes_lot_action_lot_action_id_not_null
+  type: not_null
+  column: lot_action_id
+  severity: error
+- id: dq_mes_lot_action_asset_id_format
+  type: pattern
+  column: canonical_asset_id
+  pattern: ^AST-[A-Z]{3}-\d{6}$
+  severity: error
+  description: Unresolved assets go to ops rejects, never into Silver
+- id: dq_mes_lot_action_start_ts_before_end_ts
+  type: expression
+  check: start_ts <= end_ts
+  severity: error
+- id: dq_mes_lot_action_out_le_in
+  type: expression
+  check: quantity_out <= quantity_in
+  severity: error

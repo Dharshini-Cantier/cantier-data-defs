@@ -1,0 +1,75 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# KPI DEFINITIONS - formula, grain, sources and owner of each KPI (dbt models generated in B3.7).
+area: Traceability
+version: 0.1.0
+kpis:
+- id: kpi_lot_genealogy
+  number: 44
+  name: Lot Genealogy
+  description: Parent/child lots with materials, machines, operators and tools used.
+  formula: parent/child lots + materials, machines, operators, tools
+  grain: lot / tyre serial
+  mes_source_tables: LotTravellers, LotActionMaterials, LotActionMachines, LotActionOperators
+  sources:
+  - silver.mes_genealogy_edge
+  - silver.mes_lot
+  - silver.mes_lot_action_machine
+  - silver.mes_lot_action_operator
+  gold_table: gold.tyre_traceability
+  reconciliation_note: Add IIoT cure profile + inspection
+  tyre_relevance: High
+  owner: Traceability owner (to confirm)
+  status: draft
+- id: kpi_audit_trail
+  number: 45
+  name: Audit Trail
+  description: Who changed what and when.
+  formula: change events BY user, object, time
+  grain: event
+  mes_source_tables: AuditTrails, AuditTrailDetails
+  sources:
+  - ops.mes_audit_trail
+  gold_table: ops.mes_audit_trail
+  tyre_relevance: High
+  owner: Traceability owner (to confirm)
+  status: draft
+- id: kpi_data_collection_compliance
+  number: 46
+  name: Data Collection Compliance
+  description: Parameters recorded vs required per operation.
+  formula: recorded params / required params per operation
+  grain: operation × day
+  mes_source_tables: ProductSpecOperationDataCollectionParameterSets, LotActionDataCollectionParameterSets
+  sources:
+  - silver.mdm_spec_limit
+  - silver.qa_measurement
+  gold_table: gold.compliance_summary
+  tyre_relevance: High
+  owner: Traceability owner (to confirm)
+  status: draft
+- id: kpi_checklist_completion
+  number: 47
+  name: Checklist Completion
+  description: Completion of shift/equipment checklist events.
+  formula: completed / scheduled checklist events
+  grain: shift
+  mes_source_tables: ChecklistEvents, ChecklistEventDetails
+  sources:
+  - silver.mes_checklist_event
+  gold_table: gold.compliance_summary
+  tyre_relevance: High
+  owner: Traceability owner (to confirm)
+  status: draft
+- id: kpi_approval_history
+  number: 48
+  name: Approval History
+  description: Signatory approvals and review history.
+  formula: approvals BY signatory, status
+  grain: event
+  mes_source_tables: SignatoryHistories, RoleBaseSignatories
+  sources:
+  - silver.mes_approval
+  gold_table: gold.compliance_summary
+  tyre_relevance: High
+  owner: Traceability owner (to confirm)
+  status: draft

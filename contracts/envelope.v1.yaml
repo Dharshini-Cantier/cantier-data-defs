@@ -1,0 +1,140 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# CONTRACT - the agreed shape of an event between a producer and the platform.
+id: envelope.v1
+version: 0.1.0
+kind: envelope
+description: Common header of every manufacturing event (UNS -> MSK -> Bronze). Aligned to the PdM reference doc 4.2-4.5.
+compatibility: BACKWARD
+fields:
+- name: schema_id
+  type: string
+  required: true
+  description: Contract id + major version
+  example: curing.condition.v2
+- name: event_id
+  type: string
+  required: true
+  description: Unique, producer-generated; Silver dedup key
+  example: evt-20260924-104215
+- name: event_time
+  type: timestamp
+  required: true
+  aliases:
+  - event_time_utc
+  description: Source time; Silver stores UTC + IST
+  example: '2026-09-24T05:12:15Z'
+- name: source_system
+  type: string
+  required: true
+  term: source_system
+  description: CANTIER_IIOT | MES_EDGE | MES_CORE | CMMS | QMS
+  example: CANTIER_IIOT
+- name: plant_asset_id
+  type: string
+  required: true
+  term: asset
+  description: Source asset id (resolved to canonical in Silver)
+  example: CuringPress01 / CUR-PRESS-07
+- name: site
+  type: string
+  required: true
+  description: From UNS path tyreplant01/<process>/<line>/<machine>/<domain>/<tag>
+- name: process
+  type: string
+  required: true
+  description: From UNS path tyreplant01/<process>/<line>/<machine>/<domain>/<tag>
+- name: line
+  type: string
+  required: true
+  description: From UNS path tyreplant01/<process>/<line>/<machine>/<domain>/<tag>
+- name: machine
+  type: string
+  required: true
+  description: From UNS path tyreplant01/<process>/<line>/<machine>/<domain>/<tag>
+- name: tag_domain
+  type: string
+  required: true
+  term: tag_domain
+  description: Context | Process | Setpoint | Condition | State_Alarm | Quality | Utility_Environment | RawMaterial
+  example: Condition
+- name: tag_name
+  type: string
+  required: true
+  aliases:
+  - metric_name
+  description: Source tag name
+  example: Bearing_Temperature
+- name: metric_value
+  type: any
+  required: true
+  description: Value
+  example: '54.70'
+- name: unit
+  type: string
+  required: true
+  description: Canonical unit
+  example: °C
+- name: quality
+  type: string
+  required: true
+  term: signal_quality
+  description: OPC UA status GOOD/UNCERTAIN/BAD
+  example: Good
+- name: opc_node_id
+  type: string
+  required: false
+  required_when: Y (IIoT)
+  description: Prosys/Kepware node
+  example: ns=2;s=test.opc.Simulation.Site01.Calendering.CalenderLine01.Calender01.Condition.Bearing_Temperature
+- name: mapping_id
+  type: string
+  required: false
+  required_when: Y (IIoT)
+  aliases:
+  - mapping_name
+  description: Cantier IIoT mapping (as in InfluxDB extract)
+  example: 1 / Bearing_Temperature
+- name: cycle_id
+  type: string
+  required: true
+  required_when: Y for cyclic machines
+  term: production_cycle
+  description: Production cycle
+  example: CYC-20260924-78413
+- name: work_order_id
+  type: string
+  required: true
+  required_when: Y when producing
+  term: production_order
+  description: MES production order
+  example: PO-2026-09142
+- name: batch_id
+  type: string
+  required: false
+  description: Context snapshot at event time
+  term: compound_batch
+- name: recipe_id
+  type: string
+  required: false
+  description: Context snapshot at event time
+  term: recipe
+- name: product_id
+  type: string
+  required: false
+  description: Context snapshot at event time
+  term: product
+- name: tyre_serial
+  type: string
+  required: false
+  description: Context snapshot at event time
+  term: cured_tyre
+- name: shift_no
+  type: string
+  required: false
+  description: Context snapshot at event time
+  term: shift
+- name: edge_txn_id
+  type: string
+  required: false
+  required_when: Y (MES Edge)
+  description: Idempotent replay key from store-and-forward

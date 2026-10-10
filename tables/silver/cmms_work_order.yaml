@@ -1,0 +1,116 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: silver.cmms_work_order
+layer: silver
+version: 0.1.0
+description: 'one WO version. Source: CMMS CDC'
+grain: one WO version
+primary_key:
+- work_order_id
+- created_at
+partition_by:
+- days(created_at)
+owner: Maintenance
+freshness: 15min
+glossary_term_id: onto:entity/maintenance_work_order
+source: CMMS CDC
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/silver/cmms_work_order/
+columns:
+- name: work_order_id
+  type: string
+  nullable: false
+  term: maintenance_work_order
+  description: WO-…
+- name: cmms_asset_id
+  type: string
+  nullable: true
+  term: cmms_asset_id
+- name: canonical_asset_id
+  type: string
+  nullable: true
+  term: asset
+- name: work_order_type
+  type: string
+  nullable: true
+  term: work_order_type
+  description: PREDICTIVE/PM/CM
+- name: priority
+  type: string
+  nullable: true
+  term: priority
+- name: status
+  type: string
+  nullable: true
+  term: status
+- name: component_code
+  type: string
+  nullable: true
+  term: component
+- name: problem_code
+  type: string
+  nullable: true
+  term: problem_code
+- name: planned_start
+  type: timestamp
+  nullable: true
+  term: planned_start
+- name: planned_finish
+  type: timestamp
+  nullable: true
+  term: planned_finish
+- name: actual_start
+  type: timestamp
+  nullable: true
+  term: actual_start
+- name: actual_finish
+  type: timestamp
+  nullable: true
+  term: actual_finish
+- name: responsible_work_center
+  type: string
+  nullable: true
+  term: responsible_work_center
+- name: prediction_id
+  type: string
+  nullable: true
+  term: prediction
+- name: approval_id
+  type: string
+  nullable: true
+  term: approval
+- name: idempotency_key
+  type: string
+  nullable: true
+  technical: true
+- name: created_at
+  type: timestamp
+  nullable: false
+  term: created_at
+  partition: true
+- name: maintenance_status
+  type: string
+  nullable: true
+  term: maintenance_status
+  description: WorkOrders.MaintenanceStatus (MES CMMS module)
+- name: schedule_date
+  type: date
+  nullable: true
+  term: schedule_date
+  description: ScheduleDate
+- name: maintenance_start_ts
+  type: timestamp
+  nullable: true
+  term: maintenance_start_ts
+  description: MaintenanceStartDateTime
+- name: completion_ts
+  type: timestamp
+  nullable: true
+  term: completion_ts
+  description: CompletionDateTime
+- name: maintenance_definition_id
+  type: string
+  nullable: true
+  term: maintenance_definition_id
+  description: PM plan link

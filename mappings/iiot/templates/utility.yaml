@@ -1,0 +1,229 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# IIoT TEMPLATE - tag list of one machine type. machines x tags = tag instances (check: scripts/04_check_coverage.py).
+template: Utility
+version: 0.1.0
+mapping_version: iiot-map-2026.10.10
+description: 'Utility machines: which tags they publish and what each tag measures.'
+machines:
+- AirCompressor01
+- Boiler01
+- CoolingWater01
+patterns:
+  uns_path: tyreplant01/{process_lc}/{line_lc}/{machine_lc}/{domain_lc}/{tag_lc}
+  opc_node_id: ns=2;s=test.opc.Simulation.Site01.{process}.{line}.{machine}.{domain}.{tag}
+  kepware_device: '{machine}_Device'
+  kepware_tag: '{tag}'
+tags:
+- tag_name: Machine_State
+  measurement_type: machine_state
+  domain: State_Alarm
+  data_type: string
+  source_data_type: boolean
+  unit: enum
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Alarm_Active
+  measurement_type: alarm_active
+  domain: State_Alarm
+  data_type: boolean
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Alarm_Code
+  measurement_type: alarm_code
+  domain: State_Alarm
+  data_type: string
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Emergency_Stop
+  measurement_type: emergency_stop
+  domain: State_Alarm
+  data_type: boolean
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Downtime_ReasonCode
+  measurement_type: downtime_reason_code
+  domain: State_Alarm
+  data_type: string
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Maintenance_DueHours
+  measurement_type: maintenance_due_hours
+  domain: Condition
+  data_type: double
+  unit: h
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Gearbox_OilTemp
+  measurement_type: gearbox_oil_temp
+  domain: Condition
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Machine_RuntimeHours
+  measurement_type: machine_runtime_hours
+  domain: Condition
+  data_type: double
+  unit: h
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Motor_Temperature
+  measurement_type: motor_temperature
+  domain: Condition
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Bearing_Vibration
+  measurement_type: bearing_vibration
+  domain: Condition
+  data_type: double
+  unit: mm/s
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Bearing_Temperature
+  measurement_type: bearing_temperature
+  domain: Condition
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Gearbox_Vibration
+  measurement_type: gearbox_vibration
+  domain: Condition
+  data_type: double
+  unit: mm/s
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Hydraulic_OilTemperature
+  measurement_type: hydraulic_oil_temperature
+  domain: Condition
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Motor_Speed
+  measurement_type: motor_speed
+  domain: Condition
+  data_type: double
+  unit: rpm
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Motor_Torque
+  measurement_type: motor_torque
+  domain: Condition
+  data_type: double
+  unit: N·m
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Util_ElectricityConsumption
+  measurement_type: util_electricity_consumption
+  domain: Utility_Environment
+  data_type: double
+  unit: kWh
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Util_SteamFlow
+  measurement_type: util_steam_flow
+  domain: Utility_Environment
+  data_type: double
+  unit: kg/h
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Util_CompressedAirPressure
+  measurement_type: util_compressed_air_pressure
+  domain: Utility_Environment
+  data_type: double
+  unit: bar
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Util_WaterFlow
+  measurement_type: util_water_flow
+  domain: Utility_Environment
+  data_type: double
+  unit: L/min
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Util_CoolingWaterTemp
+  measurement_type: util_cooling_water_temp
+  domain: Utility_Environment
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Env_CO2Emission
+  measurement_type: env_co2_emission
+  domain: Utility_Environment
+  data_type: double
+  unit: ppm
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Env_VOCLevel
+  measurement_type: env_voc_level
+  domain: Utility_Environment
+  data_type: double
+  unit: ppm
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Env_AmbientTemp
+  measurement_type: env_ambient_temp
+  domain: Utility_Environment
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Env_Humidity
+  measurement_type: env_humidity
+  domain: Utility_Environment
+  data_type: double
+  unit: '%'
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading

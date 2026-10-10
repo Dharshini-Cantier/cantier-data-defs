@@ -1,0 +1,25 @@
+# CODEOWNERS (task B1.4) - who MUST approve a pull request that changes these paths. Later lines win.
+# TODO before enabling branch protection: replace every @cantier/... placeholder with real GitHub users or teams.
+
+*                          @cantier/data-engineering
+
+# Meaning of data -> data steward must approve
+/ontology/                 @cantier/data-stewards
+/glossary/                 @cantier/data-stewards
+/kpi/                      @cantier/data-stewards @cantier/analytics
+
+# Producer agreements and source mappings -> steward / producing team + DE
+/contracts/                @cantier/data-stewards @cantier/data-engineering
+/mappings/iiot/            @cantier/iiot @cantier/data-engineering
+/mappings/mes/             @cantier/mes @cantier/data-engineering
+/mappings/mes_catalogue.yaml @cantier/mes @cantier/data-engineering
+/assets/                   @cantier/data-stewards @cantier/iiot @cantier/mes
+
+# Tables and quality rules
+/tables/gold/              @cantier/analytics @cantier/data-engineering
+/dq/                       @cantier/data-engineering
+
+# Rules about the rules
+/schemas/                  @cantier/data-engineering @cantier/data-stewards
+/docs/VERSIONING.md        @cantier/data-stewards @cantier/data-engineering
+/.github/                  @cantier/infra

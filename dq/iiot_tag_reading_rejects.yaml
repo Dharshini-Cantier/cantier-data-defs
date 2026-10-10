@@ -1,0 +1,15 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# DATA QUALITY - checks each row of this table must pass. error = row rejected, warn = counted. (DQDL generation is B3.6)
+table: ops.iiot_tag_reading_rejects
+version: 0.1.0
+rules:
+- id: dq_iiot_tag_reading_rejects_pk_unique
+  type: unique
+  columns:
+  - bronze_row_id
+  severity: error
+  description: One row per grain
+- id: dq_iiot_tag_reading_rejects_bronze_row_id_not_null
+  type: not_null
+  column: bronze_row_id
+  severity: error

@@ -1,0 +1,19 @@
+# FIXTURE (B2.10) - Bronze rows IN -> exactly these Silver rows OUT. Used by the Silver engine tests (B4.4 / A3).
+name: cp07_valve_stiction
+version: 0.1.0
+task: B2.10
+description: Steam valve command + feedback on curing press CP07 during a cure cycle (PdM valve-stiction feature, PdM reference doc)
+covers: [identity resolution, cycle context, missing-at-source tags SteamValve_Position_CMD/FB, canonical unit]
+given:
+  identity_map:      # CUR-PRESS-07 is the PdM doc's press id; Site01 has 4 presses, so the fixture brings its own crosswalk row
+    - {source_system: CANTIER_IIOT, source_asset_id: CUR-PRESS-07, canonical_asset_id: AST-CUR-000007}
+input:
+  bronze.iiot_uns_events:
+    - {ingestion_id: ing-1001, event_id: evt-20260924-104215, schema_id: curing.condition.v2, event_time: "2026-09-24T05:12:15Z", plant_asset_id: CUR-PRESS-07, tag_name: SteamValve_Position_CMD, value_raw: "62.0", quality_raw: Good, payload_json: '{"unit":"%","cycle_id":"CYC-20260924-78413","work_order_id":"PO-2026-09142"}'}
+    - {ingestion_id: ing-1002, event_id: evt-20260924-104216, schema_id: curing.condition.v2, event_time: "2026-09-24T05:12:15Z", plant_asset_id: CUR-PRESS-07, tag_name: SteamValve_Position_FB, value_raw: "55.4", quality_raw: Good, payload_json: '{"unit":"%","cycle_id":"CYC-20260924-78413","work_order_id":"PO-2026-09142"}'}
+expected:
+  silver.iiot_tag_reading:
+    - {canonical_asset_id: AST-CUR-000007, tag_name: SteamValve_Position_CMD, measurement_type: STEAM_VALVE_POSITION_CMD, normalized_value: 62.0, unit: "%", quality: GOOD, cycle_id: CYC-20260924-78413, work_order_id: PO-2026-09142, event_ts_utc: "2026-09-24T05:12:15Z"}
+    - {canonical_asset_id: AST-CUR-000007, tag_name: SteamValve_Position_FB, measurement_type: STEAM_VALVE_POSITION_FB, normalized_value: 55.4, unit: "%", quality: GOOD, cycle_id: CYC-20260924-78413, work_order_id: PO-2026-09142, event_ts_utc: "2026-09-24T05:12:15Z"}
+notes:
+  - "CMD - FB = 6.6 % valve error; gold.maintenance_risk uses valve_error_mean_24h"

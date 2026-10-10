@@ -1,0 +1,88 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# GLOSSARY - the dictionary: meaning, type, unit, valid values and owner of each term.
+version: 0.2.0
+description: Closed lists of allowed values.
+terms:
+  signal_quality:
+    glossary_term_id: onto:enum/signal_quality
+    description: OPC UA quality of a reading
+    data_type: string
+    enum_values:
+      GOOD: Value can be used
+      UNCERTAIN: Use with care
+      BAD: Rejected in Silver
+    source_codes:
+      CANTIER_IIOT: {Good: GOOD, Uncertain: UNCERTAIN, Bad: BAD, GOOD: GOOD, UNCERTAIN: UNCERTAIN, BAD: BAD}
+    owner: IIoT / process engineering
+    status: active
+  source_system:
+    glossary_term_id: onto:enum/source_system
+    description: System that produced an event (envelope field)
+    data_type: string
+    enum_values:
+      CANTIER_IIOT: Cantier IIoT / UNS
+      MES_EDGE: MES Edge microservice
+      MES_CORE: MES Core DB (DMS CDC)
+      CMMS: Maintenance system
+      QMS: Quality system
+    owner: Data platform team
+    status: active
+  tag_domain:
+    glossary_term_id: onto:enum/tag_domain
+    description: UNS domain of a tag (5th level of the UNS path)
+    data_type: string
+    enum_values:
+      Context: Context
+      Process: Process
+      Setpoint: Setpoint
+      Condition: Condition
+      State_Alarm: State Alarm
+      Quality: Quality
+      Utility_Environment: Utility Environment
+      RawMaterial: RawMaterial
+      Production: Production
+    owner: IIoT / process engineering
+    status: active
+  work_order_type:
+    glossary_term_id: onto:enum/work_order_type
+    description: Type of maintenance work order
+    data_type: string
+    enum_values:
+      PREDICTIVE: Raised from a PdM prediction
+      PM: Planned / preventive
+      CM: Corrective
+    owner: Maintenance
+    status: active
+  asset_criticality:
+    glossary_term_id: onto:enum/asset_criticality
+    description: Criticality class of an asset
+    data_type: string
+    enum_values:
+      A: Critical - stops the plant
+      B: Important
+      C: Low impact
+    owner: Maintenance
+    status: active
+  cdc_operation:
+    glossary_term_id: onto:enum/cdc_operation
+    description: AWS DMS change operation
+    data_type: string
+    enum_values:
+      I: Insert
+      U: Update
+      D: Delete
+    owner: Data platform team
+    status: active
+  vatability:
+    glossary_term_id: onto:enum/vatability
+    description: VAT treatment of a customer
+    data_type: string
+    enum_values:
+      VATABLE: VAT charged
+      NON_VATABLE: No VAT charged
+      ZERO_RATED: VAT at 0 %
+      VAT_EXEMPT: Exempt from VAT
+    source_codes:
+      MES_CORE: {Vatable: VATABLE, NonVatable: NON_VATABLE, ZeroRated: ZERO_RATED, Exempt: VAT_EXEMPT}
+    owner: Finance
+    status: draft

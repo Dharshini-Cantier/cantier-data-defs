@@ -1,0 +1,117 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# KPI DEFINITIONS - formula, grain, sources and owner of each KPI (dbt models generated in B3.7).
+area: Inventory
+version: 0.1.0
+kpis:
+- id: kpi_stock_level
+  number: 19
+  name: Stock Level
+  description: Stock by item, location and locator.
+  formula: SUM(qty) BY item, location, locator
+  grain: snapshot
+  mes_source_tables: ItemsInLocations, Items, Locations
+  sources:
+  - silver.mdm_item
+  - silver.mes_inventory_snapshot
+  gold_table: gold.inventory_snapshot
+  reconciliation_note: Compare with IIoT RM_*Stock tags
+  tyre_relevance: High
+  owner: Inventory owner (to confirm)
+  status: draft
+- id: kpi_lot_ageing
+  number: 20
+  name: Lot Ageing
+  description: Time lots have sat in each process.
+  formula: NOW − entered_process_ts per lot
+  grain: lot × process
+  mes_source_tables: LotTravellers, LotActions, Processes
+  sources:
+  - silver.mdm_process
+  - silver.mes_lot
+  - silver.mes_lot_action
+  gold_table: gold.lot_flow
+  tyre_relevance: High
+  owner: Inventory owner (to confirm)
+  status: draft
+- id: kpi_stock_adjustments
+  number: 21
+  name: Stock Adjustments
+  description: Adjustments by reason and location.
+  formula: SUM(adjustment qty/value) BY reason, location
+  grain: month
+  mes_source_tables: StockAdjustments, StockAdjustmentDetails, StockAdjustmentReasons
+  sources:
+  - silver.mes_stock_adjustment
+  gold_table: gold.inventory_snapshot
+  tyre_relevance: High
+  owner: Inventory owner (to confirm)
+  status: draft
+- id: kpi_material_consumption
+  number: 22
+  name: Material Consumption
+  description: Material used per lot and job order.
+  formula: SUM(material qty) per lot / job order
+  grain: lot
+  mes_source_tables: LotActionMaterials, LotTravellerMaterials
+  sources:
+  - silver.mes_genealogy_edge
+  gold_table: gold.material_consumption
+  reconciliation_note: Compare with IIoT RM_*Consumption (wrong unit today)
+  tyre_relevance: High
+  owner: Inventory owner (to confirm)
+  status: draft
+- id: kpi_material_inventory_cost
+  number: 23
+  name: Material & Inventory Cost
+  description: Material cost per lot/job order and inventory transaction cost.
+  formula: SUM(material cost) per lot / JO; txn cost
+  grain: lot
+  mes_source_tables: LotActionMaterialCosts, InventoryCosts, InventoryTransactionCosts
+  sources:
+  - silver.mes_inventory_cost
+  - silver.mes_material_cost
+  gold_table: gold.material_consumption
+  tyre_relevance: High
+  owner: Inventory owner (to confirm)
+  status: draft
+- id: kpi_item_reservations
+  number: 24
+  name: Item Reservations
+  description: Reserved vs available stock.
+  formula: reserved vs (on hand − reserved)
+  grain: item
+  mes_source_tables: ItemReservations, TrackedItemReservations
+  sources:
+  - silver.mes_item_reservation
+  gold_table: gold.inventory_snapshot
+  tyre_relevance: High
+  owner: Inventory owner (to confirm)
+  status: draft
+- id: kpi_subcon_delivery_turnaround
+  number: 25
+  name: Subcon Delivery & Turnaround
+  description: Quantity sent to subcontractors, pending quantity and turnaround time.
+  formula: sent, pending, AVG(return − send)
+  grain: subcon × month
+  mes_source_tables: SubconDeliveries, SubconDeliveryDetails, LotTravellers
+  sources:
+  - silver.mes_lot
+  - silver.mes_subcon_delivery
+  gold_table: gold.subcon_summary
+  reconciliation_note: Low tyre relevance
+  tyre_relevance: Low
+  owner: Inventory owner (to confirm)
+  status: draft
+- id: kpi_packing_summary
+  number: 26
+  name: Packing Summary
+  description: Packed quantity, validation status and unpacking reasons.
+  formula: packed qty, validation status, unpack reasons
+  grain: day
+  mes_source_tables: Packings, PackingDetails
+  sources:
+  - silver.mes_packing
+  gold_table: gold.packing_summary
+  tyre_relevance: High
+  owner: Inventory owner (to confirm)
+  status: draft

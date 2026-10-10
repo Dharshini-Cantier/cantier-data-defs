@@ -1,0 +1,55 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: silver.pdm_prediction
+layer: silver
+version: 0.1.0
+description: 'one prediction. Source: SageMaker output'
+grain: one prediction
+primary_key:
+- prediction_id
+partition_by:
+- days(scored_at)
+owner: Data science
+glossary_term_id: onto:entity/prediction
+source: SageMaker output
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/silver/pdm_prediction/
+columns:
+- name: prediction_id
+  type: string
+  nullable: false
+  term: prediction
+- name: canonical_asset_id
+  type: string
+  nullable: true
+  term: asset
+- name: component_code
+  type: string
+  nullable: true
+  term: component
+- name: failure_mode
+  type: string
+  nullable: true
+  term: failure_mode
+- name: failure_probability_7d
+  type: double
+  nullable: true
+  term: failure_probability_7d
+- name: remaining_useful_life_hours
+  type: double
+  nullable: true
+  term: remaining_useful_life_hours
+- name: health_score
+  type: double
+  nullable: true
+  term: health_score
+- name: model_version
+  type: string
+  nullable: true
+  term: model_version
+- name: scored_at
+  type: timestamp
+  nullable: true
+  term: scored_at
+  partition: true

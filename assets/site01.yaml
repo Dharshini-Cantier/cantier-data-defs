@@ -1,0 +1,302 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# ASSET SEEDS - golden id of every machine + its id in MES, CMMS, IIoT, Kepware (-> DynamoDB identity_map, B3.4).
+# mapping_status PROPOSED = pattern ids from the workbook; replace with real MES/CMMS ids (B2.7, needs decision 0.2).
+# Check: python scripts/01_validate_ontology.py  (linkml-validate against ontology class AssetRegistry)
+site: Site01
+version: 0.1.0
+mapping_version: asset-map-2026.10.06
+assets:
+- canonical_asset_id: AST-RMH-000001
+  machine_id: WeighingSystem01
+  name: Raw Material Weighing System
+  process: RawMaterial
+  line: RM_Line01
+  template: RM
+  mes_asset_id: MES-S01-WEIGHINGSYSTEM01
+  cmms_asset_id: EQ-S01-RMH-001
+  uns_base_path: tyreplant01/rawmaterial/rm_line01/weighingsystem01
+  kepware_device: WeighingSystem01_Device
+  criticality: C
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-RMH-000002
+  machine_id: MaterialHandling01
+  name: Material Handling System
+  process: RawMaterial
+  line: RM_Line01
+  template: RM
+  mes_asset_id: MES-S01-MATERIALHANDLING01
+  cmms_asset_id: EQ-S01-RMH-002
+  uns_base_path: tyreplant01/rawmaterial/rm_line01/materialhandling01
+  kepware_device: MaterialHandling01_Device
+  criticality: C
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-MIX-000001
+  machine_id: Banbury01
+  name: Banbury Internal Mixer 01
+  process: Mixing
+  line: MixingLine01
+  template: Banbury
+  mes_asset_id: MES-S01-BANBURY01
+  cmms_asset_id: EQ-S01-MIX-001
+  uns_base_path: tyreplant01/mixing/mixingline01/banbury01
+  kepware_device: Banbury01_Device
+  criticality: A
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-MIX-000002
+  machine_id: Banbury02
+  name: Banbury Internal Mixer 02
+  process: Mixing
+  line: MixingLine01
+  template: Banbury
+  mes_asset_id: MES-S01-BANBURY02
+  cmms_asset_id: EQ-S01-MIX-002
+  uns_base_path: tyreplant01/mixing/mixingline01/banbury02
+  kepware_device: Banbury02_Device
+  criticality: A
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-MIX-000003
+  machine_id: Banbury03
+  name: Banbury Internal Mixer 03
+  process: Mixing
+  line: MixingLine01
+  template: Banbury
+  mes_asset_id: MES-S01-BANBURY03
+  cmms_asset_id: EQ-S01-MIX-003
+  uns_base_path: tyreplant01/mixing/mixingline01/banbury03
+  kepware_device: Banbury03_Device
+  criticality: A
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-EXT-000001
+  machine_id: Extruder01
+  name: Tyre Tread Extruder 01
+  process: Extrusion
+  line: ExtrusionLine01
+  template: Extruder
+  mes_asset_id: MES-S01-EXTRUDER01
+  cmms_asset_id: EQ-S01-EXT-001
+  uns_base_path: tyreplant01/extrusion/extrusionline01/extruder01
+  kepware_device: Extruder01_Device
+  criticality: B
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-EXT-000002
+  machine_id: Extruder02
+  name: Tyre Tread Extruder 02
+  process: Extrusion
+  line: ExtrusionLine01
+  template: Extruder
+  mes_asset_id: MES-S01-EXTRUDER02
+  cmms_asset_id: EQ-S01-EXT-002
+  uns_base_path: tyreplant01/extrusion/extrusionline01/extruder02
+  kepware_device: Extruder02_Device
+  criticality: B
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-CAL-000001
+  machine_id: Calender01
+  name: Rubber Calender 01
+  process: Calendering
+  line: CalenderLine01
+  template: Calender
+  mes_asset_id: MES-S01-CALENDER01
+  cmms_asset_id: EQ-S01-CAL-001
+  uns_base_path: tyreplant01/calendering/calenderline01/calender01
+  kepware_device: Calender01_Device
+  criticality: B
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-CAL-000002
+  machine_id: Calender02
+  name: Rubber Calender 02
+  process: Calendering
+  line: CalenderLine01
+  template: Calender
+  mes_asset_id: MES-S01-CALENDER02
+  cmms_asset_id: EQ-S01-CAL-002
+  uns_base_path: tyreplant01/calendering/calenderline01/calender02
+  kepware_device: Calender02_Device
+  criticality: B
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-TBM-000001
+  machine_id: Builder01
+  name: Tyre Building Machine 01
+  process: TyreBuilding
+  line: BuildingLine01
+  template: Building
+  mes_asset_id: MES-S01-BUILDER01
+  cmms_asset_id: EQ-S01-TBM-001
+  uns_base_path: tyreplant01/tyrebuilding/buildingline01/builder01
+  kepware_device: Builder01_Device
+  criticality: A
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-TBM-000002
+  machine_id: Builder02
+  name: Tyre Building Machine 02
+  process: TyreBuilding
+  line: BuildingLine01
+  template: Building
+  mes_asset_id: MES-S01-BUILDER02
+  cmms_asset_id: EQ-S01-TBM-002
+  uns_base_path: tyreplant01/tyrebuilding/buildingline01/builder02
+  kepware_device: Builder02_Device
+  criticality: A
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-TBM-000003
+  machine_id: Builder03
+  name: Tyre Building Machine 03
+  process: TyreBuilding
+  line: BuildingLine01
+  template: Building
+  mes_asset_id: MES-S01-BUILDER03
+  cmms_asset_id: EQ-S01-TBM-003
+  uns_base_path: tyreplant01/tyrebuilding/buildingline01/builder03
+  kepware_device: Builder03_Device
+  criticality: A
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-CUR-000001
+  machine_id: CuringPress01
+  name: Tyre Curing Press 01
+  process: Curing
+  line: CuringLine01
+  template: Curing
+  mes_asset_id: MES-S01-CURINGPRESS01
+  cmms_asset_id: EQ-S01-CUR-001
+  uns_base_path: tyreplant01/curing/curingline01/curingpress01
+  kepware_device: CuringPress01_Device
+  criticality: A
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-CUR-000002
+  machine_id: CuringPress02
+  name: Tyre Curing Press 02
+  process: Curing
+  line: CuringLine01
+  template: Curing
+  mes_asset_id: MES-S01-CURINGPRESS02
+  cmms_asset_id: EQ-S01-CUR-002
+  uns_base_path: tyreplant01/curing/curingline01/curingpress02
+  kepware_device: CuringPress02_Device
+  criticality: A
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-CUR-000003
+  machine_id: CuringPress03
+  name: Tyre Curing Press 03
+  process: Curing
+  line: CuringLine01
+  template: Curing
+  mes_asset_id: MES-S01-CURINGPRESS03
+  cmms_asset_id: EQ-S01-CUR-003
+  uns_base_path: tyreplant01/curing/curingline01/curingpress03
+  kepware_device: CuringPress03_Device
+  criticality: A
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-CUR-000004
+  machine_id: CuringPress04
+  name: Tyre Curing Press 04
+  process: Curing
+  line: CuringLine01
+  template: Curing
+  mes_asset_id: MES-S01-CURINGPRESS04
+  cmms_asset_id: EQ-S01-CUR-004
+  uns_base_path: tyreplant01/curing/curingline01/curingpress04
+  kepware_device: CuringPress04_Device
+  criticality: A
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-TUM-000001
+  machine_id: UniformityTester01
+  name: Tyre Uniformity & Balance Tester 01
+  process: Inspection
+  line: QualityLine01
+  template: Quality
+  mes_asset_id: MES-S01-UNIFORMITYTESTER01
+  cmms_asset_id: EQ-S01-TUM-001
+  uns_base_path: tyreplant01/inspection/qualityline01/uniformitytester01
+  kepware_device: UniformityTester01_Device
+  criticality: B
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-TUM-000002
+  machine_id: UniformityTester02
+  name: Tyre Uniformity & Balance Tester 02
+  process: Inspection
+  line: QualityLine01
+  template: Quality
+  mes_asset_id: MES-S01-UNIFORMITYTESTER02
+  cmms_asset_id: EQ-S01-TUM-002
+  uns_base_path: tyreplant01/inspection/qualityline01/uniformitytester02
+  kepware_device: UniformityTester02_Device
+  criticality: B
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-UTL-000001
+  machine_id: AirCompressor01
+  name: Air Compressor 01
+  process: Utilities
+  line: UtilityLine01
+  template: Utility
+  mes_asset_id: MES-S01-AIRCOMPRESSOR01
+  cmms_asset_id: EQ-S01-UTL-001
+  uns_base_path: tyreplant01/utilities/utilityline01/aircompressor01
+  kepware_device: AirCompressor01_Device
+  criticality: B
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-UTL-000002
+  machine_id: Boiler01
+  name: Boiler / Steam Utility System 01
+  process: Utilities
+  line: UtilityLine01
+  template: Utility
+  mes_asset_id: MES-S01-BOILER01
+  cmms_asset_id: EQ-S01-UTL-002
+  uns_base_path: tyreplant01/utilities/utilityline01/boiler01
+  kepware_device: Boiler01_Device
+  criticality: B
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED
+- canonical_asset_id: AST-UTL-000003
+  machine_id: CoolingWater01
+  name: Cooling Water System 01
+  process: Utilities
+  line: UtilityLine01
+  template: Utility
+  mes_asset_id: MES-S01-COOLINGWATER01
+  cmms_asset_id: EQ-S01-UTL-003
+  uns_base_path: tyreplant01/utilities/utilityline01/coolingwater01
+  kepware_device: CoolingWater01_Device
+  criticality: B
+  match_method: DETERMINISTIC_CROSSWALK
+  mapping_version: asset-map-2026.10.06
+  mapping_status: PROPOSED

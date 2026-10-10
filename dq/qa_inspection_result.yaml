@@ -1,0 +1,97 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# DATA QUALITY - checks each row of this table must pass. error = row rejected, warn = counted. (DQDL generation is B3.6)
+table: silver.qa_inspection_result
+version: 0.1.0
+rules:
+- id: dq_qa_inspection_result_pk_unique
+  type: unique
+  columns:
+  - inspection_id
+  severity: error
+  description: One row per grain
+- id: dq_qa_inspection_result_inspection_id_not_null
+  type: not_null
+  column: inspection_id
+  severity: error
+- id: dq_qa_inspection_result_radial_force_variation_range
+  type: range
+  column: radial_force_variation
+  min: 0
+  severity: warn
+- id: dq_qa_inspection_result_lateral_force_variation_range
+  type: range
+  column: lateral_force_variation
+  min: 0
+  severity: warn
+- id: dq_qa_inspection_result_dynamic_balance_range
+  type: range
+  column: dynamic_balance
+  min: 0
+  severity: warn
+- id: dq_qa_inspection_result_tensile_strength_range
+  type: range
+  column: tensile_strength
+  min: 0
+  severity: warn
+- id: dq_qa_inspection_result_elongation_range
+  type: range
+  column: elongation
+  min: 0
+  max: 100
+  severity: warn
+- id: dq_qa_inspection_result_adhesion_strength_range
+  type: range
+  column: adhesion_strength
+  min: 0
+  severity: warn
+- id: dq_qa_inspection_result_tyre_weight_range
+  type: range
+  column: tyre_weight
+  min: 0
+  severity: warn
+- id: dq_qa_inspection_result_overall_diameter_range
+  type: range
+  column: overall_diameter
+  min: 0
+  severity: warn
+- id: dq_qa_inspection_result_section_width_range
+  type: range
+  column: section_width
+  min: 0
+  severity: warn
+- id: dq_qa_inspection_result_tread_depth_range
+  type: range
+  column: tread_depth
+  min: 0
+  severity: warn
+- id: dq_qa_inspection_result_radial_runout_range
+  type: range
+  column: radial_runout
+  min: 0
+  severity: warn
+- id: dq_qa_inspection_result_lateral_runout_range
+  type: range
+  column: lateral_runout
+  min: 0
+  severity: warn
+- id: dq_qa_inspection_result_bead_diameter_range
+  type: range
+  column: bead_diameter
+  min: 0
+  severity: warn
+- id: dq_qa_inspection_result_sidewall_thickness_range
+  type: range
+  column: sidewall_thickness
+  min: 0
+  severity: warn
+- id: dq_qa_inspection_result_hardness_range
+  type: range
+  column: hardness
+  min: 0
+  severity: warn
+- id: dq_qa_inspection_result_asset_id_format
+  type: pattern
+  column: canonical_asset_id
+  pattern: ^AST-[A-Z]{3}-\d{6}$
+  severity: error
+  description: Unresolved assets go to ops rejects, never into Silver

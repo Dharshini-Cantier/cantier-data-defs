@@ -1,0 +1,14 @@
+# FIXTURE (B2.10) - a value in the source unit is converted to the canonical glossary unit.
+name: unit_conversion
+version: 0.1.0
+task: B2.10
+description: Radial force variation arrives in kN (source unit) and must be stored in N (glossary unit, finding on Tag Dictionary units)
+covers: [unit conversion source_unit -> unit, glossary quality_radial_force_variation]
+input:
+  bronze.iiot_uns_events:
+    - {ingestion_id: ing-2001, event_id: evt-20260924-200001, schema_id: qa.inspection.v1, event_time: "2026-09-24T06:00:00Z", plant_asset_id: UniformityTester01, tag_name: Quality_RadialForceVariation, value_raw: "0.125", quality_raw: Good, payload_json: '{"unit":"kN","inspection_id":"INS-0001","tyre_serial":"TYR-0001"}'}
+expected:
+  silver.qa_inspection_result:
+    - {inspection_id: INS-0001, tyre_serial: TYR-0001, canonical_asset_id: AST-QAL-000001, radial_force_variation: 125.0}
+notes:
+  - canonical_asset_id comes from assets/site01.yaml (UniformityTester01)

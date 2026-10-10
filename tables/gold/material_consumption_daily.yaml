@@ -1,0 +1,43 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: gold.material_consumption_daily
+layer: gold
+version: 0.1.0
+description: 'material × day. Source: RawMaterial tags + genealogy'
+grain: material × day
+primary_key:
+- material_id
+- summary_date
+owner: Analytics
+freshness: 15min
+source: RawMaterial tags + genealogy
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/gold/material_consumption_daily/
+columns:
+- name: summary_date
+  type: date
+  nullable: false
+  term: summary_date
+  description: Grain column (material × day)
+- name: material_id
+  type: string
+  nullable: false
+  term: material_lot
+  description: Grain column (material × day)
+- name: opening_stock
+  type: double
+  nullable: true
+  term: opening_stock
+- name: consumed
+  type: double
+  nullable: true
+  term: consumed
+- name: closing_stock
+  type: double
+  nullable: true
+  term: closing_stock
+- name: unit
+  type: string
+  nullable: true
+  term: unit

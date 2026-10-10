@@ -1,0 +1,312 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# IIoT TEMPLATE - tag list of one machine type. machines x tags = tag instances (check: scripts/04_check_coverage.py).
+template: Calender
+version: 0.1.0
+mapping_version: iiot-map-2026.10.10
+description: 'Calender machines: which tags they publish and what each tag measures.'
+machines:
+- Calender01
+- Calender02
+patterns:
+  uns_path: tyreplant01/{process_lc}/{line_lc}/{machine_lc}/{domain_lc}/{tag_lc}
+  opc_node_id: ns=2;s=test.opc.Simulation.Site01.{process}.{line}.{machine}.{domain}.{tag}
+  kepware_device: '{machine}_Device'
+  kepware_tag: '{tag}'
+tags:
+- tag_name: Timestamp
+  measurement_type: timestamp
+  domain: Context
+  data_type: timestamp
+  unit: s
+  access: Read
+  simulation_profile: System timestamp
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Data_Quality
+  measurement_type: data_quality
+  domain: Context
+  data_type: string
+  unit: OPC UA StatusCode
+  access: Read
+  simulation_profile: OPC UA quality
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Batch_ID
+  measurement_type: batch_id
+  domain: Context
+  data_type: string
+  access: Read
+  simulation_profile: Production context sequence
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Recipe_ID
+  measurement_type: recipe_id
+  domain: Context
+  data_type: string
+  access: Read
+  simulation_profile: Production context sequence
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Product_ID
+  measurement_type: product_id
+  domain: Context
+  data_type: string
+  access: Read
+  simulation_profile: Production context sequence
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Tyre_Size
+  measurement_type: tyre_size
+  domain: Context
+  data_type: string
+  access: Read
+  simulation_profile: Production context sequence
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Tyre_Type
+  measurement_type: tyre_type
+  domain: Context
+  data_type: string
+  access: Read
+  simulation_profile: Production context sequence
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Shift_No
+  measurement_type: shift_no
+  domain: Context
+  data_type: string
+  access: Read
+  simulation_profile: Production context sequence
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Calender_RollTemp
+  measurement_type: calender_roll_temp
+  domain: Process
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Calender_LineSpeed
+  measurement_type: calender_line_speed
+  domain: Process
+  data_type: double
+  unit: m/min
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Calender_FabricGauge
+  measurement_type: calender_fabric_gauge
+  domain: Process
+  data_type: double
+  unit: mm
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Calender_RollGap
+  measurement_type: calender_roll_gap
+  domain: Process
+  data_type: double
+  unit: mm
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Calender_RubberThickness
+  measurement_type: calender_rubber_thickness
+  domain: Process
+  data_type: double
+  unit: mm
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Calender_CordTension
+  measurement_type: calender_cord_tension
+  domain: Process
+  data_type: double
+  unit: N
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Calender_CordSpacing
+  measurement_type: calender_cord_spacing
+  domain: Process
+  data_type: double
+  unit: mm
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Calender_NipPressure
+  measurement_type: calender_nip_pressure
+  domain: Process
+  data_type: double
+  unit: bar
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Calender_SheetWidth
+  measurement_type: calender_sheet_width
+  domain: Process
+  data_type: double
+  unit: mm
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Cord_EPI
+  measurement_type: cord_epi
+  domain: Process
+  data_type: double
+  unit: ends/in
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Machine_State
+  measurement_type: machine_state
+  domain: State_Alarm
+  data_type: string
+  source_data_type: boolean
+  unit: enum
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Alarm_Active
+  measurement_type: alarm_active
+  domain: State_Alarm
+  data_type: boolean
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Alarm_Code
+  measurement_type: alarm_code
+  domain: State_Alarm
+  data_type: string
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Emergency_Stop
+  measurement_type: emergency_stop
+  domain: State_Alarm
+  data_type: boolean
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Downtime_ReasonCode
+  measurement_type: downtime_reason_code
+  domain: State_Alarm
+  data_type: string
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Maintenance_DueHours
+  measurement_type: maintenance_due_hours
+  domain: Condition
+  data_type: double
+  unit: h
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Calender_MotorCurrent
+  measurement_type: calender_motor_current
+  domain: Process
+  data_type: double
+  unit: A
+  access: Read
+  simulation_profile: Periodic / correlated process profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Gearbox_OilTemp
+  measurement_type: gearbox_oil_temp
+  domain: Condition
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Machine_RuntimeHours
+  measurement_type: machine_runtime_hours
+  domain: Condition
+  data_type: double
+  unit: h
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Motor_Temperature
+  measurement_type: motor_temperature
+  domain: Condition
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Bearing_Vibration
+  measurement_type: bearing_vibration
+  domain: Condition
+  data_type: double
+  unit: mm/s
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Bearing_Temperature
+  measurement_type: bearing_temperature
+  domain: Condition
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Gearbox_Vibration
+  measurement_type: gearbox_vibration
+  domain: Condition
+  data_type: double
+  unit: mm/s
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Hydraulic_OilTemperature
+  measurement_type: hydraulic_oil_temperature
+  domain: Condition
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Motor_Speed
+  measurement_type: motor_speed
+  domain: Condition
+  data_type: double
+  unit: rpm
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Motor_Torque
+  measurement_type: motor_torque
+  domain: Condition
+  data_type: double
+  unit: N·m
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading

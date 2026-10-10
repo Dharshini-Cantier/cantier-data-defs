@@ -1,0 +1,59 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: silver.mdm_asset
+layer: silver
+version: 0.1.0
+description: 'one asset version (SCD2). Source: MES MDM CDC + identity map'
+grain: one asset version (SCD2)
+primary_key:
+- canonical_asset_id
+- valid_from
+owner: Data stewards
+freshness: 1d
+glossary_term_id: onto:entity/asset
+source: MES MDM CDC + identity map
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/silver/mdm_asset/
+columns:
+- name: canonical_asset_id
+  type: string
+  nullable: false
+  term: asset
+- name: mes_asset_id
+  type: string
+  nullable: true
+  term: mes_asset_id
+- name: cmms_asset_id
+  type: string
+  nullable: true
+  term: cmms_asset_id
+- name: asset_type
+  type: string
+  nullable: true
+  term: asset_type
+- name: area
+  type: string
+  nullable: true
+  term: process_area
+- name: line_id
+  type: string
+  nullable: true
+  term: production_line
+- name: criticality
+  type: string
+  nullable: true
+  term: asset_criticality
+  description: A/B/C
+- name: valid_from
+  type: timestamp
+  nullable: false
+  term: valid_from
+- name: valid_to
+  type: timestamp
+  nullable: true
+  term: valid_to
+- name: is_current
+  type: boolean
+  nullable: true
+  term: is_current

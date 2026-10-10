@@ -1,0 +1,26 @@
+# SOURCES - where Bronze data comes from. Never put passwords or keys here.
+iiot_uns:
+  system: CANTIER_IIOT
+  kind: msk
+  description: Plant UNS (MQTT) -> governed edge bridge -> Amazon MSK -> Firehose -> bronze.iiot_uns_events
+  topic: manufacturing.<site>.<area>.<contract id>
+  tables:
+    - name: iiot_uns_events
+      source: msk.manufacturing.*
+mes_core:
+  system: MES_CORE
+  kind: dms
+  description: MES database (SQL Server) via AWS DMS full load + CDC -> bronze.mes_cdc_<table> (one folder of parquet files per table)
+  database: MES
+  path: s3://cantier-lake-<acct>/bronze/
+  tables:           # one entry per MES table as its definitions are written (B2.6) - see mappings/mes_catalogue.yaml
+    - name: mes_cdc_customers
+      source: dbo.Customers
+iiot_firehose:
+  system: CANTIER_IIOT
+  kind: file
+  description: Cantier IIoT tag events delivered by Amazon Data Firehose as Iceberg (parquet) - current landing format
+  path: s3://iiot-telemetry-iceberg-lake/data/
+  tables:
+    - name: iiot_firehose_events
+      source: firehose.tag_value_changed

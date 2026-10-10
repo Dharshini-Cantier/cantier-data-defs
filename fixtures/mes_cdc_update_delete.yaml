@@ -1,0 +1,15 @@
+# FIXTURE (B2.10) - DMS change rows: the latest version of each key wins, a key whose latest change is a delete disappears.
+name: mes_cdc_update_delete
+version: 0.1.0
+task: B2.10
+description: Insert two lot actions, update one (QuantityOut 1 -> 0), delete the other
+covers: [CDC latest-wins, CDC delete, ordering by dms_commit_ts]
+input:
+  bronze.mes_cdc_lot_actions:
+    - {dms_op: I, dms_commit_ts: "2026-10-08 03:00:00.000000", dms_lsn: "0010", Id: 1, QuantityIn: 1, QuantityOut: 1}
+    - {dms_op: I, dms_commit_ts: "2026-10-08 03:00:00.000001", dms_lsn: "0011", Id: 2, QuantityIn: 1, QuantityOut: 1}
+    - {dms_op: U, dms_commit_ts: "2026-10-08 04:00:00.000000", dms_lsn: "0012", Id: 1, QuantityIn: 1, QuantityOut: 0}
+    - {dms_op: D, dms_commit_ts: "2026-10-08 04:05:00.000000", dms_lsn: "0013", Id: 2, QuantityIn: 1, QuantityOut: 1}
+expected:
+  silver.mes_lot_action:
+    - {lot_action_id: "1", quantity_in: 1.0, quantity_out: 0.0, scrap_qty: 1.0}

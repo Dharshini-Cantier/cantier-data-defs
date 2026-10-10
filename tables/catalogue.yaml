@@ -1,0 +1,1194 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE CATALOGUE - all planned tables; specs for the rest arrive with the MES schema export (B2.6) and Gold design (AN).
+version: 0.2.0
+description: Every table planned in the Glue catalogue (sheet 12). has_spec = a full spec exists in tables/<layer>/.
+tables:
+  bronze.iiot_influx_extract:
+    has_spec: true
+    grain: one row per Influx point (POC)
+    partition: days(_time)
+    source: InfluxDB CSV export (query 2.csv)
+    freshness: batch
+    glossary_term_id: onto:entity/signal_reading
+    format: ICEBERG / parquet zstd
+  bronze.iiot_uns_events:
+    has_spec: true
+    grain: one row per UNS/MSK message
+    partition: days(ingested_at), source_topic
+    source: MSK via Firehose
+    freshness: ≤ 5 min
+    glossary_term_id: onto:entity/signal_reading
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_template:
+    has_spec: true
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.cmms_cdc_template:
+    has_spec: true
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from CMMS DB
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.iiot_tag_reading:
+    has_spec: true
+    grain: one GOOD reading per signal per timestamp
+    partition: days(event_ts_utc), site_id, area
+    source: 'bronze.iiot_uns_events (POC: iiot_influx_extract)'
+    freshness: ≤ 10 min
+    glossary_term_id: onto:entity/signal_reading
+    format: ICEBERG / parquet zstd
+  ops.iiot_tag_reading_rejects:
+    has_spec: true
+    grain: one rejected bronze row
+    partition: days(_ts_processed)
+    source: Silver job
+    freshness: ≤ 10 min
+    format: ICEBERG / parquet zstd
+  silver.iiot_state_event:
+    has_spec: true
+    grain: one state interval per asset
+    partition: days(ts_start)
+    source: Machine_State, Cure_PressStatus, Alarm_*, Emergency_Stop
+    freshness: ≤ 10 min
+    glossary_term_id: onto:entity/machine_state_event
+    format: ICEBERG / parquet zstd
+  silver.mes_production_cycle:
+    has_spec: true
+    grain: one cycle (batch/build/cure/inspection)
+    partition: days(ts_start), area
+    source: MES Edge events
+    freshness: ≤ 10 min
+    glossary_term_id: onto:entity/production_cycle
+    format: ICEBERG / parquet zstd
+  silver.qa_inspection_result:
+    has_spec: true
+    grain: one inspection per tyre
+    partition: days(ts_inspected)
+    source: Uniformity tester / QMS events
+    freshness: ≤ 10 min
+    glossary_term_id: onto:entity/inspection_result
+    format: ICEBERG / parquet zstd
+  silver.qa_measurement:
+    has_spec: true
+    grain: one measurement (long form, for SPC)
+    partition: days(ts_event), measurement_type
+    source: derived from qa_inspection_result + lab
+    freshness: ≤ 10 min
+    glossary_term_id: onto:entity/measurement
+    format: ICEBERG / parquet zstd
+  silver.mdm_asset:
+    has_spec: true
+    grain: one asset version (SCD2)
+    partition: —
+    source: MES MDM CDC + identity map
+    freshness: daily
+    glossary_term_id: onto:entity/asset
+    format: ICEBERG / parquet zstd
+  silver.mdm_spec_limit:
+    has_spec: true
+    grain: measurement_type × product × recipe version
+    partition: —
+    source: MES MDM
+    freshness: daily
+    glossary_term_id: onto:entity/spec_limit
+    format: ICEBERG / parquet zstd
+  silver.cmms_work_order:
+    has_spec: true
+    grain: one WO version
+    partition: days(created_at)
+    source: CMMS CDC
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/maintenance_work_order
+    format: ICEBERG / parquet zstd
+  silver.pdm_prediction:
+    has_spec: true
+    grain: one prediction
+    partition: days(scored_at)
+    source: SageMaker output
+    freshness: per scoring run
+    glossary_term_id: onto:entity/prediction
+    format: ICEBERG / parquet zstd
+  gold.iiot_tag_5min:
+    has_spec: true
+    grain: asset × tag × 5-min window
+    partition: days(window_start_utc)
+    source: silver.iiot_tag_reading
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  gold.iiot_tag_quality_summary:
+    has_spec: true
+    grain: asset × tag × day
+    partition: days(summary_date)
+    source: silver + ops rejects
+    freshness: daily
+    format: ICEBERG / parquet zstd
+  gold.maintenance_risk:
+    has_spec: true
+    grain: asset × component × scoring run
+    partition: days(scored_at)
+    source: silver.pdm_prediction + features
+    freshness: per run
+    glossary_term_id: onto:entity/prediction
+    format: ICEBERG / parquet zstd
+  gold.oee_machine_shift:
+    has_spec: true
+    grain: asset × shift
+    partition: days(<date col>)
+    source: iiot_state_event + mes_production_cycle + qa
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.curing_cycle_health:
+    has_spec: true
+    grain: cure cycle
+    partition: days(<date col>)
+    source: iiot_tag_reading + mes_production_cycle + mdm_spec_limit
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.process_cycle_summary:
+    has_spec: true
+    grain: batch / extrusion run / build cycle
+    partition: days(<date col>)
+    source: iiot_tag_reading + mes_production_cycle
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.quality_fpy:
+    has_spec: true
+    grain: product × asset × day
+    partition: days(<date col>)
+    source: qa_inspection_result + qa_defect
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.spc_characteristic:
+    has_spec: true
+    grain: measurement_type × asset × subgroup
+    partition: days(<date col>)
+    source: qa_measurement + mdm_spec_limit
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.downtime_pareto:
+    has_spec: true
+    grain: asset × reason × day
+    partition: days(<date col>)
+    source: iiot_state_event
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.asset_reliability:
+    has_spec: true
+    grain: asset × month
+    partition: days(<date col>)
+    source: cmms_work_order + iiot_state_event
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.pdm_feature_hourly:
+    has_spec: true
+    grain: asset × hour
+    partition: days(<date col>)
+    source: iiot_tag_reading (Condition)
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.energy_per_tyre:
+    has_spec: true
+    grain: asset × product × day
+    partition: days(<date col>)
+    source: utility tags + cycles
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.material_consumption_daily:
+    has_spec: true
+    grain: material × day
+    partition: days(<date col>)
+    source: RawMaterial tags + genealogy
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.tyre_traceability:
+    has_spec: true
+    grain: tyre serial
+    partition: days(<date col>)
+    source: genealogy + cycles + inspection
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_job_orders:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table JobOrders
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_job_order:
+    has_spec: true
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: JobOrders
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/production_order
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_lot_travellers:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table LotTravellers
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_lot:
+    has_spec: true
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: LotTravellers
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/lot
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_lot_actions:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table LotActions
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_lot_action:
+    has_spec: true
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: LotActions
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/production_cycle
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_production_operations:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table ProductionOperations
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mdm_operation:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: ProductionOperations
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/process_segment
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_processes:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table Processes
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mdm_process:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: Processes
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/process_area
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_product_spec_operations:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table ProductSpecOperations
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mdm_product_spec_operation:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: ProductSpecOperations
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/recipe/routingstep
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_items:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table Items
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mdm_item:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: Items
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/product/material
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_lot_action_machines:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table LotActionMachines
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_lot_action_machine:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: LotActionMachines
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/relationruns_on
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_lot_action_operators:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table LotActionOperators
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_lot_action_operator:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: LotActionOperators
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/relationperformed_by
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_lot_action_tools:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table LotActionTools
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_lot_action_tool:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: LotActionTools
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/relationuses_tool
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_lot_action_materials:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table LotActionMaterials
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_lot_traveller_materials:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table LotTravellerMaterials
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_genealogy_edge:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: LotActionMaterials / LotTravellerMaterials
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/relationconsumes(genealogy)
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_lot_action_material_costs:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table LotActionMaterialCosts
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_material_cost:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: LotActionMaterialCosts
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/cost
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_lot_action_rework_details:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table LotActionReworkDetails
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_rework_reason_codes:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table ReworkReasonCodes
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.qa_rework:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: LotActionReworkDetails / ReworkReasonCodes
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/rework
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_lot_action_defects:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table LotActionDefects
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_defects:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table Defects
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_defect_groups:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table DefectGroups
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.qa_defect:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: LotActionDefects / Defects / DefectGroups
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/defect
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_lot_action_data_collection_parameter_sets:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table LotActionDataCollectionParameterSets
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_data_collection_parameters:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table DataCollectionParameters
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_product_spec_operation_data_collection_parameter_sets:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table ProductSpecOperationDataCollectionParameterSets
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_ncmheaders:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table NCMHeaders
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_ncmtransactions:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table NCMTransactions
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_lot_action_ncmtransactions:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table LotActionNCMTransactions
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.qa_ncm:
+    has_spec: true
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: NCMHeaders / NCMTransactions / LotActionNCMTransactions
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/ncr
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_ncmreasons:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table NCMReasons
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_ncmfailure_reasons:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table NCMFailureReasons
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_ncmfailure_mode_groups:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table NCMFailureModeGroups
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mdm_ncm_code:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: NCMReasons / NCMFailureReasons / NCMFailureModeGroups
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/failure_mode(quality)
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_weld_specs:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table WeldSpecs
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_weld_spec_joint_tests:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table WeldSpecJointTests
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.qa_weld_test:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: WeldSpecs / WeldSpecJointTests
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/testspec
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_items_in_locations:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table ItemsInLocations
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_locations:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table Locations
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_inventory_snapshot:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: ItemsInLocations / Locations
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/inventory
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_stock_adjustments:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table StockAdjustments
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_details:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table Details
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_reasons:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table Reasons
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_stock_adjustment:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: StockAdjustments / Details / Reasons
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/inventorytxn
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_inventory_costs:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table InventoryCosts
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_inventory_transaction_costs:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table InventoryTransactionCosts
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_inventory_cost:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: InventoryCosts / InventoryTransactionCosts
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/cost
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_item_reservations:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table ItemReservations
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_tracked_item_reservations:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table TrackedItemReservations
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_item_reservation:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: ItemReservations / TrackedItemReservations
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/reservation
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_subcon_deliveries:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table SubconDeliveries
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_subcon_delivery_details:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table SubconDeliveryDetails
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_subcon_delivery:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: SubconDeliveries / SubconDeliveryDetails
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/subcon
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_packings:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table Packings
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_packing_details:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table PackingDetails
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_packing:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: Packings / PackingDetails
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/packing
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_equipment:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table Equipment
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_equipment_utilizations:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table EquipmentUtilizations
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_equipment_utilization:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: EquipmentUtilizations / Details
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/utilization
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_equipment_statuses:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table EquipmentStatuses
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_equipment_activity_logs:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table EquipmentActivityLogs
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_equipment_status_log:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: EquipmentStatuses / EquipmentActivityLogs
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/machine_state_event
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_equipment_problems:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table EquipmentProblems
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_equipment_problem_root_causes:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table EquipmentProblemRootCauses
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_equipment_problem:
+    has_spec: true
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: EquipmentProblems / EquipmentProblemRootCauses
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/downtime/failure
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_cleanings:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table Cleanings
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_tool_cleaning_details:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table ToolCleaningDetails
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_tool_cleaning:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: Cleanings / ToolCleaningDetails
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/toolmaintenance
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_machine_material_setups:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table MachineMaterialSetups
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_machine_material_issuances:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table MachineMaterialIssuances
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_machine_material_setup:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: MachineMaterialSetups / MachineMaterialIssuances
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/setup
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_work_orders:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table WorkOrders
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_maintenance_definitions:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table MaintenanceDefinitions
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.cmms_pm_plan:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: MaintenanceDefinitions
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/pmplan
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_work_order_supplies:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table WorkOrderSupplies
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_maintenance_supplies:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table MaintenanceSupplies
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.cmms_parts_usage:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: WorkOrderSupplies / MaintenanceSupplies
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/spare_partusage
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_work_order_assigned_technicians:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table WorkOrderAssignedTechnicians
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_work_order_technicians:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table WorkOrderTechnicians
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_technician:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table Technician
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.cmms_labour:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: WorkOrderAssignedTechnicians / WorkOrderTechnicians / Technician
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/person(technician)
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_projects:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table Projects
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_project_tasks:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table ProjectTasks
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_project_milestones:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table ProjectMilestones
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_project_budget_trackers:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table ProjectBudgetTrackers
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.cmms_project:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: Projects / ProjectTasks / ProjectMilestones / ProjectBudgetTrackers
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/project
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_operator_qualifications:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table OperatorQualifications
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_employee_skillsets:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table EmployeeSkillsets
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_process_qualified_roles:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table ProcessQualifiedRoles
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_operator_qualification:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: OperatorQualifications / EmployeeSkillsets / ProcessQualifiedRoles
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/qualification
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_shifts:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table Shifts
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_shift_schedules:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table ShiftSchedules
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mdm_shift_schedule:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: Shifts / ShiftSchedules
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/shift
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_audit_trails:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table AuditTrails
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_audit_trail_details:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table AuditTrailDetails
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_checklist_events:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table ChecklistEvents
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_checklist_event_details:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table ChecklistEventDetails
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_checklist_event:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: ChecklistEvents / ChecklistEventDetails
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/checklist
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_signatory_histories:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table SignatoryHistories
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  bronze.mes_cdc_role_base_signatories:
+    has_spec: false
+    grain: one row per change
+    partition: days(dms_commit_ts)
+    source: DMS from MES DB table RoleBaseSignatories
+    freshness: ≤ 15 min
+    format: ICEBERG / parquet zstd
+  silver.mes_approval:
+    has_spec: false
+    grain: per source record (SCD2 for masters)
+    partition: days(<event ts>)
+    source: SignatoryHistories / RoleBaseSignatories
+    freshness: ≤ 15 min
+    glossary_term_id: onto:entity/approval
+    format: ICEBERG / parquet zstd
+  gold.production_output:
+    has_spec: false
+    grain: machine × line × shift
+    partition: days(<date col>)
+    source: mes_lot_action
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.wip_snapshot:
+    has_spec: false
+    grain: operation × item × hour
+    partition: days(<date col>)
+    source: mes_lot, mes_lot_action
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.job_order_status:
+    has_spec: false
+    grain: job order / week
+    partition: days(<date col>)
+    source: mes_job_order, mes_lot_action
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.lot_flow:
+    has_spec: false
+    grain: lot × process
+    partition: days(<date col>)
+    source: mes_lot, mes_lot_action
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.quality_scrap:
+    has_spec: false
+    grain: process × machine × SKU × shift
+    partition: days(<date col>)
+    source: mes_lot_action, qa_rework
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.ncm_summary:
+    has_spec: false
+    grain: day / reason / location
+    partition: days(<date col>)
+    source: qa_ncm
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.defect_pareto:
+    has_spec: false
+    grain: defect code × process × week
+    partition: days(<date col>)
+    source: qa_defect
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.inventory_snapshot:
+    has_spec: false
+    grain: item × location × day
+    partition: days(<date col>)
+    source: mes_inventory_snapshot, stock adj, reservations
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.material_consumption:
+    has_spec: false
+    grain: lot / job order
+    partition: days(<date col>)
+    source: mes_genealogy_edge, mes_material_cost
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.equipment_utilization:
+    has_spec: false
+    grain: machine × day
+    partition: days(<date col>)
+    source: mes_equipment_utilization
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.tool_life:
+    has_spec: false
+    grain: tool (mould / bladder)
+    partition: days(<date col>)
+    source: mes_lot_action_tool, mes_tool_cleaning, IIoT Cure_BladderCycles
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.maintenance_kpi:
+    has_spec: false
+    grain: equipment × month
+    partition: days(<date col>)
+    source: cmms_work_order, mes_equipment_problem, IIoT runtime
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.operator_performance:
+    has_spec: false
+    grain: operator × shift (restricted)
+    partition: days(<date col>)
+    source: mes_lot_action_operator, qa_defect, qa_ncm
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.compliance_summary:
+    has_spec: false
+    grain: operation / shift
+    partition: days(<date col>)
+    source: data collection, checklist, approvals
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.packing_summary:
+    has_spec: false
+    grain: day
+    partition: days(<date col>)
+    source: mes_packing
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  gold.machine_material_setup:
+    has_spec: false
+    grain: machine × day
+    partition: days(<date col>)
+    source: mes_machine_material_setup
+    freshness: 15 min – daily
+    format: ICEBERG / parquet zstd
+  bronze.mes_edge_events:
+    has_spec: false
+    note: Referenced in workbook v3 (sheets 03-08 / 04b) but not in the Glue catalogue (sheet 12) - to design
+  bronze.qa_inspection_events:
+    has_spec: false
+    note: Referenced in workbook v3 (sheets 03-08 / 04b) but not in the Glue catalogue (sheet 12) - to design
+  gold.project_tracking:
+    has_spec: false
+    note: Referenced in workbook v3 (sheets 03-08 / 04b) but not in the Glue catalogue (sheet 12) - to design
+  gold.subcon_summary:
+    has_spec: false
+    note: Referenced in workbook v3 (sheets 03-08 / 04b) but not in the Glue catalogue (sheet 12) - to design
+  gold.weld_test_summary:
+    has_spec: false
+    note: Referenced in workbook v3 (sheets 03-08 / 04b) but not in the Glue catalogue (sheet 12) - to design
+  ops.mcp_audit:
+    has_spec: false
+    note: Referenced in workbook v3 (sheets 03-08 / 04b) but not in the Glue catalogue (sheet 12) - to design
+  ops.mes_audit_trail:
+    has_spec: false
+    note: Referenced in workbook v3 (sheets 03-08 / 04b) but not in the Glue catalogue (sheet 12) - to design
+  silver.cmms_asset:
+    has_spec: false
+    note: Referenced in workbook v3 (sheets 03-08 / 04b) but not in the Glue catalogue (sheet 12) - to design
+  silver.cmms_failure:
+    has_spec: false
+    note: Referenced in workbook v3 (sheets 03-08 / 04b) but not in the Glue catalogue (sheet 12) - to design
+  silver.cmms_meter_reading:
+    has_spec: false
+    note: Referenced in workbook v3 (sheets 03-08 / 04b) but not in the Glue catalogue (sheet 12) - to design
+  silver.cmms_parts_inventory:
+    has_spec: false
+    note: Referenced in workbook v3 (sheets 03-08 / 04b) but not in the Glue catalogue (sheet 12) - to design
+  silver.iiot_alarm_event:
+    has_spec: false
+    note: Referenced in workbook v3 (sheets 03-08 / 04b) but not in the Glue catalogue (sheet 12) - to design
+  silver.mes_material_inventory:
+    has_spec: false
+    note: Referenced in workbook v3 (sheets 03-08 / 04b) but not in the Glue catalogue (sheet 12) - to design
+  silver.mes_production_context:
+    has_spec: false
+    note: Referenced in workbook v3 (sheets 03-08 / 04b) but not in the Glue catalogue (sheet 12) - to design
+  silver.mes_recipe_setpoint:
+    has_spec: false
+    note: Referenced in workbook v3 (sheets 03-08 / 04b) but not in the Glue catalogue (sheet 12) - to design
+  silver.qa_cure_compliance:
+    has_spec: false
+    note: Referenced in workbook v3 (sheets 03-08 / 04b) but not in the Glue catalogue (sheet 12) - to design
+  silver.qa_ncr:
+    has_spec: false
+    note: Referenced in workbook v3 (sheets 03-08 / 04b) but not in the Glue catalogue (sheet 12) - to design
+  bronze.mes_cdc_customers:
+    has_spec: true
+    grain: one row per change
+    source: MES dbo.Customers via AWS DMS
+  bronze.iiot_firehose_events:
+    has_spec: true
+    grain: one row per tag event
+    source: Cantier IIoT -> Firehose -> Iceberg
+  silver.mes_customer:
+    has_spec: true
+    grain: one row per MES customer (latest version)
+    source: bronze.mes_cdc_customers

@@ -1,0 +1,77 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: gold.maintenance_risk
+layer: gold
+version: 0.1.0
+description: 'asset × component × scoring run. Source: silver.pdm_prediction + features'
+grain: asset × component × scoring run
+primary_key:
+- prediction_id
+partition_by:
+- days(scored_at)
+owner: Analytics
+glossary_term_id: onto:entity/prediction
+source: silver.pdm_prediction + features
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/gold/maintenance_risk/
+columns:
+- name: prediction_id
+  type: string
+  nullable: false
+  term: prediction
+- name: canonical_asset_id
+  type: string
+  nullable: true
+  term: asset
+- name: component_code
+  type: string
+  nullable: true
+  term: component
+- name: failure_mode
+  type: string
+  nullable: true
+  term: failure_mode
+- name: failure_probability_7d
+  type: double
+  nullable: true
+  term: failure_probability_7d
+- name: remaining_useful_life_hours
+  type: double
+  nullable: true
+  term: remaining_useful_life_hours
+- name: health_score
+  type: double
+  nullable: true
+  term: health_score
+- name: expected_cycle_time_increase_seconds
+  type: double
+  nullable: true
+  term: expected_cycle_time_increase_seconds
+- name: estimated_affected_tyres_per_day
+  type: int
+  nullable: true
+  term: estimated_affected_tyres_per_day
+- name: recommended_action
+  type: string
+  nullable: true
+  term: recommended_action
+- name: valve_error_mean_24h
+  type: double
+  nullable: true
+  term: valve_error_mean_24h
+  description: evidence
+- name: slow_recovery_cycles_24h
+  type: int
+  nullable: true
+  term: slow_recovery_cycles_24h
+  description: evidence
+- name: model_version
+  type: string
+  nullable: true
+  term: model_version
+- name: scored_at
+  type: timestamp
+  nullable: true
+  term: scored_at
+  partition: true

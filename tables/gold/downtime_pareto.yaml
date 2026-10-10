@@ -1,0 +1,45 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: gold.downtime_pareto
+layer: gold
+version: 0.1.0
+description: 'asset × reason × day. Source: iiot_state_event'
+grain: asset × reason × day
+primary_key:
+- canonical_asset_id
+- downtime_reason_code
+- summary_date
+owner: Analytics
+freshness: 15min
+source: iiot_state_event
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/gold/downtime_pareto/
+columns:
+- name: summary_date
+  type: date
+  nullable: false
+  term: summary_date
+  description: Grain column (asset × reason × day)
+- name: downtime_reason_code
+  type: string
+  nullable: false
+  term: downtime_reason_code
+  description: Grain column (asset × reason × day)
+- name: canonical_asset_id
+  type: string
+  nullable: false
+  term: asset
+  description: Grain column (asset × reason × day)
+- name: events
+  type: int
+  nullable: true
+  term: events
+- name: minutes
+  type: double
+  nullable: true
+  term: minutes
+- name: mttr_min
+  type: double
+  nullable: true
+  term: mttr_min

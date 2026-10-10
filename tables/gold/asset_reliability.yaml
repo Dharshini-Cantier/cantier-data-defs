@@ -1,0 +1,47 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: gold.asset_reliability
+layer: gold
+version: 0.1.0
+description: 'asset × month. Source: cmms_work_order + iiot_state_event'
+grain: asset × month
+primary_key:
+- canonical_asset_id
+- month
+owner: Analytics
+freshness: 15min
+source: cmms_work_order + iiot_state_event
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/gold/asset_reliability/
+columns:
+- name: month
+  type: date
+  nullable: false
+  term: month
+  description: Grain column (asset × month)
+- name: canonical_asset_id
+  type: string
+  nullable: false
+  term: asset
+  description: Grain column (asset × month)
+- name: mtbf_h
+  type: double
+  nullable: true
+  term: mtbf_h
+- name: mttr_h
+  type: double
+  nullable: true
+  term: mttr_h
+- name: failures_by_mode
+  type: string
+  nullable: true
+  term: failures_by_mode
+- name: pm_compliance_pct
+  type: double
+  nullable: true
+  term: pm_compliance_pct
+- name: pdm_wo_count
+  type: int
+  nullable: true
+  term: pdm_wo_count

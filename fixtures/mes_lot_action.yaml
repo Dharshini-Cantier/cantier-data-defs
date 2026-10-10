@@ -1,0 +1,19 @@
+# FIXTURE (B2.10) - one MES LotAction (cure) -> one silver.mes_lot_action row.
+name: mes_lot_action
+version: 0.1.0
+task: B2.10
+description: A cure LotAction lands from DMS and becomes one production cycle with the canonical press id and scrap quantity
+covers: [MES mapping, LotActionMachines join, identity lookup, calculated column scrap_qty]
+given:
+  identity_map:
+    - {source_system: MES_CORE, source_asset_id: "29", canonical_asset_id: AST-CUR-000001}
+input:
+  bronze.mes_cdc_lot_actions:
+    - {dms_op: I, dms_commit_ts: "2026-10-08 03:04:33.273382", dms_lsn: "0001", Id: 11673, LotTravellerId: 73, QuantityIn: 1, QuantityOut: 1, Cycletime: 720, StartDateTime: "2026-10-08 02:52:33", EndDateTime: "2026-10-08 03:04:33", ShiftName: A}
+  bronze.mes_cdc_lot_action_machines:
+    - {dms_op: I, dms_commit_ts: "2026-10-08 03:04:33.300000", dms_lsn: "0002", Id: 5001, LotActionId: 11673, EquipmentId: 29}
+expected:
+  silver.mes_lot_action:
+    - {lot_action_id: "11673", lot_id: "73", canonical_asset_id: AST-CUR-000001, quantity_in: 1.0, quantity_out: 1.0, scrap_qty: 0.0, cycle_time_s: 720.0, shift_name: A}
+notes:
+  - Column names on the Bronze side are placeholders until the MES schema export / parquet files arrive (B2.6)

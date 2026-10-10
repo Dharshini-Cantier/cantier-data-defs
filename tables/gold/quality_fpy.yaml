@@ -1,0 +1,53 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: gold.quality_fpy
+layer: gold
+version: 0.1.0
+description: 'product × asset × day. Source: qa_inspection_result + qa_defect'
+grain: product × asset × day
+primary_key:
+- product_id
+- canonical_asset_id
+- summary_date
+owner: Analytics
+freshness: 15min
+source: qa_inspection_result + qa_defect
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/gold/quality_fpy/
+columns:
+- name: summary_date
+  type: date
+  nullable: false
+  term: summary_date
+  description: Grain column (product × asset × day)
+- name: canonical_asset_id
+  type: string
+  nullable: false
+  term: asset
+  description: Grain column (product × asset × day)
+- name: product_id
+  type: string
+  nullable: false
+  term: product
+  description: Grain column (product × asset × day)
+- name: inspected
+  type: int
+  nullable: true
+  term: inspected
+- name: passed
+  type: int
+  nullable: true
+  term: passed
+- name: fpy
+  type: double
+  nullable: true
+  term: fpy
+- name: grade_mix
+  type: string
+  nullable: true
+  term: grade_mix
+- name: top_defect_codes
+  type: string
+  nullable: true
+  term: top_defect_codes

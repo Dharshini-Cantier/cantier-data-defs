@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fixture.schema.json",
+  "title": "Test fixture (fixtures/*.yaml)",
+  "type": "object",
+  "properties": {
+    "name": {
+      "$ref": "common.schema.json#/$defs/snake"
+    },
+    "version": {
+      "$ref": "common.schema.json#/$defs/semver"
+    },
+    "task": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "covers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "given": {
+      "type": "object",
+      "description": "context the engine needs (identity_map rows, spec limits...)"
+    },
+    "input": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^(bronze|silver|ops)\\.[a-z][a-z0-9_]*$"
+      },
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object"
+        },
+        "minItems": 1
+      }
+    },
+    "expected": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^(silver|gold|ops)\\.[a-z][a-z0-9_]*$"
+      },
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object"
+        }
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "mapping": {
+      "type": "string",
+      "description": "mapping file the reference engine runs (scripts/07)"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "version",
+    "description",
+    "covers",
+    "input",
+    "expected"
+  ]
+}

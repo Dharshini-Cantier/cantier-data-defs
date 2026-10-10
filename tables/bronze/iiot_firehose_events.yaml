@@ -1,0 +1,27 @@
+# TABLE SPEC - Bronze = raw Cantier IIoT tag events as Firehose lands them in S3 / Iceberg (source names kept). All columns technical.
+name: bronze.iiot_firehose_events
+layer: bronze
+version: 0.1.0
+description: Cantier IIoT tag.valueChanged events delivered by Amazon Data Firehose into Iceberg (sample Bronze_Test/IIOT/Sample_S3_Iceberg_Data). One row per event.
+grain: one row per tag event
+primary_key: [opcnodeid, timestamp]
+owner: IIoT / process engineering
+freshness: 5min
+source: Cantier IIoT -> Firehose -> s3://iiot-telemetry-iceberg-lake/data (Iceberg v2)
+status: draft
+storage: {aws: "s3://iiot-telemetry-iceberg-lake/data/"}
+columns:
+  - {name: eventtype, type: string, nullable: true, technical: true, description: "tag.valueChanged"}
+  - {name: timestamp, type: string, nullable: false, technical: true, description: "source time, ISO-8601 UTC text (...Z)"}
+  - {name: plant, type: string, nullable: true, technical: true}
+  - {name: line, type: string, nullable: true, technical: true}
+  - {name: equipment, type: string, nullable: true, technical: true, description: "IIoT machine id -> canonical_asset_id via identity_map"}
+  - {name: mappingid, type: int, nullable: true, technical: true}
+  - {name: mappingname, type: string, nullable: true, technical: true, description: "source tag name -> measurement type via tag_map"}
+  - {name: opcnodeid, type: string, nullable: false, technical: true}
+  - {name: rawvalue, type: string, nullable: true, technical: true}
+  - {name: normalizedvalue, type: double, nullable: true, technical: true}
+  - {name: quality, type: string, nullable: true, technical: true, description: "Good / Bad / Uncertain"}
+  - {name: previousvalue, type: string, nullable: true, technical: true}
+  - {name: issignificantchange, type: boolean, nullable: true, technical: true}
+  - {name: apptriggertimestamp, type: string, nullable: true, technical: true}

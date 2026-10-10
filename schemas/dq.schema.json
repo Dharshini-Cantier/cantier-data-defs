@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "dq.schema.json",
+  "title": "Data-quality rules (dq/*.yaml)",
+  "type": "object",
+  "properties": {
+    "table": {
+      "$ref": "common.schema.json#/$defs/table_name"
+    },
+    "version": {
+      "$ref": "common.schema.json#/$defs/semver"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^dq_[a-z0-9_]+$"
+          },
+          "type": {
+            "enum": [
+              "not_null",
+              "unique",
+              "range",
+              "expression",
+              "accepted_values",
+              "pattern"
+            ]
+          },
+          "severity": {
+            "enum": [
+              "error",
+              "warn"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "column": {
+            "type": "string"
+          },
+          "columns": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "min": {
+            "type": "number"
+          },
+          "max": {
+            "type": "number"
+          },
+          "check": {
+            "type": "string",
+            "minLength": 1
+          },
+          "values": {
+            "type": "array",
+            "items": {},
+            "minItems": 1
+          },
+          "pattern": {
+            "type": "string",
+            "minLength": 1
+          },
+          "scope": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "type",
+          "severity"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "not_null"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "column"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "unique"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "columns"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "range"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "column"
+              ],
+              "anyOf": [
+                {
+                  "required": [
+                    "min"
+                  ]
+                },
+                {
+                  "required": [
+                    "max"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "expression"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "check"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "accepted_values"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "column",
+                "values"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "pattern"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "column",
+                "pattern"
+              ]
+            }
+          }
+        ]
+      },
+      "minItems": 1
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "table",
+    "version",
+    "rules"
+  ]
+}

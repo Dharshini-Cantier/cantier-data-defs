@@ -1,0 +1,16 @@
+# DATA QUALITY - checks each Silver customer row must pass. error = row rejected, warn = counted in the report.
+table: silver.mes_customer
+version: 0.1.0
+rules:
+  - {id: dq_mes_customer_pk_unique, type: unique, columns: [customer_id], severity: error}
+  - {id: dq_mes_customer_customer_id_not_null, type: not_null, column: customer_id, severity: error}
+  - {id: dq_mes_customer_code_not_null, type: not_null, column: customer_code, severity: error}
+  - {id: dq_mes_customer_code_unique, type: unique, columns: [customer_code], severity: error}
+  - {id: dq_mes_customer_name_not_null, type: not_null, column: customer_name, severity: error}
+  - {id: dq_mes_customer_is_active_not_null, type: not_null, column: is_active, severity: error, description: "IsActive code not in the code map"}
+  - {id: dq_mes_customer_code_format, type: pattern, column: customer_code, pattern: '^CUST-[A-Z]{2}-\d{3,}$', severity: warn}
+  - {id: dq_mes_customer_email_format, type: pattern, column: email, pattern: '^[^@\s]+@[^@\s]+\.[^@\s]+$', severity: warn}
+  - {id: dq_mes_customer_vatability_valid, type: accepted_values, column: vatability, values: [VATABLE, NON_VATABLE, ZERO_RATED, VAT_EXEMPT], severity: warn}
+  - {id: dq_mes_customer_credit_limit_range, type: range, column: credit_limit, min: 0, severity: warn}
+  - {id: dq_mes_customer_golden_id_resolved, type: not_null, column: golden_customer_id, severity: warn, description: "until entity resolution runs, customers have no golden id"}
+  - {id: dq_mes_customer_golden_id_format, type: pattern, column: golden_customer_id, pattern: '^GOLDEN_CUST_\d+$', severity: error}

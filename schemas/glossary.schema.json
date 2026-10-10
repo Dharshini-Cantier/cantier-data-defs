@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "glossary.schema.json",
+  "title": "Glossary file (glossary/*.yaml)",
+  "type": "object",
+  "properties": {
+    "version": {
+      "$ref": "common.schema.json#/$defs/semver"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "terms": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9_]*$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "glossary_term_id": {
+            "type": "string",
+            "pattern": "^onto:(measure|entity|enum|column)/[a-z0-9_]+$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "measurement_type": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]*$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "data_type": {
+            "$ref": "common.schema.json#/$defs/data_type"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "source_unit": {
+            "type": "string"
+          },
+          "valid_range": {
+            "type": "object",
+            "properties": {
+              "min": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              }
+            },
+            "additionalProperties": false,
+            "minProperties": 1
+          },
+          "range_basis": {
+            "enum": [
+              "physical",
+              "engineering",
+              "spec"
+            ],
+            "description": "physical = laws of physics only; spec = from silver.mdm_spec_limit"
+          },
+          "pattern": {
+            "type": "string"
+          },
+          "enum_values": {
+            "type": "object",
+            "minProperties": 1,
+            "description": "value -> meaning"
+          },
+          "category": {
+            "type": "string"
+          },
+          "domain": {
+            "type": "string"
+          },
+          "capture_rule": {
+            "type": "string"
+          },
+          "observes": {
+            "type": "string",
+            "description": "ontology class the measurement is about"
+          },
+          "ontology_class": {
+            "type": "string"
+          },
+          "evidence_for": {
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/table_name"
+            }
+          },
+          "templates": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "silver_tables": {
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/table_name"
+            }
+          },
+          "cmms_relevance": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "common.schema.json#/$defs/status"
+          },
+          "source_issue": {
+            "type": "string"
+          },
+          "owner": {
+            "$ref": "common.schema.json#/$defs/owner"
+          },
+          "source_codes": {
+            "type": "object",
+            "description": "code map (B3.4 code_map): source system -> {source value: canonical value}",
+            "additionalProperties": {
+              "type": "object",
+              "minProperties": 1
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "glossary_term_id",
+          "description",
+          "data_type",
+          "owner",
+          "status"
+        ]
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "description",
+    "terms"
+  ]
+}

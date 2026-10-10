@@ -1,0 +1,93 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: gold.oee_machine_shift
+layer: gold
+version: 0.1.0
+description: 'asset × shift. Source: iiot_state_event + mes_production_cycle + qa'
+grain: asset × shift
+primary_key:
+- canonical_asset_id
+- shift_date
+- shift_no
+owner: Analytics
+freshness: 15min
+source: iiot_state_event + mes_production_cycle + qa
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/gold/oee_machine_shift/
+columns:
+- name: shift_no
+  type: string
+  nullable: false
+  term: shift
+  description: Grain column (asset × shift)
+- name: shift_date
+  type: date
+  nullable: false
+  term: shift_date
+  description: Grain column (asset × shift)
+- name: canonical_asset_id
+  type: string
+  nullable: false
+  term: asset
+  description: Grain column (asset × shift)
+- name: availability
+  type: double
+  nullable: true
+  term: availability
+- name: performance
+  type: double
+  nullable: true
+  term: performance
+- name: quality_rate
+  type: double
+  nullable: true
+  term: quality_rate
+- name: oee
+  type: double
+  nullable: true
+  term: oee
+- name: planned_time_s
+  type: double
+  nullable: true
+  term: planned_time_s
+- name: run_time_s
+  type: double
+  nullable: true
+  term: run_time_s
+- name: downtime_min
+  type: double
+  nullable: true
+  term: downtime_min
+- name: changeover_s
+  type: double
+  nullable: true
+  term: changeover_s
+- name: total_count
+  type: int
+  nullable: true
+  term: total_count
+- name: good_count
+  type: int
+  nullable: true
+  term: good_count
+- name: reject_count
+  type: int
+  nullable: true
+  term: reject_count
+- name: scrap_count
+  type: int
+  nullable: true
+  term: scrap_count
+- name: rework_count
+  type: int
+  nullable: true
+  term: rework_count
+- name: target_count
+  type: int
+  nullable: true
+  term: target_count
+- name: tyres_per_hour
+  type: double
+  nullable: true
+  term: tyres_per_hour

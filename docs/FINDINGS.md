@@ -1,0 +1,26 @@
+# Findings in the source masters (workbook v3, sheet 01)
+
+Fix before freezing schemas. Each finding is reflected in the definitions where noted in B2_STATUS.md.
+
+| # | Source | Finding | Impact | Fix | Severity |
+|---|---|---|---|---|---|
+| 1 | Variable Master | Target/Min/Max/Tolerance/Criticality/Frequency/Source are empty for all 173 variables | Inline quality pass/fail, cure compliance and SPC cannot be computed — there are no spec limits | Populate from recipe/spec system; spec limits belong in MES MDM (silver.mdm_spec_limit), not in the tag list | High |
+| 2 | Variable Master | IoT_Connectivity sheet has headers only | No endpoint / node id / topic / deadband per tag | Generate from 08_Tag_Instances (UNS_Path, Prosys_Node_Path, Kepware_Tag) | High |
+| 3 | Shopfloor Master | 17 Production tags (Prod_OEE, Prod_GoodCount, …) defined in Tag Dictionary but instantiated on no machine | No production counts reach UNS | Do NOT add them as PLC tags; derive in Gold from cycle + state events (OEE as a tag is unauditable) | High |
+| 4 | Shopfloor Master | No Cycle_ID, Work_Order_ID or Tyre serial context tag | IIoT readings cannot be joined to MES cycle, WO or quality result; PdM doc requires cycle_id on every event | Add (see green rows in 03/04) | High |
+| 5 | Shopfloor Master | PdM use case signals missing: steam valve CMD/FB, platen top/bottom temperature | The valve-stiction model in the CMMS reference doc cannot be fed | Add to Curing template | High |
+| 6 | Medallion POC | Bronze from InfluxDB CSV export has plant/line/equipment = 'unknown'; identity parsed from opcNodeId string | Fragile — any node path change breaks identity | Production Bronze must come from MSK with envelope fields; keep opcNodeId parsing only as fallback in Silver mapping | High |
+| 7 | Medallion POC | 125 of 350 rows (36%) rejected as quality_bad; Gearbox_Vibration, Hydraulic_OilTemperature, Machine_RuntimeHours 100% bad | Simulation or Kepware mapping issue, not data-platform issue | Fix at Prosys/Kepware; add DQ alert on good_pct < 95% per tag | Medium |
+| 8 | Medallion POC | Silver has no canonical_asset_id, unit, measurement_type, cycle/batch context | Not yet ontology-conformed — it's a parsed Bronze | Add columns per 13_Glue_Columns silver.iiot_tag_reading | Medium |
+| 9 | Tag Dictionary | Wrong / missing units on ~30 tags (RM consumption in kWh, calender line speed in rpm, steam flow in L/min, many None) | Wrong aggregates and wrong ML features | Canonical unit column in 03/04/05 — fix at source | Medium |
+| 10 | Tag Dictionary | Machine_State Boolean, Cure_PressStatus Double | Can't represent the state machine (Stopped/Starting/Running/Idle/Down/Alarm) | Make enum (string or int + lookup) | Medium |
+| 11 | Shopfloor Master | Tensile/Elongation/Adhesion/Hardness templated on Uniformity Tester; Variable Master says Material Tester | Lab tests are per batch/sample, not per tyre | Model as qa_lab_test (sample-based) not per-tyre inline | Medium |
+| 12 | Shopfloor Master | All 9 Utility_Environment tags put on every utility asset | Steam flow on air compressor etc. creates junk series | Split Utility template: Boiler / Air / CoolingWater / Energy / Env | Low |
+| 13 | Tag Dictionary | Derived values as tags: Cure_DegreeOfCure, Cure_Temp_Deviation, Maintenance_DueHours | Duplicate logic in PLC and lake disagree | Compute in Silver (cure) / take from CMMS (due hours) | Low |
+| 14 | MES KPI List | CMMS tables (WorkOrders, MaintenanceDefinitions, EquipmentProblems) live in the MES database | Architecture diagram shows a separate CMMS DB — if CMMS is the MES module, there is ONE DMS source, and CMMS IDs = MES Equipment IDs | Confirm; if same DB, collapse mes_cdc_* and cmms_cdc_* into one replication task and one Equipment identity | High |
+| 15 | MES KPI List | LotActions has no field linking to IIoT cycle | Cure profile (IIoT) cannot be tied to the cure LotAction, so CT vs std, cure compliance and tyre traceability break | Publish LotActions.Id (or a GUID) as cycle_id on UNS at action start; store it on every IIoT event | High |
+| 16 | MES KPI List | ProductSpecOperationDataCollectionParameterSets holds required parameters per operation | This is where the empty Target/Min/Max of the Variable Master should live | Load spec limits there; Silver mdm_spec_limit reads it | High (resolves earlier finding) |
+| 17 | MES KPI List | Lot model vs serialised tyres | Tyres are serialised from building onwards; lot qty 1 per tyre multiplies LotTravellers/LotActions volume | Decide: green & cured tyre = lot qty 1 (recommended for traceability) — size DMS/Silver accordingly | Medium |
+| 18 | MES KPI List | Availability, cycle time, counts and stock exist in BOTH MES tables and IIoT tags | Two numbers for the same KPI | System of record: time & state = IIoT; counts, reasons, quality = MES; stock = MES (IIoT RM tags only for live level) | Medium |
+| 19 | MES KPI List | Only ~20 column names given across ~70 tables | Glue column catalogue for MES is incomplete | Export MES INFORMATION_SCHEMA (table, column, type, PK/FK) — Glue Silver columns can then be generated | Medium |
+| 20 | MES KPI List | Weld, Subcon, Project KPIs (#18, #25, #40) | Generic MES modules, low value for tyre plant | Deprioritise in Gold build | Low |

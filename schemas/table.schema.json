@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "table.schema.json",
+  "title": "Table spec (tables/<layer>/<table>.yaml)",
+  "description": "Every column has a glossary term OR technical: true (task B2.4).",
+  "type": "object",
+  "properties": {
+    "name": {
+      "$ref": "common.schema.json#/$defs/table_name"
+    },
+    "layer": {
+      "enum": [
+        "bronze",
+        "silver",
+        "gold",
+        "ops",
+        "ref"
+      ]
+    },
+    "version": {
+      "$ref": "common.schema.json#/$defs/semver"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "grain": {
+      "type": "string",
+      "minLength": 1
+    },
+    "primary_key": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "partition_by": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "owner": {
+      "$ref": "common.schema.json#/$defs/owner"
+    },
+    "freshness": {
+      "type": "string",
+      "pattern": "^\\d+(min|h|d)$"
+    },
+    "glossary_term_id": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "common.schema.json#/$defs/status"
+    },
+    "template": {
+      "type": "boolean"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "storage": {
+      "type": "object",
+      "properties": {
+        "local": {
+          "type": "string"
+        },
+        "aws": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "columns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "$ref": "common.schema.json#/$defs/column_name"
+          },
+          "type": {
+            "$ref": "common.schema.json#/$defs/data_type"
+          },
+          "nullable": {
+            "type": "boolean"
+          },
+          "term": {
+            "$ref": "common.schema.json#/$defs/snake"
+          },
+          "technical": {
+            "const": true,
+            "description": "housekeeping / raw landing column - no glossary term needed"
+          },
+          "description": {
+            "type": "string"
+          },
+          "partition": {
+            "type": "boolean"
+          },
+          "pii": {
+            "type": "boolean"
+          },
+          "unit": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "type",
+          "nullable"
+        ],
+        "oneOf": [
+          {
+            "required": [
+              "term"
+            ]
+          },
+          {
+            "required": [
+              "technical"
+            ]
+          }
+        ]
+      },
+      "minItems": 1
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "layer",
+    "version",
+    "description",
+    "grain",
+    "primary_key",
+    "owner",
+    "status",
+    "columns"
+  ]
+}

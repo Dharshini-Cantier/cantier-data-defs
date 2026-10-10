@@ -1,0 +1,54 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: silver.iiot_state_event
+layer: silver
+version: 0.1.0
+description: 'one state interval per asset. Source: Machine_State, Cure_PressStatus, Alarm_*, Emergency_Stop'
+grain: one state interval per asset
+primary_key:
+- canonical_asset_id
+- ts_start
+partition_by:
+- days(ts_start)
+owner: IIoT / process engineering
+freshness: 10min
+glossary_term_id: onto:entity/machine_state_event
+source: Machine_State, Cure_PressStatus, Alarm_*, Emergency_Stop
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/silver/iiot_state_event/
+columns:
+- name: canonical_asset_id
+  type: string
+  nullable: false
+  term: asset
+- name: state
+  type: string
+  nullable: true
+  term: machine_state
+  description: STOPPED/STARTING/RUNNING/IDLE/DOWN/ALARM
+- name: ts_start
+  type: timestamp
+  nullable: false
+  term: ts_start
+  partition: true
+- name: ts_end
+  type: timestamp
+  nullable: true
+  term: ts_end
+- name: duration_s
+  type: double
+  nullable: true
+  term: duration_s
+- name: alarm_code
+  type: string
+  nullable: true
+  term: alarm_code
+- name: downtime_reason_code
+  type: string
+  nullable: true
+  term: downtime_reason_code
+- name: is_emergency_stop
+  type: boolean
+  nullable: true
+  term: is_emergency_stop

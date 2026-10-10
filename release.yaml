@@ -1,0 +1,10 @@
+# RELEASE - version of the whole definition set. Bump it in every pull request that changes a definition (docs/VERSIONING.md).
+version: 0.2.0
+canonical_model_version: manufacturing-v0.2
+changes:
+  - version: 0.2.0
+    date: "2026-10-10"
+    summary: "Customer master (MES Customers, DMS) + IIoT Firehose stream definitions: Bronze specs, Silver customer spec, mappings with CDC / code maps / tag map / rejects, DQ, fixtures; canonical standards + developer guide"
+  - version: 0.1.0
+    date: "2026-10-10"
+    summary: "B1 repo + standards; B2 first drafts from workbook v3 (ontology, glossary, contracts, tables, IIoT templates, assets, DQ, KPIs, fixtures)"

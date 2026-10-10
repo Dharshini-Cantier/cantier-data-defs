@@ -1,0 +1,76 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# KPI DEFINITIONS - formula, grain, sources and owner of each KPI (dbt models generated in B3.7).
+area: Equipment
+version: 0.1.0
+kpis:
+- id: kpi_machine_wise_output_scrap
+  number: 27
+  name: Machine-wise Output & Scrap
+  description: Output and scrap by machine.
+  formula: output & scrap BY machine
+  grain: machine × shift
+  mes_source_tables: LotActionMachines, LotActions, Equipment
+  sources:
+  - silver.mdm_asset
+  - silver.mes_lot_action
+  - silver.mes_lot_action_machine
+  gold_table: gold.production_output
+  tyre_relevance: High
+  owner: Equipment owner (to confirm)
+  status: draft
+- id: kpi_equipment_utilization
+  number: 28
+  name: Equipment Utilization
+  description: Quantity in/out per machine from utilization logs.
+  formula: qty in/out per machine
+  grain: machine × day
+  mes_source_tables: EquipmentUtilizations, EquipmentUtilizationDetails
+  sources:
+  - silver.mes_equipment_utilization
+  gold_table: gold.equipment_utilization
+  tyre_relevance: High
+  owner: Equipment owner (to confirm)
+  status: draft
+- id: kpi_equipment_status_downtime
+  number: 29
+  name: Equipment Status & Downtime
+  description: Time in each equipment status and downtime hours.
+  formula: SUM(duration) BY status; downtime hours
+  grain: machine × shift
+  mes_source_tables: EquipmentStatuses, EquipmentProblems, EquipmentActivityLogs
+  sources:
+  - silver.mes_equipment_problem
+  - silver.mes_equipment_status_log
+  gold_table: gold.downtime_pareto
+  reconciliation_note: IIoT Machine_State is the time base
+  tyre_relevance: High
+  owner: Equipment owner (to confirm)
+  status: draft
+- id: kpi_tool_usage_cleaning
+  number: 30
+  name: Tool Usage & Cleaning
+  description: Tool usage per lot and cleaning frequency.
+  formula: tool usage per lot; cleanings per N cycles
+  grain: tool
+  mes_source_tables: LotActionTools, Cleanings, ToolCleaningDetails
+  sources:
+  - silver.mes_lot_action_tool
+  - silver.mes_tool_cleaning
+  gold_table: gold.tool_life
+  reconciliation_note: Mould cycles between cleanings; bladder cycles (Cure_BladderCycles)
+  tyre_relevance: High
+  owner: Equipment owner (to confirm)
+  status: draft
+- id: kpi_machine_material_setup
+  number: 31
+  name: Machine Material Setup
+  description: Materials set up and issued to machines.
+  formula: materials set up / issued per machine
+  grain: machine × day
+  mes_source_tables: MachineMaterialSetups, MachineMaterialIssuances
+  sources:
+  - silver.mes_machine_material_setup
+  gold_table: gold.machine_material_setup
+  tyre_relevance: High
+  owner: Equipment owner (to confirm)
+  status: draft

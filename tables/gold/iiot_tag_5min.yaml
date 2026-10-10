@@ -1,0 +1,70 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: gold.iiot_tag_5min
+layer: gold
+version: 0.1.0
+description: 'asset × tag × 5-min window. Source: silver.iiot_tag_reading'
+grain: asset × tag × 5-min window
+primary_key:
+- window_start_utc
+- canonical_asset_id
+- tag_name
+partition_by:
+- days(window_start_utc)
+owner: IIoT / process engineering
+freshness: 15min
+source: silver.iiot_tag_reading
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/gold/iiot_tag_5min/
+columns:
+- name: window_start_utc
+  type: timestamp
+  nullable: false
+  term: window_start_utc
+  partition: true
+- name: canonical_asset_id
+  type: string
+  nullable: false
+  term: asset
+- name: equipment_id
+  type: string
+  nullable: true
+  term: equipment_id
+- name: tag_name
+  type: string
+  nullable: false
+  term: tag_name
+- name: measurement_type
+  type: string
+  nullable: true
+  term: measurement_type
+- name: readings
+  type: int
+  nullable: true
+  term: readings
+- name: avg_value
+  type: double
+  nullable: true
+  term: avg_value
+- name: min_value
+  type: double
+  nullable: true
+  term: min_value
+- name: max_value
+  type: double
+  nullable: true
+  term: max_value
+- name: stddev_value
+  type: double
+  nullable: true
+  term: stddev_value
+- name: unit
+  type: string
+  nullable: true
+  term: unit
+- name: is_partial_window
+  type: boolean
+  nullable: true
+  term: is_partial_window
+  description: replaces free-text note

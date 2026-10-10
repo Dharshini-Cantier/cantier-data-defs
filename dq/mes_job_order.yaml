@@ -1,0 +1,23 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# DATA QUALITY - checks each row of this table must pass. error = row rejected, warn = counted. (DQDL generation is B3.6)
+table: silver.mes_job_order
+version: 0.1.0
+rules:
+- id: dq_mes_job_order_pk_unique
+  type: unique
+  columns:
+  - job_order_id
+  severity: error
+  description: One row per grain
+- id: dq_mes_job_order_job_order_id_not_null
+  type: not_null
+  column: job_order_id
+  severity: error
+- id: dq_mes_job_order_planned_start_before_planned_end
+  type: expression
+  check: planned_start <= planned_end
+  severity: error
+- id: dq_mes_job_order_actual_start_before_actual_end
+  type: expression
+  check: actual_start <= actual_end
+  severity: error

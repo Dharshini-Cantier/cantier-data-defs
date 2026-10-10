@@ -1,0 +1,156 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: silver.qa_inspection_result
+layer: silver
+version: 0.1.0
+description: 'one inspection per tyre. Source: Uniformity tester / QMS events'
+grain: one inspection per tyre
+primary_key:
+- inspection_id
+partition_by:
+- days(ts_inspected)
+owner: Quality
+freshness: 10min
+glossary_term_id: onto:entity/inspection_result
+source: Uniformity tester / QMS events
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/silver/qa_inspection_result/
+columns:
+- name: inspection_id
+  type: string
+  nullable: false
+  term: inspection_result
+- name: tyre_serial
+  type: string
+  nullable: true
+  term: cured_tyre
+- name: canonical_asset_id
+  type: string
+  nullable: true
+  term: asset
+  description: Tester
+- name: cure_cycle_id
+  type: string
+  nullable: true
+  term: production_cycle
+  description: Back-link
+- name: radial_force_variation
+  type: double
+  nullable: true
+  term: quality_radial_force_variation
+  description: Quality_RadialForceVariation [N]
+- name: lateral_force_variation
+  type: double
+  nullable: true
+  term: quality_lateral_force_variation
+  description: Quality_LateralForceVariation [N]
+- name: dynamic_balance
+  type: double
+  nullable: true
+  term: quality_dynamic_balance
+  description: Quality_DynamicBalance [g·cm]
+- name: tensile_strength
+  type: double
+  nullable: true
+  term: quality_tensile_strength
+  description: Quality_TensileStrength [MPa]
+- name: elongation
+  type: double
+  nullable: true
+  term: quality_elongation
+  description: Quality_Elongation [%]
+- name: adhesion_strength
+  type: double
+  nullable: true
+  term: quality_adhesion_strength
+  description: Quality_AdhesionStrength [MPa]
+- name: tyre_weight
+  type: double
+  nullable: true
+  term: quality_tyre_weight
+  description: Quality_TyreWeight [kg]
+- name: defect_flag
+  type: boolean
+  nullable: true
+  term: quality_defect_flag
+  description: Quality_DefectFlag []
+- name: defect_type_code
+  type: string
+  nullable: true
+  term: quality_defect_type_code
+  description: Quality_DefectTypeCode []
+- name: grade
+  type: string
+  nullable: true
+  term: quality_grade
+  description: Quality_Grade []
+- name: uniformity_pass
+  type: boolean
+  nullable: true
+  term: quality_uniformity_pass
+  description: Quality_UniformityPass []
+- name: inspection_result
+  type: string
+  nullable: true
+  term: quality_inspection_result
+  description: Quality_InspectionResult []
+- name: overall_diameter
+  type: double
+  nullable: true
+  term: quality_overall_diameter
+  description: Quality_OverallDiameter [mm]
+- name: section_width
+  type: double
+  nullable: true
+  term: quality_section_width
+  description: Quality_SectionWidth [mm]
+- name: tread_depth
+  type: double
+  nullable: true
+  term: quality_tread_depth
+  description: Quality_TreadDepth [mm]
+- name: radial_runout
+  type: double
+  nullable: true
+  term: quality_radial_runout
+  description: Quality_RadialRunout [mm]
+- name: lateral_runout
+  type: double
+  nullable: true
+  term: quality_lateral_runout
+  description: Quality_LateralRunout [mm]
+- name: bead_diameter
+  type: double
+  nullable: true
+  term: quality_bead_diameter
+  description: Quality_BeadDiameter [mm]
+- name: sidewall_thickness
+  type: double
+  nullable: true
+  term: quality_sidewall_thickness
+  description: Quality_SidewallThickness [mm]
+- name: hardness
+  type: double
+  nullable: true
+  term: quality_hardness
+  description: Quality_Hardness [Shore A]
+- name: air_pressure_retention
+  type: double
+  nullable: true
+  term: quality_air_pressure_retention
+  description: Quality_AirPressureRetention [bar]
+- name: visual_inspection
+  type: string
+  nullable: true
+  term: quality_visual_inspection
+  description: Quality_VisualInspection []
+- name: spec_version
+  type: string
+  nullable: true
+  term: spec_version
+- name: ts_inspected
+  type: timestamp
+  nullable: true
+  term: ts_inspected
+  partition: true

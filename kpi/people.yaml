@@ -1,0 +1,49 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# KPI DEFINITIONS - formula, grain, sources and owner of each KPI (dbt models generated in B3.7).
+area: People
+version: 0.1.0
+kpis:
+- id: kpi_output_per_operator
+  number: 41
+  name: Output per Operator
+  description: Quantity processed per operator.
+  formula: SUM(QuantityOut) per operator
+  grain: operator × shift
+  mes_source_tables: LotActionOperators, LotActions
+  sources:
+  - silver.mes_lot_action
+  - silver.mes_lot_action_operator
+  gold_table: gold.operator_performance
+  reconciliation_note: Pseudonymise; restricted LF tag
+  tyre_relevance: High
+  owner: People owner (to confirm)
+  status: draft
+- id: kpi_operator_qualification_coverage
+  number: 42
+  name: Operator Qualification Coverage
+  description: Qualified operators per process/skillset.
+  formula: qualified operators / required per process
+  grain: process
+  mes_source_tables: OperatorQualifications, EmployeeSkillsets, ProcessQualifiedRoles
+  sources:
+  - silver.mes_operator_qualification
+  gold_table: gold.operator_performance
+  tyre_relevance: High
+  owner: People owner (to confirm)
+  status: draft
+- id: kpi_operator_wise_scrap_ncm
+  number: 43
+  name: Operator-wise Scrap & NCM
+  description: Scrap and NCM attributed to each operator.
+  formula: scrap & NCM per operator
+  grain: operator × month
+  mes_source_tables: LotActionOperators, LotActionDefects, LotActionNCMTransactions
+  sources:
+  - silver.mes_lot_action_operator
+  - silver.qa_defect
+  - silver.qa_ncm
+  gold_table: gold.operator_performance
+  reconciliation_note: Restricted
+  tyre_relevance: High
+  owner: People owner (to confirm)
+  status: draft

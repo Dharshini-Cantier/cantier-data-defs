@@ -1,0 +1,76 @@
+# MAPPING - how Bronze bronze.iiot_firehose_events (Cantier IIoT via Firehose) becomes Silver silver.iiot_tag_reading.
+# tag_map translates the stream's tag names to glossary measurement types; rows that fail a rule go to ops rejects.
+target_table: silver.iiot_tag_reading
+version: 0.1.0
+mapping_version: iiot-map-2026.10.10
+kind: event_stream
+description: Cantier IIoT tag.valueChanged events (Firehose / Iceberg) to one canonical GOOD reading per signal per timestamp
+source:
+  system: CANTIER_IIOT
+  tables: {s: bronze.iiot_firehose_events}
+tag_map:                              # stream tag name -> glossary measurement type (unit = glossary unit; factor converts source_unit)
+  Bearing_Temperature:    {measurement_type: bearing_temperature}
+  Rotor_Speed_RPM:        {measurement_type: mixer_rotor_speed}
+  Hydraulic_Pressure_Bar: {measurement_type: hydraulic_pressure, note: "workbook templates this on Curing only; the stream sends it from Banbury01 - confirm template"}
+  Motor_Power_KW:         {measurement_type: mixer_motor_power}
+columns:
+  - target: bronze_row_id
+    transform: {fn: sha1, inputs: [s.opcnodeid, s.timestamp, s.apptriggertimestamp]}
+  - target: event_id
+    transform: {fn: sha1, inputs: [s.opcnodeid, s.timestamp]}
+  - {target: site_id,       from: s.plant}
+  - target: area
+    from: s.equipment
+    lookup: {map: identity_map, source_system: CANTIER_IIOT, source_type: asset, attribute: process}
+  - {target: line_id,       from: s.line}
+  - {target: equipment_id,  from: s.equipment}
+  - target: canonical_asset_id
+    from: s.equipment
+    lookup: {map: identity_map, source_system: CANTIER_IIOT, source_type: asset}
+  - target: asset_type
+    from: s.equipment
+    lookup: {map: identity_map, source_system: CANTIER_IIOT, source_type: asset, attribute: template}
+  - {target: tag_group,     from: s.opcnodeid, transform: {fn: opc_segment, index: -2}}
+  - {target: tag_name,      from: s.mappingname}
+  - target: measurement_type
+    from: s.mappingname
+    lookup: {map: tag_map, source_system: CANTIER_IIOT, source_type: tag, attribute: measurement_type}
+  - target: normalized_value
+    from: s.normalizedvalue
+    transform: {fn: unit_convert, inputs: [s.mappingname]}
+  - {target: value_str,     from: s.rawvalue}
+  - target: unit
+    from: s.mappingname
+    lookup: {map: tag_map, source_system: CANTIER_IIOT, source_type: tag, attribute: unit}
+  - {target: event_ts_utc,    from: s.timestamp, transform: {fn: to_utc, source_tz: UTC}}
+  - {target: event_ts_ist,    from: s.timestamp, transform: {fn: to_timezone, source_tz: UTC, tz: Asia/Kolkata}}
+  - {target: window_5min_utc, from: s.timestamp, transform: {fn: floor_minutes, source_tz: UTC, minutes: 5}}
+  - target: quality
+    from: s.quality
+    lookup: {map: code_map, source_system: CANTIER_IIOT, source_type: signal_quality}
+  - {target: mapping_id,    from: s.mappingid}
+  - {target: opc_node_id,   from: s.opcnodeid}
+  - {target: cycle_id,      value: null, description: "not in this stream - filled when MES Edge publishes cycle_id (decision 0.1)"}
+  - {target: work_order_id, value: null}
+  - {target: batch_id,      value: null}
+  - {target: recipe_id,     value: null}
+  - {target: product_id,    value: null}
+  - {target: tyre_serial,   value: null}
+  - {target: shift_no,      value: null}
+  - {target: canonical_model_version, value: manufacturing-v0.2}
+  - {target: _mapping_version,        value: iiot-map-2026.10.10}
+  - {target: _ts_processed,           generate: now}
+rejects:                              # first matching rule wins; rejected rows never enter Silver
+  table: ops.iiot_tag_reading_rejects
+  when:
+    - {column: canonical_asset_id, test: is_null,   reason: UNRESOLVED_ASSET}
+    - {column: measurement_type,   test: is_null,   reason: UNMAPPED_TAG}
+    - {column: quality,            test: not_equal, value: GOOD, reason: QUALITY_BAD}
+  columns:
+    - {target: bronze_row_id,    silver: bronze_row_id}
+    - {target: source_time_raw,  from: s.timestamp}
+    - {target: source_value_raw, from: s.rawvalue}
+    - {target: quality_raw,      from: s.quality}
+    - {target: opc_node_id,      from: s.opcnodeid}
+    - {target: reject_reason,    generate: reason}
+    - {target: _ts_processed,    generate: now}

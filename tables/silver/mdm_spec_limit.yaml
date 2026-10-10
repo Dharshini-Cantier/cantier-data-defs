@@ -1,0 +1,52 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: silver.mdm_spec_limit
+layer: silver
+version: 0.1.0
+description: 'measurement_type × product × recipe version. Source: MES MDM'
+grain: measurement_type × product × recipe version
+primary_key:
+- measurement_type
+- product_id
+- recipe_id
+- valid_from
+owner: Data stewards
+freshness: 1d
+glossary_term_id: onto:entity/spec_limit
+source: MES MDM
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/silver/mdm_spec_limit/
+columns:
+- name: measurement_type
+  type: string
+  nullable: false
+  term: measurement_type
+- name: product_id
+  type: string
+  nullable: false
+  term: product
+- name: recipe_id
+  type: string
+  nullable: false
+  term: recipe
+- name: lsl
+  type: double
+  nullable: true
+  term: lsl
+- name: target
+  type: double
+  nullable: true
+  term: target
+- name: usl
+  type: double
+  nullable: true
+  term: usl
+- name: unit
+  type: string
+  nullable: true
+  term: unit
+- name: valid_from
+  type: timestamp
+  nullable: false
+  term: valid_from

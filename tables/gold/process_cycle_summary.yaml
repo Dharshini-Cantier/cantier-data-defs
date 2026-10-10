@@ -1,0 +1,87 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: gold.process_cycle_summary
+layer: gold
+version: 0.1.0
+description: 'batch / extrusion run / build cycle. Source: iiot_tag_reading + mes_production_cycle'
+grain: batch / extrusion run / build cycle
+primary_key:
+- cycle_id
+owner: Analytics
+freshness: 15min
+source: iiot_tag_reading + mes_production_cycle
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/gold/process_cycle_summary/
+columns:
+- name: process
+  type: string
+  nullable: true
+  term: process_area
+  description: Grain column (batch / extrusion run / build cycle)
+- name: canonical_asset_id
+  type: string
+  nullable: true
+  term: asset
+  description: Grain column (batch / extrusion run / build cycle)
+- name: cycle_id
+  type: string
+  nullable: false
+  term: production_cycle
+  description: Grain column (batch / extrusion run / build cycle)
+- name: dump_temp
+  type: double
+  nullable: true
+  term: dump_temp
+- name: mixing_time
+  type: double
+  nullable: true
+  term: mixing_time
+- name: energy_kwh
+  type: double
+  nullable: true
+  term: energy_kwh
+- name: batch_weight
+  type: double
+  nullable: true
+  term: batch_weight
+- name: mooney
+  type: double
+  nullable: true
+  term: mooney
+- name: throughput
+  type: double
+  nullable: true
+  term: throughput
+- name: profile_deviation
+  type: double
+  nullable: true
+  term: profile_deviation
+- name: tread_gauge
+  type: double
+  nullable: true
+  term: tread_gauge
+- name: gauge
+  type: double
+  nullable: true
+  term: gauge
+- name: epi
+  type: double
+  nullable: true
+  term: epi
+- name: roll_temp
+  type: double
+  nullable: true
+  term: roll_temp
+- name: cycle_time
+  type: double
+  nullable: true
+  term: cycle_time
+- name: green_weight
+  type: double
+  nullable: true
+  term: green_weight
+- name: centring_deviation
+  type: double
+  nullable: true
+  term: centring_deviation

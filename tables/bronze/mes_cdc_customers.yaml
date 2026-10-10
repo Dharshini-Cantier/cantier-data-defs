@@ -1,0 +1,46 @@
+# TABLE SPEC - Bronze = raw copy, as AWS DMS writes it (source names and types kept). All columns technical: no glossary at Bronze.
+name: bronze.mes_cdc_customers
+layer: bronze
+version: 0.1.0
+description: MES dbo.Customers as written by AWS DMS (full load LOAD*.parquet + CDC files). One row per change.
+grain: one row per change (Op I/U/D)
+primary_key: [Id, dms_commit_ts]
+partition_by: [days(dms_commit_ts)]
+owner: MES team
+freshness: 15min
+source: MES dbo.Customers via AWS DMS (sample Bronze_Test/MES/masterdata/Customers)
+status: draft
+storage: {aws: "s3://cantier-lake-<acct>/bronze/mes_cdc_customers/"}
+columns:
+  - {name: Op, type: string, nullable: true, technical: true, description: "DMS operation I / U / D"}
+  - {name: dms_commit_ts, type: string, nullable: false, technical: true, description: "DMS commit time, UTC text yyyy-MM-dd HH:mm:ss.ffffff"}
+  - {name: Id, type: bigint, nullable: false, technical: true}
+  - {name: CustomerName, type: string, nullable: true, technical: true}
+  - {name: CustomerCode, type: string, nullable: true, technical: true}
+  - {name: BusinessPartnerType, type: string, nullable: true, technical: true}
+  - {name: CreditLimit, type: "decimal(18,2)", nullable: true, technical: true}
+  - {name: Address, type: string, nullable: true, technical: true, pii: true}
+  - {name: EmailAddress, type: string, nullable: true, technical: true, pii: true}
+  - {name: ContactNumber, type: string, nullable: true, technical: true, pii: true}
+  - {name: FaxNumber, type: string, nullable: true, technical: true, pii: true}
+  - {name: LineOfBusiness, type: string, nullable: true, technical: true}
+  - {name: TinNumber, type: string, nullable: true, technical: true, pii: true}
+  - {name: SecNumber, type: string, nullable: true, technical: true, pii: true}
+  - {name: ContactPerson, type: string, nullable: true, technical: true, pii: true}
+  - {name: ContactPersonPosition, type: string, nullable: true, technical: true}
+  - {name: OutstandingSalesOrder, type: "decimal(18,2)", nullable: true, technical: true}
+  - {name: Remarks, type: string, nullable: true, technical: true}
+  - {name: IsActive, type: string, nullable: true, technical: true, description: "text 'true' / 'false'"}
+  - {name: CurrencyId, type: bigint, nullable: true, technical: true}
+  - {name: PaymentTermId, type: bigint, nullable: true, technical: true}
+  - {name: MotherCustomerId, type: bigint, nullable: true, technical: true}
+  - {name: SalesPersonId, type: bigint, nullable: true, technical: true, description: "0 = not assigned"}
+  - {name: CollectorId, type: bigint, nullable: true, technical: true}
+  - {name: Vatability, type: string, nullable: true, technical: true}
+  - {name: TransportTime, type: bigint, nullable: true, technical: true}
+  - {name: Website, type: string, nullable: true, technical: true}
+  - {name: CustomPropertyValuesJsonString, type: string, nullable: true, technical: true}
+  - {name: AddedByUserId, type: bigint, nullable: true, technical: true}
+  - {name: AddedDate, type: timestamp, nullable: true, technical: true, description: "UTC"}
+  - {name: UpdatedByUserId, type: bigint, nullable: true, technical: true}
+  - {name: UpdatedDate, type: timestamp, nullable: true, technical: true, description: "UTC"}

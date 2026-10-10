@@ -1,0 +1,118 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# CONTRACT - the agreed shape of an event between a producer and the platform.
+id: qa.inspection.v1
+version: 0.1.0
+kind: event
+extends: envelope.v1
+description: Per-tyre uniformity / balance / dimension / visual result from the uniformity tester or QMS.
+topic: manufacturing.<site>.inspection.qa.inspection.v1
+key:
+- inspection_id
+compatibility: BACKWARD
+bronze_table: bronze.qa_inspection_events
+silver_table: silver.qa_inspection_result
+fields:
+- name: inspection_id
+  type: string
+  required: true
+  term: inspection_result
+- name: cure_cycle_id
+  type: string
+  required: false
+  term: production_cycle
+- name: radial_force_variation
+  type: double
+  required: false
+  term: quality_radial_force_variation
+- name: lateral_force_variation
+  type: double
+  required: false
+  term: quality_lateral_force_variation
+- name: dynamic_balance
+  type: double
+  required: false
+  term: quality_dynamic_balance
+- name: tensile_strength
+  type: double
+  required: false
+  term: quality_tensile_strength
+- name: elongation
+  type: double
+  required: false
+  term: quality_elongation
+- name: adhesion_strength
+  type: double
+  required: false
+  term: quality_adhesion_strength
+- name: tyre_weight
+  type: double
+  required: false
+  term: quality_tyre_weight
+- name: defect_flag
+  type: boolean
+  required: false
+  term: quality_defect_flag
+- name: defect_type_code
+  type: string
+  required: false
+  term: quality_defect_type_code
+- name: grade
+  type: string
+  required: false
+  term: quality_grade
+- name: uniformity_pass
+  type: boolean
+  required: false
+  term: quality_uniformity_pass
+- name: inspection_result
+  type: string
+  required: false
+  term: quality_inspection_result
+- name: overall_diameter
+  type: double
+  required: false
+  term: quality_overall_diameter
+- name: section_width
+  type: double
+  required: false
+  term: quality_section_width
+- name: tread_depth
+  type: double
+  required: false
+  term: quality_tread_depth
+- name: radial_runout
+  type: double
+  required: false
+  term: quality_radial_runout
+- name: lateral_runout
+  type: double
+  required: false
+  term: quality_lateral_runout
+- name: bead_diameter
+  type: double
+  required: false
+  term: quality_bead_diameter
+- name: sidewall_thickness
+  type: double
+  required: false
+  term: quality_sidewall_thickness
+- name: hardness
+  type: double
+  required: false
+  term: quality_hardness
+- name: air_pressure_retention
+  type: double
+  required: false
+  term: quality_air_pressure_retention
+- name: visual_inspection
+  type: string
+  required: false
+  term: quality_visual_inspection
+- name: spec_version
+  type: string
+  required: false
+  term: spec_version
+- name: ts_inspected
+  type: timestamp
+  required: false
+  term: ts_inspected

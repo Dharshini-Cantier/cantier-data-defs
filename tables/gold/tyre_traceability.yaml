@@ -1,0 +1,57 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: gold.tyre_traceability
+layer: gold
+version: 0.1.0
+description: 'tyre serial. Source: genealogy + cycles + inspection'
+grain: tyre serial
+primary_key:
+- tyre_serial
+owner: Analytics
+freshness: 15min
+source: genealogy + cycles + inspection
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/gold/tyre_traceability/
+columns:
+- name: tyre_serial
+  type: string
+  nullable: false
+  term: cured_tyre
+  description: Grain column (tyre serial)
+- name: rm_lots
+  type: string
+  nullable: true
+  term: rm_lots
+- name: compound_batch
+  type: string
+  nullable: true
+  term: compound_batch
+- name: components
+  type: string
+  nullable: true
+  term: components
+- name: green_tyre_id
+  type: string
+  nullable: true
+  term: green_tyre_id
+- name: build_cycle
+  type: string
+  nullable: true
+  term: build_cycle
+- name: cure_cycle
+  type: string
+  nullable: true
+  term: cure_cycle
+- name: press
+  type: string
+  nullable: true
+  term: press
+- name: inspection_result
+  type: string
+  nullable: true
+  term: inspection_result
+- name: grade
+  type: string
+  nullable: true
+  term: grade

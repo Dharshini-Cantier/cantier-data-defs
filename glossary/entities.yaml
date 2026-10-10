@@ -1,0 +1,388 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# GLOSSARY - the dictionary: meaning, type, unit, valid values and owner of each term.
+version: 0.2.0
+description: Identifiers of ontology things (asset, cycle, order, lot...). ID columns in tables use these terms.
+terms:
+  production_cycle:
+    glossary_term_id: onto:entity/production_cycle
+    label: Cycle_ID
+    description: Cycle_ID - silver.mes_production_context
+    data_type: string
+    domain: MES context
+    owner: MES team
+    status: active
+    ontology_class: ProductionCycle
+  work_order:
+    glossary_term_id: onto:entity/work_order
+    label: Work_Order_ID
+    description: Work_Order_ID - silver.mes_production_context
+    data_type: string
+    domain: MES context
+    owner: MES team
+    status: active
+  tyre:
+    glossary_term_id: onto:entity/tyre
+    label: Tyre_Serial (Barcode)
+    description: Tyre_Serial (Barcode) - silver.mes_production_context
+    data_type: string
+    domain: MES context
+    owner: MES team
+    status: active
+  compound_test:
+    glossary_term_id: onto:entity/compound_test
+    label: Compound QC (Mooney, hardness, SG, scorch, cure time per batch)
+    description: Compound QC (Mooney, hardness, SG, scorch, cure time per batch) - silver.qa_measurement
+    data_type: string
+    domain: MES inline quality
+    owner: MES team
+    status: active
+  ncr:
+    glossary_term_id: onto:entity/ncr
+    label: Defect / NCR / disposition
+    description: Defect / NCR / disposition - silver.qa_defect, silver.qa_ncr
+    data_type: string
+    domain: MES quality
+    owner: MES team
+    status: active
+  equipment:
+    glossary_term_id: onto:entity/equipment
+    label: Equipment (cmms_asset_id EQ-…)
+    description: Equipment (cmms_asset_id EQ-…) - silver.cmms_asset
+    data_type: string
+    domain: CMMS
+    owner: Maintenance
+    status: active
+  maintenance_work_order:
+    glossary_term_id: onto:entity/maintenance_work_order
+    label: Maintenance work order
+    description: Maintenance work order - silver.cmms_work_order (+ _operation, _material)
+    data_type: string
+    domain: CMMS
+    owner: Maintenance
+    status: active
+    ontology_class: MaintenanceWorkOrder
+  failure_mode:
+    glossary_term_id: onto:entity/failure_mode
+    label: Failure coding
+    description: Failure coding - silver.cmms_failure
+    data_type: string
+    domain: CMMS
+    owner: Maintenance
+    status: active
+    ontology_class: FailureMode
+  spare_part:
+    glossary_term_id: onto:entity/spare_part
+    label: Spare parts & team availability
+    description: Spare parts & team availability - silver.cmms_parts_inventory
+    data_type: string
+    domain: CMMS
+    owner: Maintenance
+    status: active
+  meter:
+    glossary_term_id: onto:entity/meter
+    label: PM plan & meters
+    description: PM plan & meters - silver.cmms_pm_plan, silver.cmms_meter_reading
+    data_type: string
+    domain: CMMS
+    owner: Maintenance
+    status: active
+    ontology_class: Meter
+  prediction:
+    glossary_term_id: onto:entity/prediction
+    label: Prediction
+    description: Prediction - silver.pdm_prediction
+    data_type: string
+    domain: PdM
+    owner: Data science
+    status: active
+    ontology_class: Prediction
+  approval:
+    glossary_term_id: onto:entity/approval
+    label: Approval & audit
+    description: Approval & audit - ops.mcp_audit
+    data_type: string
+    domain: Governance
+    owner: Platform governance
+    status: active
+    ontology_class: Approval
+  plant:
+    glossary_term_id: onto:entity/plant
+    label: Plant / Site
+    description: 'Identifier of a Plant / Site: Tyre plant (TyrePlant01 / Site01; PLANT-CHN-01 in PdM doc)'
+    data_type: string
+    ontology_class: Plant
+    owner: Data stewards
+    status: active
+  process_area:
+    glossary_term_id: onto:entity/process_area
+    label: Process Area
+    description: 'Identifier of a Process Area: RawMaterial, Mixing, Extrusion, Calendering, TyreBuilding, Curing, Inspection, Utilities'
+    data_type: string
+    ontology_class: ProcessArea
+    owner: Data stewards
+    status: active
+  production_line:
+    glossary_term_id: onto:entity/production_line
+    label: Production Line
+    description: 'Identifier of a Production Line: RM_Line01, MixingLine01, … UtilityLine01'
+    data_type: string
+    ontology_class: ProductionLine
+    owner: Data stewards
+    status: active
+  asset:
+    glossary_term_id: onto:entity/asset
+    label: Asset (Machine)
+    description: 'Identifier of a Asset (Machine): Banbury, Extruder, Calender, TBM, Curing Press, TUM, Utility unit — canonical AST-*'
+    data_type: string
+    ontology_class: Asset
+    owner: Data stewards
+    status: active
+  asset_type:
+    glossary_term_id: onto:entity/asset_type
+    label: Asset Type / Template
+    description: 'Identifier of a Asset Type / Template: Tag_Template: RM, Banbury, Extruder, Calender, Building, Curing, Quality, Utility'
+    data_type: string
+    ontology_class: AssetType
+    owner: Data stewards
+    status: active
+  component:
+    glossary_term_id: onto:entity/component
+    label: Component
+    description: 'Identifier of a Component: Bearing, gearbox, hydraulic unit, motor, bladder, steam control valve, mould'
+    data_type: string
+    ontology_class: Component
+    owner: Data stewards
+    status: active
+  signal:
+    glossary_term_id: onto:entity/signal
+    label: Signal / Tag
+    description: 'Identifier of a Signal / Tag: A measurable variable of an asset (tag instance) with unit, node id, UNS path'
+    data_type: string
+    ontology_class: Signal
+    owner: Data stewards
+    status: active
+  measurement_type:
+    glossary_term_id: onto:entity/measurement_type
+    label: Measurement Type
+    description: 'Identifier of a Measurement Type: What is measured, independent of asset (MIXER_TEMPERATURE, BEARING_VIBRATION…)'
+    data_type: string
+    ontology_class: MeasurementType
+    owner: Data stewards
+    status: active
+  material_lot:
+    glossary_term_id: onto:entity/material_lot
+    label: Raw Material / Material Lot
+    description: 'Identifier of a Raw Material / Material Lot: NR, SBR, carbon black, silica, steel cord, textile cord, bead wire, chemicals'
+    data_type: string
+    ontology_class: MaterialLot
+    owner: Data stewards
+    status: active
+  compound_batch:
+    glossary_term_id: onto:entity/compound_batch
+    label: Compound Batch
+    description: 'Identifier of a Compound Batch: Banbury output (Batch_ID)'
+    data_type: string
+    ontology_class: CompoundBatch
+    owner: Data stewards
+    status: active
+  semi_finished_component:
+    glossary_term_id: onto:entity/semi_finished_component
+    label: Component (semi-finished)
+    description: 'Identifier of a Component (semi-finished): Tread, calendered ply/cord sheet, bead'
+    data_type: string
+    ontology_class: SemiFinishedComponent
+    owner: Data stewards
+    status: active
+  green_tyre:
+    glossary_term_id: onto:entity/green_tyre
+    label: Green Tyre
+    description: 'Identifier of a Green Tyre: Building output'
+    data_type: string
+    ontology_class: GreenTyre
+    owner: Data stewards
+    status: active
+  cured_tyre:
+    glossary_term_id: onto:entity/cured_tyre
+    label: Cured Tyre
+    description: 'Identifier of a Cured Tyre: Curing output with serial/DOT; Tyre_Size, Tyre_Type'
+    data_type: string
+    ontology_class: CuredTyre
+    owner: Data stewards
+    status: active
+  product:
+    glossary_term_id: onto:entity/product
+    label: Product (SKU)
+    description: 'Identifier of a Product (SKU): Product_ID, size, type'
+    data_type: string
+    ontology_class: Product
+    owner: Data stewards
+    status: active
+  recipe:
+    glossary_term_id: onto:entity/recipe
+    label: Recipe
+    description: 'Identifier of a Recipe: Recipe_ID with setpoints & tolerances per step'
+    data_type: string
+    ontology_class: Recipe
+    owner: Data stewards
+    status: active
+  spec_limit:
+    glossary_term_id: onto:entity/spec_limit
+    label: Spec Limit
+    description: 'Identifier of a Spec Limit: LSL/Target/USL per measurement type × product × recipe'
+    data_type: string
+    ontology_class: SpecLimit
+    owner: Data stewards
+    status: active
+  production_order:
+    glossary_term_id: onto:entity/production_order
+    label: Production Order
+    description: 'Identifier of a Production Order: PO-yyyy-seq'
+    data_type: string
+    ontology_class: ProductionOrder
+    owner: Data stewards
+    status: active
+  machine_state_event:
+    glossary_term_id: onto:entity/machine_state_event
+    label: Machine State Event
+    description: 'Identifier of a Machine State Event: Stopped/Starting/Running/Idle/Down/Alarm interval'
+    data_type: string
+    ontology_class: MachineStateEvent
+    owner: Data stewards
+    status: active
+  alarm:
+    glossary_term_id: onto:entity/alarm
+    label: Alarm
+    description: 'Identifier of a Alarm: Alarm_Code occurrence'
+    data_type: string
+    ontology_class: Alarm
+    owner: Data stewards
+    status: active
+  downtime_event:
+    glossary_term_id: onto:entity/downtime_event
+    label: Downtime Event
+    description: 'Identifier of a Downtime Event: Downtime_ReasonCode interval'
+    data_type: string
+    ontology_class: DowntimeEvent
+    owner: Data stewards
+    status: active
+  inspection_result:
+    glossary_term_id: onto:entity/inspection_result
+    label: Inspection Result
+    description: 'Identifier of a Inspection Result: Per-tyre uniformity/balance/dimension/visual result + grade'
+    data_type: string
+    ontology_class: InspectionResult
+    owner: Data stewards
+    status: active
+  lab_test:
+    glossary_term_id: onto:entity/lab_test
+    label: Lab Test
+    description: 'Identifier of a Lab Test: Tensile, elongation, adhesion, hardness, Mooney — per sample/batch'
+    data_type: string
+    ontology_class: LabTest
+    owner: Data stewards
+    status: active
+  defect:
+    glossary_term_id: onto:entity/defect
+    label: Defect / NCR
+    description: 'Identifier of a Defect / NCR: Defect type code, NCR, disposition'
+    data_type: string
+    ontology_class: Defect
+    owner: Data stewards
+    status: active
+  utility_supply:
+    glossary_term_id: onto:entity/utility_supply
+    label: Utility Supply
+    description: 'Identifier of a Utility Supply: Steam, compressed air, cooling water, electricity'
+    data_type: string
+    ontology_class: UtilitySupply
+    owner: Data stewards
+    status: active
+  shift:
+    glossary_term_id: onto:entity/shift
+    label: Shift
+    description: 'Identifier of a Shift: Shift_No instance'
+    data_type: string
+    ontology_class: Shift
+    owner: Data stewards
+    status: active
+  lot:
+    glossary_term_id: onto:entity/lot
+    label: Lot (LotTraveller)
+    description: 'Identifier of a Lot (LotTraveller): MES tracking unit: compound batch, component lot, green tyre, cured tyre (qty 1)'
+    data_type: string
+    ontology_class: Lot
+    owner: Data stewards
+    status: active
+  lot_action:
+    glossary_term_id: onto:entity/lot_action
+    label: Lot Action
+    description: 'Identifier of a Lot Action: Operation executed on a lot = Production Cycle (cycle_id)'
+    data_type: string
+    ontology_class: LotAction
+    owner: Data stewards
+    status: active
+  operation:
+    glossary_term_id: onto:entity/operation
+    label: Operation / Routing
+    description: 'Identifier of a Operation / Routing: ProductionOperations, ProductSpecOperations (std CT)'
+    data_type: string
+    ontology_class: Operation
+    owner: Data stewards
+    status: active
+  data_collection_parameter:
+    glossary_term_id: onto:entity/data_collection_parameter
+    label: Data Collection Parameter
+    description: 'Identifier of a Data Collection Parameter: DataCollectionParameters — the inline quality characteristic'
+    data_type: string
+    ontology_class: DataCollectionParameter
+    owner: Data stewards
+    status: active
+  tool:
+    glossary_term_id: onto:entity/tool
+    label: Tool
+    description: 'Identifier of a Tool: Mould, bladder, die (LotActionTools, Cleanings)'
+    data_type: string
+    ontology_class: Tool
+    owner: Data stewards
+    status: active
+  equipment_problem:
+    glossary_term_id: onto:entity/equipment_problem
+    label: Equipment Problem
+    description: 'Identifier of a Equipment Problem: Breakdown with root cause'
+    data_type: string
+    ontology_class: EquipmentProblem
+    owner: Data stewards
+    status: active
+  inventory_location:
+    glossary_term_id: onto:entity/inventory_location
+    label: Inventory Location
+    description: 'Identifier of a Inventory Location: Locations / locators'
+    data_type: string
+    ontology_class: InventoryLocation
+    owner: Data stewards
+    status: active
+  qualification:
+    glossary_term_id: onto:entity/qualification
+    label: Qualification
+    description: 'Identifier of a Qualification: Operator × process skill'
+    data_type: string
+    ontology_class: Qualification
+    owner: Data stewards
+    status: active
+  checklist_event:
+    glossary_term_id: onto:entity/checklist_event
+    label: Checklist Event
+    description: 'Identifier of a Checklist Event: Shift / equipment checklist'
+    data_type: string
+    ontology_class: ChecklistEvent
+    owner: Data stewards
+    status: active
+  customer:
+    glossary_term_id: onto:entity/customer
+    label: Customer
+    description: Golden (enterprise-wide) customer id, one per real customer across MES / ERP / CRM (set by entity resolution / MDM)
+    data_type: string
+    pattern: '^GOLDEN_CUST_\d+$'
+    ontology_class: Customer
+    owner: Data stewards
+    status: active

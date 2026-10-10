@@ -1,0 +1,23 @@
+# FIXTURE - Bronze rows IN -> exactly these Silver rows OUT. Rows 1-2 are the real sample (Bronze_Test/MES/masterdata/Customers).
+name: mes_customer_cdc
+version: 0.1.0
+task: B2.10
+mapping: mappings/mes/customers.yaml
+description: Full load of 2 customers, then customer 2 is updated (credit limit, inactive) and customer 3 is inserted and deleted
+covers: [CDC latest-wins, CDC delete, canonical names, BIGINT ids, DECIMAL money, UTC timestamps, IsActive text -> boolean, Vatability code map, golden id lookup, 0 -> null]
+given:
+  identity_map:
+    - {source_system: MES_CORE, source_type: customer, source_id: "1", canonical_id: GOLDEN_CUST_1001}
+input:
+  bronze.mes_cdc_customers:
+    - {Op: I, dms_commit_ts: "2026-10-09 09:54:36.865338", Id: 1, CustomerName: "Apex Mobility Systems", CustomerCode: "CUST-US-001", BusinessPartnerType: "2", CreditLimit: 500000.00, Address: "2450 Innovation Drive, Detroit, MI 48211, USA", EmailAddress: "procurement@apexmobility.com", ContactNumber: "+1 313 555 2401", FaxNumber: "10", LineOfBusiness: "Automotive & Mobility", TinNumber: "40", SecNumber: "23", ContactPerson: "Jonathan Reed", ContactPersonPosition: "Procurement Director", OutstandingSalesOrder: 0.00, Remarks: "Strategic automotive customer with regular tyre procurement requirements.", IsActive: "true", CurrencyId: 1, PaymentTermId: 2, MotherCustomerId: null, SalesPersonId: 0, CollectorId: 1, Vatability: NonVatable, TransportTime: 3, Website: "www.apexmobility.com", CustomPropertyValuesJsonString: "{}", AddedByUserId: 1, AddedDate: "2026-10-07 01:01:32.499", UpdatedByUserId: null, UpdatedDate: null}
+    - {Op: I, dms_commit_ts: "2026-10-09 09:54:36.865453", Id: 2, CustomerName: "Pacific Fleet Solutions", CustomerCode: "CUST-SG-002", BusinessPartnerType: "2", CreditLimit: 300000.00, Address: "18 Pioneer Sector 1, Singapore 628423", EmailAddress: "purchasing@pacificfleet.com", ContactNumber: "+65 6123 4501", FaxNumber: "50", LineOfBusiness: "Fleet & Commercial Transportation", TinNumber: "34", SecNumber: "29", ContactPerson: "Benjamin Lee", ContactPersonPosition: "Supply Chain Manager", OutstandingSalesOrder: 0.00, Remarks: "Regional fleet customer with recurring commercial tyre requirements.", IsActive: "true", CurrencyId: 1, PaymentTermId: 5, MotherCustomerId: null, SalesPersonId: 0, CollectorId: 2, Vatability: NonVatable, TransportTime: 2, Website: "www.pacificfleet.com", CustomPropertyValuesJsonString: "{}", AddedByUserId: 1, AddedDate: "2026-10-07 01:04:08.077", UpdatedByUserId: null, UpdatedDate: null}
+    - {Op: U, dms_commit_ts: "2026-10-10 08:00:00.000000", Id: 2, CustomerName: "Pacific Fleet Solutions", CustomerCode: "CUST-SG-002", BusinessPartnerType: "2", CreditLimit: 350000.00, Address: "18 Pioneer Sector 1, Singapore 628423", EmailAddress: "Purchasing@PacificFleet.com", ContactNumber: "+65 6123 4501", FaxNumber: "50", LineOfBusiness: "Fleet & Commercial Transportation", TinNumber: "34", SecNumber: "29", ContactPerson: "Benjamin Lee", ContactPersonPosition: "Supply Chain Manager", OutstandingSalesOrder: 12500.50, Remarks: "Regional fleet customer with recurring commercial tyre requirements.", IsActive: "false", CurrencyId: 1, PaymentTermId: 5, MotherCustomerId: 1, SalesPersonId: 7, CollectorId: 2, Vatability: Vatable, TransportTime: 2, Website: "www.pacificfleet.com", CustomPropertyValuesJsonString: "{}", AddedByUserId: 1, AddedDate: "2026-10-07 01:04:08.077", UpdatedByUserId: 4, UpdatedDate: "2026-10-10 07:59:58.000"}
+    - {Op: I, dms_commit_ts: "2026-10-10 08:05:00.000000", Id: 3, CustomerName: "Test Customer", CustomerCode: "CUST-IN-003", IsActive: "true", Vatability: NonVatable, AddedDate: "2026-10-10 08:04:00.000"}
+    - {Op: D, dms_commit_ts: "2026-10-10 08:06:00.000000", Id: 3, CustomerName: "Test Customer", CustomerCode: "CUST-IN-003", IsActive: "true", Vatability: NonVatable, AddedDate: "2026-10-10 08:04:00.000"}
+expected:
+  silver.mes_customer:
+    - {golden_customer_id: GOLDEN_CUST_1001, customer_id: 1, customer_code: CUST-US-001, customer_name: Apex Mobility Systems, credit_limit: 500000.00, is_active: true, vatability: NON_VATABLE, sales_person_id: null, parent_customer_id: null, email: procurement@apexmobility.com, created_at_utc: "2026-10-07 01:01:32.499", source_system: MES_CORE}
+    - {golden_customer_id: null, customer_id: 2, customer_code: CUST-SG-002, credit_limit: 350000.00, outstanding_sales_order_amount: 12500.50, is_active: false, vatability: VATABLE, sales_person_id: 7, parent_customer_id: 1, email: purchasing@pacificfleet.com, updated_at_utc: "2026-10-10 07:59:58", _source_commit_ts: "2026-10-10 08:00:00"}
+notes:
+  - Customer 3 is gone (latest change is a delete); customer 2 has no golden id yet -> DQ warning, not a reject

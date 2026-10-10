@@ -1,0 +1,103 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: gold.pdm_feature_hourly
+layer: gold
+version: 0.1.0
+description: 'asset × hour. Source: iiot_tag_reading (Condition)'
+grain: asset × hour
+primary_key:
+- canonical_asset_id
+- hour_start_utc
+owner: Data science
+freshness: 15min
+source: iiot_tag_reading (Condition)
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/gold/pdm_feature_hourly/
+columns:
+- name: hour_start_utc
+  type: timestamp
+  nullable: false
+  term: hour_start_utc
+  description: Grain column (asset × hour)
+- name: canonical_asset_id
+  type: string
+  nullable: false
+  term: asset
+  description: Grain column (asset × hour)
+- name: bearing_temp_avg
+  type: double
+  nullable: true
+  term: bearing_temp_avg
+- name: bearing_temp_max
+  type: double
+  nullable: true
+  term: bearing_temp_max
+- name: bearing_vibration_rms
+  type: double
+  nullable: true
+  term: bearing_vibration_rms
+- name: bearing_vibration_max
+  type: double
+  nullable: true
+  term: bearing_vibration_max
+- name: gearbox_oil_temp_avg
+  type: double
+  nullable: true
+  term: gearbox_oil_temp_avg
+- name: gearbox_oil_temp_max
+  type: double
+  nullable: true
+  term: gearbox_oil_temp_max
+- name: gearbox_vibration_rms
+  type: double
+  nullable: true
+  term: gearbox_vibration_rms
+- name: gearbox_vibration_max
+  type: double
+  nullable: true
+  term: gearbox_vibration_max
+- name: hydraulic_pressure_avg
+  type: double
+  nullable: true
+  term: hydraulic_pressure_avg
+- name: hydraulic_pressure_max
+  type: double
+  nullable: true
+  term: hydraulic_pressure_max
+- name: hydraulic_oil_temp_avg
+  type: double
+  nullable: true
+  term: hydraulic_oil_temp_avg
+- name: hydraulic_oil_temp_max
+  type: double
+  nullable: true
+  term: hydraulic_oil_temp_max
+- name: motor_temperature_avg
+  type: double
+  nullable: true
+  term: motor_temperature_avg
+- name: motor_current_avg
+  type: double
+  nullable: true
+  term: motor_current_avg
+- name: motor_torque_avg
+  type: double
+  nullable: true
+  term: motor_torque_avg
+- name: motor_speed_avg
+  type: double
+  nullable: true
+  term: motor_speed_avg
+- name: runtime_hours
+  type: double
+  nullable: true
+  term: runtime_hours
+- name: alarm_count
+  type: int
+  nullable: true
+  term: alarm_count
+- name: label_failure_within_7d
+  type: boolean
+  nullable: true
+  term: label_failure_within_7d

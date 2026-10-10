@@ -1,0 +1,19 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# DATA QUALITY - checks each row of this table must pass. error = row rejected, warn = counted. (DQDL generation is B3.6)
+table: silver.qa_ncm
+version: 0.1.0
+rules:
+- id: dq_qa_ncm_pk_unique
+  type: unique
+  columns:
+  - ncm_id
+  severity: error
+  description: One row per grain
+- id: dq_qa_ncm_ncm_id_not_null
+  type: not_null
+  column: ncm_id
+  severity: error
+- id: dq_qa_ncm_hold_start_ts_before_hold_end_ts
+  type: expression
+  check: hold_start_ts <= hold_end_ts
+  severity: error

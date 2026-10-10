@@ -1,0 +1,81 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: gold.curing_cycle_health
+layer: gold
+version: 0.1.0
+description: 'cure cycle. Source: iiot_tag_reading + mes_production_cycle + mdm_spec_limit'
+grain: cure cycle
+primary_key:
+- cycle_id
+owner: Analytics
+freshness: 15min
+source: iiot_tag_reading + mes_production_cycle + mdm_spec_limit
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/gold/curing_cycle_health/
+columns:
+- name: canonical_asset_id
+  type: string
+  nullable: true
+  term: asset
+  description: Grain column (cure cycle)
+- name: cycle_id
+  type: string
+  nullable: false
+  term: production_cycle
+- name: mold_temp_avg
+  type: double
+  nullable: true
+  term: mold_temp_avg
+- name: mold_temp_min
+  type: double
+  nullable: true
+  term: mold_temp_min
+- name: mold_temp_max
+  type: double
+  nullable: true
+  term: mold_temp_max
+- name: bladder_temp_avg
+  type: double
+  nullable: true
+  term: bladder_temp_avg
+- name: steam_pressure_avg
+  type: double
+  nullable: true
+  term: steam_pressure_avg
+- name: steam_pressure_dev_from_sp
+  type: double
+  nullable: true
+  term: steam_pressure_dev_from_sp
+- name: nitrogen_pressure_avg
+  type: double
+  nullable: true
+  term: nitrogen_pressure_avg
+- name: press_force_max
+  type: double
+  nullable: true
+  term: press_force_max
+- name: cure_time_s
+  type: double
+  nullable: true
+  term: cure_time_s
+- name: cure_time_sp_s
+  type: double
+  nullable: true
+  term: cure_time_sp_s
+- name: equivalent_cure_pct
+  type: double
+  nullable: true
+  term: equivalent_cure_pct
+- name: temp_recovery_s
+  type: double
+  nullable: true
+  term: temp_recovery_s
+- name: is_compliant
+  type: boolean
+  nullable: true
+  term: is_compliant
+- name: bladder_cycles_at_cure
+  type: int
+  nullable: true
+  term: bladder_cycles_at_cure

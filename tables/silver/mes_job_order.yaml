@@ -1,0 +1,60 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: silver.mes_job_order
+layer: silver
+version: 0.1.0
+description: 'per source record (SCD2 for masters). Source: JobOrders'
+grain: per source record (SCD2 for masters)
+primary_key:
+- job_order_id
+owner: MES team
+freshness: 15min
+glossary_term_id: onto:entity/production_order
+source: JobOrders
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/silver/mes_job_order/
+columns:
+- name: job_order_id
+  type: string
+  nullable: false
+  term: production_order
+- name: item_id
+  type: string
+  nullable: true
+  term: product
+- name: quantity
+  type: double
+  nullable: true
+  term: quantity
+  description: Quantity
+- name: released_quantity
+  type: double
+  nullable: true
+  term: released_quantity
+  description: ReleasedQuantity
+- name: pending_quantity
+  type: double
+  nullable: true
+  term: pending_quantity
+  description: PendingQuantity
+- name: planned_start
+  type: timestamp
+  nullable: true
+  term: planned_start
+- name: planned_end
+  type: timestamp
+  nullable: true
+  term: planned_end
+- name: actual_start
+  type: timestamp
+  nullable: true
+  term: actual_start
+- name: actual_end
+  type: timestamp
+  nullable: true
+  term: actual_end
+- name: status
+  type: string
+  nullable: true
+  term: status

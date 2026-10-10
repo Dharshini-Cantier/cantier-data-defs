@@ -1,0 +1,49 @@
+# TABLE SPEC - Silver customer master: canonical names, standard types (ids BIGINT, money DECIMAL, timestamps UTC, booleans), golden id.
+name: silver.mes_customer
+layer: silver
+version: 0.1.0
+description: Customer master from MES - latest version of each customer (CDC applied), canonical names and types, golden customer id. Contains PII.
+grain: one row per MES customer (latest version)
+primary_key: [customer_id]
+owner: Sales
+freshness: 1d
+glossary_term_id: onto:entity/customer
+source: bronze.mes_cdc_customers
+status: draft
+storage: {aws: "s3://cantier-lake-<acct>/silver/mes_customer/"}
+columns:
+  - {name: golden_customer_id, type: string, nullable: true, term: customer, description: "null until entity resolution / MDM assigns it"}
+  - {name: customer_id, type: bigint, nullable: false, term: customer_id}
+  - {name: customer_code, type: string, nullable: false, term: customer_code}
+  - {name: customer_name, type: string, nullable: false, term: customer_name}
+  - {name: business_partner_type_code, type: int, nullable: true, term: business_partner_type_code}
+  - {name: credit_limit, type: "decimal(18,2)", nullable: true, term: credit_limit}
+  - {name: outstanding_sales_order_amount, type: "decimal(18,2)", nullable: true, term: outstanding_sales_order_amount}
+  - {name: address, type: string, nullable: true, term: address, pii: true}
+  - {name: email, type: string, nullable: true, term: email, pii: true}
+  - {name: contact_number, type: string, nullable: true, term: contact_number, pii: true}
+  - {name: fax_number, type: string, nullable: true, term: fax_number, pii: true}
+  - {name: line_of_business, type: string, nullable: true, term: line_of_business}
+  - {name: tax_id_number, type: string, nullable: true, term: tax_id_number, pii: true}
+  - {name: sec_registration_number, type: string, nullable: true, term: sec_registration_number, pii: true}
+  - {name: contact_person_name, type: string, nullable: true, term: contact_person_name, pii: true}
+  - {name: contact_person_position, type: string, nullable: true, term: contact_person_position}
+  - {name: remarks, type: string, nullable: true, term: remarks}
+  - {name: is_active, type: boolean, nullable: false, term: is_active}
+  - {name: vatability, type: string, nullable: true, term: vatability}
+  - {name: currency_id, type: bigint, nullable: true, term: currency_id}
+  - {name: payment_term_id, type: bigint, nullable: true, term: payment_term_id}
+  - {name: parent_customer_id, type: bigint, nullable: true, term: parent_customer_id}
+  - {name: sales_person_id, type: bigint, nullable: true, term: sales_person_id}
+  - {name: collector_id, type: bigint, nullable: true, term: collector_id}
+  - {name: transport_time, type: int, nullable: true, term: transport_time}
+  - {name: website, type: string, nullable: true, term: website}
+  - {name: custom_properties_json, type: string, nullable: true, term: custom_properties_json}
+  - {name: created_by_user_id, type: bigint, nullable: true, term: created_by_user_id}
+  - {name: created_at_utc, type: timestamp, nullable: true, term: created_at_utc}
+  - {name: updated_by_user_id, type: bigint, nullable: true, term: updated_by_user_id}
+  - {name: updated_at_utc, type: timestamp, nullable: true, term: updated_at_utc}
+  - {name: source_system, type: string, nullable: false, term: source_system}
+  - {name: _source_commit_ts, type: timestamp, nullable: false, technical: true, description: "DMS commit time of the version kept"}
+  - {name: _mapping_version, type: string, nullable: false, technical: true}
+  - {name: _ts_processed, type: timestamp, nullable: false, technical: true}

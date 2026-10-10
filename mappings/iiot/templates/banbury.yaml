@@ -1,0 +1,394 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# IIoT TEMPLATE - tag list of one machine type. machines x tags = tag instances (check: scripts/04_check_coverage.py).
+template: Banbury
+version: 0.1.0
+mapping_version: iiot-map-2026.10.10
+description: 'Banbury machines: which tags they publish and what each tag measures.'
+machines:
+- Banbury01
+- Banbury02
+- Banbury03
+patterns:
+  uns_path: tyreplant01/{process_lc}/{line_lc}/{machine_lc}/{domain_lc}/{tag_lc}
+  opc_node_id: ns=2;s=test.opc.Simulation.Site01.{process}.{line}.{machine}.{domain}.{tag}
+  kepware_device: '{machine}_Device'
+  kepware_tag: '{tag}'
+tags:
+- tag_name: Timestamp
+  measurement_type: timestamp
+  domain: Context
+  data_type: timestamp
+  unit: s
+  access: Read
+  simulation_profile: System timestamp
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Data_Quality
+  measurement_type: data_quality
+  domain: Context
+  data_type: string
+  unit: OPC UA StatusCode
+  access: Read
+  simulation_profile: OPC UA quality
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Batch_ID
+  measurement_type: batch_id
+  domain: Context
+  data_type: string
+  access: Read
+  simulation_profile: Production context sequence
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Recipe_ID
+  measurement_type: recipe_id
+  domain: Context
+  data_type: string
+  access: Read
+  simulation_profile: Production context sequence
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Product_ID
+  measurement_type: product_id
+  domain: Context
+  data_type: string
+  access: Read
+  simulation_profile: Production context sequence
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Tyre_Size
+  measurement_type: tyre_size
+  domain: Context
+  data_type: string
+  access: Read
+  simulation_profile: Production context sequence
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Tyre_Type
+  measurement_type: tyre_type
+  domain: Context
+  data_type: string
+  access: Read
+  simulation_profile: Production context sequence
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Shift_No
+  measurement_type: shift_no
+  domain: Context
+  data_type: string
+  access: Read
+  simulation_profile: Production context sequence
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Mixer_Temperature
+  measurement_type: mixer_temperature
+  domain: Process
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Mixer_RotorSpeed
+  measurement_type: mixer_rotor_speed
+  domain: Process
+  data_type: double
+  unit: rpm
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Mixer_RamPressure
+  measurement_type: mixer_ram_pressure
+  domain: Process
+  data_type: double
+  unit: bar
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Mixer_MixingTime
+  measurement_type: mixer_mixing_time
+  domain: Process
+  data_type: double
+  unit: s
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Mixer_BatchWeight
+  measurement_type: mixer_batch_weight
+  domain: Process
+  data_type: double
+  unit: kg
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Mixer_MotorPower
+  measurement_type: mixer_motor_power
+  domain: Process
+  data_type: double
+  unit: kW
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Mixer_DumpTemp
+  measurement_type: mixer_dump_temp
+  domain: Process
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Mixer_CoolingWaterFlow
+  measurement_type: mixer_cooling_water_flow
+  domain: Process
+  data_type: double
+  unit: L/min
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Mixer_ChamberPressure
+  measurement_type: mixer_chamber_pressure
+  domain: Process
+  data_type: double
+  unit: bar
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Mixer_EnergyConsumption
+  measurement_type: mixer_energy_consumption
+  domain: Process
+  data_type: double
+  unit: kWh
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Mixer_DumpTime
+  measurement_type: mixer_dump_time
+  domain: Process
+  data_type: double
+  unit: s
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Compound_MooneyViscosity
+  measurement_type: compound_mooney_viscosity
+  domain: Process
+  data_type: double
+  unit: MU
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Compound_Hardness
+  measurement_type: compound_hardness
+  domain: Process
+  data_type: double
+  unit: Shore A
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Compound_SpecificGravity
+  measurement_type: compound_specific_gravity
+  domain: Process
+  data_type: double
+  unit: g/cm³
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Compound_ScorchTime
+  measurement_type: compound_scorch_time
+  domain: Process
+  data_type: double
+  unit: s
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Compound_CureTime
+  measurement_type: compound_cure_time
+  domain: Process
+  data_type: double
+  unit: s
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Mixer_Temperature_SP
+  measurement_type: mixer_temperature_sp
+  domain: Setpoint
+  data_type: double
+  unit: °C
+  access: Read/Write
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Machine_State
+  measurement_type: machine_state
+  domain: State_Alarm
+  data_type: string
+  source_data_type: boolean
+  unit: enum
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Alarm_Active
+  measurement_type: alarm_active
+  domain: State_Alarm
+  data_type: boolean
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Alarm_Code
+  measurement_type: alarm_code
+  domain: State_Alarm
+  data_type: string
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Emergency_Stop
+  measurement_type: emergency_stop
+  domain: State_Alarm
+  data_type: boolean
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Downtime_ReasonCode
+  measurement_type: downtime_reason_code
+  domain: State_Alarm
+  data_type: string
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Maintenance_DueHours
+  measurement_type: maintenance_due_hours
+  domain: Condition
+  data_type: double
+  unit: h
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Mixer_MotorCurrent
+  measurement_type: mixer_motor_current
+  domain: Process
+  data_type: double
+  unit: A
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Mixer_Vibration
+  measurement_type: mixer_vibration
+  domain: Condition
+  data_type: double
+  unit: mm/s
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Mixer_BearingTemp
+  measurement_type: mixer_bearing_temp
+  domain: Condition
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Batch cycle profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Gearbox_OilTemp
+  measurement_type: gearbox_oil_temp
+  domain: Condition
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Machine_RuntimeHours
+  measurement_type: machine_runtime_hours
+  domain: Condition
+  data_type: double
+  unit: h
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Motor_Temperature
+  measurement_type: motor_temperature
+  domain: Condition
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Bearing_Vibration
+  measurement_type: bearing_vibration
+  domain: Condition
+  data_type: double
+  unit: mm/s
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Bearing_Temperature
+  measurement_type: bearing_temperature
+  domain: Condition
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Gearbox_Vibration
+  measurement_type: gearbox_vibration
+  domain: Condition
+  data_type: double
+  unit: mm/s
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Hydraulic_OilTemperature
+  measurement_type: hydraulic_oil_temperature
+  domain: Condition
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Motor_Speed
+  measurement_type: motor_speed
+  domain: Condition
+  data_type: double
+  unit: rpm
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Motor_Torque
+  measurement_type: motor_torque
+  domain: Condition
+  data_type: double
+  unit: N·m
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading

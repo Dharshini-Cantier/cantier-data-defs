@@ -1,0 +1,170 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: silver.iiot_tag_reading
+layer: silver
+version: 0.1.0
+description: 'one GOOD reading per signal per timestamp. Source: bronze.iiot_uns_events (POC: iiot_influx_extract)'
+grain: one GOOD reading per signal per timestamp
+primary_key:
+- canonical_asset_id
+- tag_name
+- event_ts_utc
+partition_by:
+- days(event_ts_utc)
+- site_id
+- area
+owner: IIoT / process engineering
+freshness: 10min
+glossary_term_id: onto:entity/signal_reading
+source: 'bronze.iiot_uns_events (POC: iiot_influx_extract)'
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/silver/iiot_tag_reading/
+columns:
+- name: bronze_row_id
+  type: string
+  nullable: true
+  technical: true
+  description: Lineage + dedup key
+- name: event_id
+  type: string
+  nullable: true
+  technical: true
+  description: Lineage + dedup key
+- name: site_id
+  type: string
+  nullable: true
+  term: plant
+  description: Site01
+  partition: true
+- name: area
+  type: string
+  nullable: true
+  term: process_area
+  description: Process area
+  partition: true
+- name: line_id
+  type: string
+  nullable: true
+  term: production_line
+- name: equipment_id
+  type: string
+  nullable: true
+  term: equipment_id
+  description: Source machine id
+- name: canonical_asset_id
+  type: string
+  nullable: false
+  term: asset
+  description: AST-… from DynamoDB
+- name: asset_type
+  type: string
+  nullable: true
+  term: asset_type
+  description: Template
+- name: tag_group
+  type: string
+  nullable: true
+  term: tag_group
+  description: Context/Process/Setpoint/Condition/State_Alarm/…
+- name: tag_name
+  type: string
+  nullable: false
+  term: tag_name
+  description: Source tag
+- name: measurement_type
+  type: string
+  nullable: true
+  term: measurement_type
+  description: Canonical UPPER_SNAKE
+- name: normalized_value
+  type: double
+  nullable: true
+  term: normalized_value
+  description: Numeric value
+- name: value_str
+  type: string
+  nullable: true
+  term: value_str
+  description: For string/enum tags
+- name: unit
+  type: string
+  nullable: true
+  term: unit
+  description: Canonical unit
+- name: event_ts_utc
+  type: timestamp
+  nullable: false
+  term: event_ts_utc
+  partition: true
+- name: event_ts_ist
+  type: timestamp
+  nullable: true
+  term: event_ts_ist
+  description: Display convenience
+- name: window_5min_utc
+  type: timestamp
+  nullable: true
+  term: window_5min_utc
+  description: Bucket
+- name: quality
+  type: string
+  nullable: true
+  term: signal_quality
+  description: GOOD only (others → rejects)
+- name: mapping_id
+  type: int
+  nullable: true
+  technical: true
+- name: opc_node_id
+  type: string
+  nullable: true
+  term: opc_node_id
+- name: cycle_id
+  type: string
+  nullable: true
+  term: production_cycle
+  description: Context join
+- name: work_order_id
+  type: string
+  nullable: true
+  term: production_order
+- name: batch_id
+  type: string
+  nullable: true
+  term: compound_batch
+  description: Context snapshot
+- name: recipe_id
+  type: string
+  nullable: true
+  term: recipe
+  description: Context snapshot
+- name: product_id
+  type: string
+  nullable: true
+  term: product
+  description: Context snapshot
+- name: tyre_serial
+  type: string
+  nullable: true
+  term: cured_tyre
+  description: Context snapshot
+- name: shift_no
+  type: string
+  nullable: true
+  term: shift
+  description: Context snapshot
+- name: canonical_model_version
+  type: string
+  nullable: true
+  technical: true
+  description: e.g. manufacturing-v3.4
+- name: _mapping_version
+  type: string
+  nullable: true
+  technical: true
+  description: asset-map version used
+- name: _ts_processed
+  type: timestamp
+  nullable: true
+  technical: true

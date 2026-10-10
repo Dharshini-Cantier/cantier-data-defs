@@ -1,0 +1,115 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: silver.mes_lot_action
+layer: silver
+version: 0.1.0
+description: 'per source record (SCD2 for masters). Source: LotActions'
+grain: per source record (SCD2 for masters)
+primary_key:
+- lot_action_id
+owner: MES team
+freshness: 15min
+glossary_term_id: onto:entity/production_cycle
+source: LotActions
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/silver/mes_lot_action/
+columns:
+- name: lot_action_id
+  type: string
+  nullable: false
+  term: production_cycle
+  description: MES LotActions.Id — also the cycle_id published on UNS
+- name: lot_id
+  type: string
+  nullable: true
+  term: lot
+  description: LotTravellers.Id
+- name: job_order_id
+  type: string
+  nullable: true
+  term: production_order
+- name: operation_id
+  type: string
+  nullable: true
+  term: operation
+  description: ProductionOperations
+- name: process
+  type: string
+  nullable: true
+  term: process_area
+  description: Processes
+- name: canonical_asset_id
+  type: string
+  nullable: true
+  term: asset
+  description: via LotActionMachines + DynamoDB
+- name: quantity_in
+  type: double
+  nullable: true
+  term: quantity_in
+  description: QuantityIn
+- name: quantity_out
+  type: double
+  nullable: true
+  term: quantity_out
+  description: QuantityOut
+- name: scrap_qty
+  type: double
+  nullable: true
+  term: scrap_qty
+  description: derived
+- name: rework_qty
+  type: double
+  nullable: true
+  term: rework_qty
+  description: from LotActionReworkDetails
+- name: cycle_time_s
+  type: double
+  nullable: true
+  term: cycle_time_s
+  description: Cycletime
+- name: std_cycle_time_s
+  type: double
+  nullable: true
+  term: std_cycle_time_s
+  description: ProductSpecOperations
+- name: start_ts
+  type: timestamp
+  nullable: true
+  term: start_ts
+  description: StartDateTime
+- name: end_ts
+  type: timestamp
+  nullable: true
+  term: end_ts
+  description: EndDateTime
+- name: shift_name
+  type: string
+  nullable: true
+  term: shift
+  description: ShiftName
+- name: operator_id_hash
+  type: string
+  nullable: true
+  term: operator_id_hash
+  description: LotActionOperators (hashed)
+  pii: true
+- name: tool_ids
+  type: array<string>
+  nullable: true
+  term: tool_ids
+  description: LotActionTools (mould, bladder)
+- name: weld_test_result_id
+  type: string
+  nullable: true
+  term: weld_test_result_id
+  description: WeldTestResultId
+- name: dms_op
+  type: string
+  nullable: true
+  technical: true
+- name: _ts_processed
+  type: timestamp
+  nullable: true
+  technical: true

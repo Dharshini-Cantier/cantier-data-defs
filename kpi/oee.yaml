@@ -1,0 +1,60 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# KPI DEFINITIONS - formula, grain, sources and owner of each KPI (dbt models generated in B3.7).
+area: OEE
+version: 0.1.0
+kpis:
+- id: kpi_availability
+  number: 49
+  name: Availability
+  description: Run time vs scheduled shift time, after downtime.
+  formula: (scheduled time − downtime) / scheduled time
+  grain: machine × shift
+  mes_source_tables: ShiftSchedules, EquipmentProblems, WorkOrders
+  sources:
+  - silver.cmms_work_order
+  - silver.mdm_shift_schedule
+  - silver.mes_equipment_problem
+  gold_table: gold.oee_machine_shift
+  reconciliation_note: MES uses logged problems; IIoT state gives actual run time — use IIoT for time, MES for reason
+  tyre_relevance: High
+  owner: OEE owner (to confirm)
+  status: draft
+- id: kpi_performance
+  number: 50
+  name: Performance
+  description: Actual vs standard cycle time.
+  formula: (std cycle time × total count) / run time
+  grain: machine × shift
+  mes_source_tables: LotActions, ProductSpecOperations
+  sources:
+  - silver.mdm_product_spec_operation
+  - silver.mes_lot_action
+  gold_table: gold.oee_machine_shift
+  tyre_relevance: High
+  owner: OEE owner (to confirm)
+  status: draft
+- id: kpi_quality_rate
+  number: 51
+  name: Quality Rate
+  description: Good quantity / total quantity.
+  formula: good qty / total qty
+  grain: machine × shift
+  mes_source_tables: LotActions
+  sources:
+  - silver.mes_lot_action
+  gold_table: gold.oee_machine_shift
+  tyre_relevance: High
+  owner: OEE owner (to confirm)
+  status: draft
+- id: kpi_oee
+  number: 52
+  name: OEE %
+  description: Availability x Performance x Quality.
+  formula: Availability × Performance × Quality
+  grain: machine × shift
+  mes_source_tables: Combination of the three above
+  sources: []
+  gold_table: gold.oee_machine_shift
+  tyre_relevance: High
+  owner: OEE owner (to confirm)
+  status: draft

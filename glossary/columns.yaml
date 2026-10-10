@@ -1,0 +1,1213 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# GLOSSARY - the dictionary: meaning, type, unit, valid values and owner of each term.
+version: 0.1.0
+description: Business columns of Silver / Gold tables that are not a measurement or an entity id.
+terms:
+  equipment_id:
+    glossary_term_id: onto:column/equipment_id
+    description: Source machine id
+    data_type: string
+    owner: IIoT / process engineering
+    status: active
+  tag_group:
+    glossary_term_id: onto:column/tag_group
+    description: Context/Process/Setpoint/Condition/State_Alarm/…
+    data_type: string
+    owner: IIoT / process engineering
+    status: active
+  tag_name:
+    glossary_term_id: onto:column/tag_name
+    description: Source tag
+    data_type: string
+    owner: IIoT / process engineering
+    status: active
+  normalized_value:
+    glossary_term_id: onto:column/normalized_value
+    description: Numeric value
+    data_type: double
+    owner: IIoT / process engineering
+    status: active
+  value_str:
+    glossary_term_id: onto:column/value_str
+    description: For string/enum tags
+    data_type: string
+    owner: IIoT / process engineering
+    status: active
+  unit:
+    glossary_term_id: onto:column/unit
+    description: Canonical unit
+    data_type: string
+    owner: IIoT / process engineering
+    status: active
+  event_ts_utc:
+    glossary_term_id: onto:column/event_ts_utc
+    description: Event ts utc (one GOOD reading per signal per timestamp)
+    data_type: timestamp
+    owner: IIoT / process engineering
+    status: draft
+  event_ts_ist:
+    glossary_term_id: onto:column/event_ts_ist
+    description: Display convenience
+    data_type: timestamp
+    owner: IIoT / process engineering
+    status: active
+  window_5min_utc:
+    glossary_term_id: onto:column/window_5min_utc
+    description: Bucket
+    data_type: timestamp
+    owner: IIoT / process engineering
+    status: active
+  opc_node_id:
+    glossary_term_id: onto:column/opc_node_id
+    description: Opc node id (one GOOD reading per signal per timestamp)
+    data_type: string
+    owner: IIoT / process engineering
+    status: draft
+  reject_reason:
+    glossary_term_id: onto:column/reject_reason
+    description: quality_bad | parse_error | unmapped_asset | out_of_range | duplicate
+    data_type: string
+    owner: IIoT / process engineering
+    status: active
+  ts_start:
+    glossary_term_id: onto:column/ts_start
+    description: Ts start (one state interval per asset)
+    data_type: timestamp
+    owner: IIoT / process engineering
+    status: draft
+  ts_end:
+    glossary_term_id: onto:column/ts_end
+    description: Ts end (one state interval per asset)
+    data_type: timestamp
+    owner: IIoT / process engineering
+    status: draft
+  duration_s:
+    glossary_term_id: onto:column/duration_s
+    description: Duration s (one state interval per asset)
+    data_type: double
+    unit: s
+    owner: IIoT / process engineering
+    status: draft
+  is_emergency_stop:
+    glossary_term_id: onto:column/is_emergency_stop
+    description: Is emergency stop (one state interval per asset)
+    data_type: boolean
+    owner: IIoT / process engineering
+    status: draft
+  cycle_time_s:
+    glossary_term_id: onto:column/cycle_time_s
+    description: Cycle time s (one cycle (batch/build/cure/inspection))
+    data_type: double
+    unit: s
+    owner: MES team
+    status: draft
+  std_cycle_time_s:
+    glossary_term_id: onto:column/std_cycle_time_s
+    description: Std cycle time s (one cycle (batch/build/cure/inspection))
+    data_type: double
+    unit: s
+    owner: MES team
+    status: draft
+  result:
+    glossary_term_id: onto:column/result
+    description: OK/NOK/ABORTED
+    data_type: string
+    owner: MES team
+    status: active
+  spec_version:
+    glossary_term_id: onto:column/spec_version
+    description: Spec version (one inspection per tyre)
+    data_type: string
+    owner: Quality
+    status: draft
+  ts_inspected:
+    glossary_term_id: onto:column/ts_inspected
+    description: Ts inspected (one inspection per tyre)
+    data_type: timestamp
+    owner: Quality
+    status: draft
+  measurement_id:
+    glossary_term_id: onto:column/measurement_id
+    description: Measurement id (one measurement (long form, for SPC))
+    data_type: string
+    owner: Quality
+    status: draft
+  entity_type:
+    glossary_term_id: onto:column/entity_type
+    description: TYRE / BATCH / SAMPLE
+    data_type: string
+    owner: Quality
+    status: active
+  entity_id:
+    glossary_term_id: onto:column/entity_id
+    description: Entity id (one measurement (long form, for SPC))
+    data_type: string
+    owner: Quality
+    status: draft
+  value:
+    glossary_term_id: onto:column/value
+    description: Value (one measurement (long form, for SPC))
+    data_type: double
+    owner: Quality
+    status: draft
+  lsl:
+    glossary_term_id: onto:column/lsl
+    description: from mdm_spec_limit
+    data_type: double
+    owner: Quality
+    status: active
+  target:
+    glossary_term_id: onto:column/target
+    description: Target (one measurement (long form, for SPC))
+    data_type: double
+    owner: Quality
+    status: draft
+  usl:
+    glossary_term_id: onto:column/usl
+    description: Usl (one measurement (long form, for SPC))
+    data_type: double
+    owner: Quality
+    status: draft
+  ts_event:
+    glossary_term_id: onto:column/ts_event
+    description: Ts event (one measurement (long form, for SPC))
+    data_type: timestamp
+    owner: Quality
+    status: draft
+  mes_asset_id:
+    glossary_term_id: onto:column/mes_asset_id
+    description: Mes asset id (one asset version (SCD2))
+    data_type: string
+    owner: Data stewards
+    status: draft
+  cmms_asset_id:
+    glossary_term_id: onto:column/cmms_asset_id
+    description: Cmms asset id (one asset version (SCD2))
+    data_type: string
+    owner: Data stewards
+    status: draft
+  valid_from:
+    glossary_term_id: onto:column/valid_from
+    description: Valid from (one asset version (SCD2))
+    data_type: timestamp
+    owner: Data stewards
+    status: draft
+  valid_to:
+    glossary_term_id: onto:column/valid_to
+    description: Valid to (one asset version (SCD2))
+    data_type: timestamp
+    owner: Data stewards
+    status: draft
+  is_current:
+    glossary_term_id: onto:column/is_current
+    description: Is current (one asset version (SCD2))
+    data_type: boolean
+    owner: Data stewards
+    status: draft
+  priority:
+    glossary_term_id: onto:column/priority
+    description: Priority (one WO version)
+    data_type: string
+    owner: Maintenance
+    status: draft
+  status:
+    glossary_term_id: onto:column/status
+    description: Status (one WO version)
+    data_type: string
+    owner: Maintenance
+    status: draft
+  problem_code:
+    glossary_term_id: onto:column/problem_code
+    description: Problem code (one WO version)
+    data_type: string
+    owner: Maintenance
+    status: draft
+  planned_start:
+    glossary_term_id: onto:column/planned_start
+    description: Planned start (one WO version)
+    data_type: timestamp
+    owner: Maintenance
+    status: draft
+  planned_finish:
+    glossary_term_id: onto:column/planned_finish
+    description: Planned finish (one WO version)
+    data_type: timestamp
+    owner: Maintenance
+    status: draft
+  actual_start:
+    glossary_term_id: onto:column/actual_start
+    description: Actual start (one WO version)
+    data_type: timestamp
+    owner: Maintenance
+    status: draft
+  actual_finish:
+    glossary_term_id: onto:column/actual_finish
+    description: Actual finish (one WO version)
+    data_type: timestamp
+    owner: Maintenance
+    status: draft
+  responsible_work_center:
+    glossary_term_id: onto:column/responsible_work_center
+    description: Responsible work center (one WO version)
+    data_type: string
+    owner: Maintenance
+    status: draft
+  created_at:
+    glossary_term_id: onto:column/created_at
+    description: Created at (one WO version)
+    data_type: timestamp
+    owner: Maintenance
+    status: draft
+  maintenance_status:
+    glossary_term_id: onto:column/maintenance_status
+    description: WorkOrders.MaintenanceStatus (MES CMMS module)
+    data_type: string
+    owner: Maintenance
+    status: active
+  schedule_date:
+    glossary_term_id: onto:column/schedule_date
+    description: ScheduleDate
+    data_type: date
+    owner: Maintenance
+    status: active
+  maintenance_start_ts:
+    glossary_term_id: onto:column/maintenance_start_ts
+    description: MaintenanceStartDateTime
+    data_type: timestamp
+    owner: Maintenance
+    status: active
+  completion_ts:
+    glossary_term_id: onto:column/completion_ts
+    description: CompletionDateTime
+    data_type: timestamp
+    owner: Maintenance
+    status: active
+  maintenance_definition_id:
+    glossary_term_id: onto:column/maintenance_definition_id
+    description: PM plan link
+    data_type: string
+    owner: Maintenance
+    status: active
+  failure_probability_7d:
+    glossary_term_id: onto:column/failure_probability_7d
+    description: Failure probability 7d (one prediction)
+    data_type: double
+    owner: Data science
+    status: draft
+  remaining_useful_life_hours:
+    glossary_term_id: onto:column/remaining_useful_life_hours
+    description: Remaining useful life hours (one prediction)
+    data_type: double
+    unit: h
+    owner: Data science
+    status: draft
+  health_score:
+    glossary_term_id: onto:column/health_score
+    description: Health score (one prediction)
+    data_type: double
+    owner: Data science
+    status: draft
+  model_version:
+    glossary_term_id: onto:column/model_version
+    description: Model version (one prediction)
+    data_type: string
+    owner: Data science
+    status: draft
+  scored_at:
+    glossary_term_id: onto:column/scored_at
+    description: Scored at (one prediction)
+    data_type: timestamp
+    owner: Data science
+    status: draft
+  window_start_utc:
+    glossary_term_id: onto:column/window_start_utc
+    description: Window start utc (asset × tag × 5-min window)
+    data_type: timestamp
+    owner: IIoT / process engineering
+    status: draft
+  readings:
+    glossary_term_id: onto:column/readings
+    description: Readings (asset × tag × 5-min window)
+    data_type: int
+    owner: IIoT / process engineering
+    status: draft
+  avg_value:
+    glossary_term_id: onto:column/avg_value
+    description: Avg value (asset × tag × 5-min window)
+    data_type: double
+    owner: IIoT / process engineering
+    status: draft
+  min_value:
+    glossary_term_id: onto:column/min_value
+    description: Min value (asset × tag × 5-min window)
+    data_type: double
+    owner: IIoT / process engineering
+    status: draft
+  max_value:
+    glossary_term_id: onto:column/max_value
+    description: Max value (asset × tag × 5-min window)
+    data_type: double
+    owner: IIoT / process engineering
+    status: draft
+  stddev_value:
+    glossary_term_id: onto:column/stddev_value
+    description: Stddev value (asset × tag × 5-min window)
+    data_type: double
+    owner: IIoT / process engineering
+    status: draft
+  is_partial_window:
+    glossary_term_id: onto:column/is_partial_window
+    description: replaces free-text note
+    data_type: boolean
+    owner: IIoT / process engineering
+    status: active
+  summary_date:
+    glossary_term_id: onto:column/summary_date
+    description: Summary date (asset × tag × day)
+    data_type: date
+    owner: IIoT / process engineering
+    status: draft
+  rows_received:
+    glossary_term_id: onto:column/rows_received
+    description: Rows received (asset × tag × day)
+    data_type: int
+    owner: IIoT / process engineering
+    status: draft
+  good_readings:
+    glossary_term_id: onto:column/good_readings
+    description: Good readings (asset × tag × day)
+    data_type: int
+    owner: IIoT / process engineering
+    status: draft
+  bad_rows_rejected:
+    glossary_term_id: onto:column/bad_rows_rejected
+    description: Bad rows rejected (asset × tag × day)
+    data_type: int
+    owner: IIoT / process engineering
+    status: draft
+  good_pct:
+    glossary_term_id: onto:column/good_pct
+    description: alert < 0.95
+    data_type: double
+    unit: '%'
+    owner: IIoT / process engineering
+    status: active
+  first_good_utc:
+    glossary_term_id: onto:column/first_good_utc
+    description: First good utc (asset × tag × day)
+    data_type: timestamp
+    owner: IIoT / process engineering
+    status: draft
+  last_good_utc:
+    glossary_term_id: onto:column/last_good_utc
+    description: Last good utc (asset × tag × day)
+    data_type: timestamp
+    owner: IIoT / process engineering
+    status: draft
+  expected_cycle_time_increase_seconds:
+    glossary_term_id: onto:column/expected_cycle_time_increase_seconds
+    description: Expected cycle time increase seconds (asset × component × scoring run)
+    data_type: double
+    owner: Analytics
+    status: draft
+  estimated_affected_tyres_per_day:
+    glossary_term_id: onto:column/estimated_affected_tyres_per_day
+    description: Estimated affected tyres per day (asset × component × scoring run)
+    data_type: int
+    owner: Analytics
+    status: draft
+  recommended_action:
+    glossary_term_id: onto:column/recommended_action
+    description: Recommended action (asset × component × scoring run)
+    data_type: string
+    owner: Analytics
+    status: draft
+  valve_error_mean_24h:
+    glossary_term_id: onto:column/valve_error_mean_24h
+    description: evidence
+    data_type: double
+    owner: Analytics
+    status: active
+  slow_recovery_cycles_24h:
+    glossary_term_id: onto:column/slow_recovery_cycles_24h
+    description: evidence
+    data_type: int
+    owner: Analytics
+    status: active
+  shift_date:
+    glossary_term_id: onto:column/shift_date
+    description: Grain column (asset × shift)
+    data_type: date
+    owner: Analytics
+    status: active
+  availability:
+    glossary_term_id: onto:column/availability
+    description: Availability (asset × shift)
+    data_type: double
+    unit: '%'
+    owner: Analytics
+    status: draft
+  performance:
+    glossary_term_id: onto:column/performance
+    description: Performance (asset × shift)
+    data_type: double
+    unit: '%'
+    owner: Analytics
+    status: draft
+  quality_rate:
+    glossary_term_id: onto:column/quality_rate
+    description: Quality rate (asset × shift)
+    data_type: double
+    unit: '%'
+    owner: Analytics
+    status: draft
+  oee:
+    glossary_term_id: onto:column/oee
+    description: Oee (asset × shift)
+    data_type: double
+    unit: '%'
+    owner: Analytics
+    status: draft
+  planned_time_s:
+    glossary_term_id: onto:column/planned_time_s
+    description: Planned time s (asset × shift)
+    data_type: double
+    unit: s
+    owner: Analytics
+    status: draft
+  run_time_s:
+    glossary_term_id: onto:column/run_time_s
+    description: Run time s (asset × shift)
+    data_type: double
+    unit: s
+    owner: Analytics
+    status: draft
+  downtime_min:
+    glossary_term_id: onto:column/downtime_min
+    description: Downtime min (asset × shift)
+    data_type: double
+    unit: min
+    owner: Analytics
+    status: draft
+  changeover_s:
+    glossary_term_id: onto:column/changeover_s
+    description: Changeover s (asset × shift)
+    data_type: double
+    unit: s
+    owner: Analytics
+    status: draft
+  total_count:
+    glossary_term_id: onto:column/total_count
+    description: Total count (asset × shift)
+    data_type: int
+    owner: Analytics
+    status: draft
+  good_count:
+    glossary_term_id: onto:column/good_count
+    description: Good count (asset × shift)
+    data_type: int
+    owner: Analytics
+    status: draft
+  reject_count:
+    glossary_term_id: onto:column/reject_count
+    description: Reject count (asset × shift)
+    data_type: int
+    owner: Analytics
+    status: draft
+  scrap_count:
+    glossary_term_id: onto:column/scrap_count
+    description: Scrap count (asset × shift)
+    data_type: int
+    owner: Analytics
+    status: draft
+  rework_count:
+    glossary_term_id: onto:column/rework_count
+    description: Rework count (asset × shift)
+    data_type: int
+    owner: Analytics
+    status: draft
+  target_count:
+    glossary_term_id: onto:column/target_count
+    description: Target count (asset × shift)
+    data_type: int
+    owner: Analytics
+    status: draft
+  tyres_per_hour:
+    glossary_term_id: onto:column/tyres_per_hour
+    description: Tyres per hour (asset × shift)
+    data_type: double
+    owner: Analytics
+    status: draft
+  mold_temp_avg:
+    glossary_term_id: onto:column/mold_temp_avg
+    description: Mold temp avg (cure cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  mold_temp_min:
+    glossary_term_id: onto:column/mold_temp_min
+    description: Mold temp min (cure cycle)
+    data_type: double
+    unit: min
+    owner: Analytics
+    status: draft
+  mold_temp_max:
+    glossary_term_id: onto:column/mold_temp_max
+    description: Mold temp max (cure cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  bladder_temp_avg:
+    glossary_term_id: onto:column/bladder_temp_avg
+    description: Bladder temp avg (cure cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  steam_pressure_avg:
+    glossary_term_id: onto:column/steam_pressure_avg
+    description: Steam pressure avg (cure cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  steam_pressure_dev_from_sp:
+    glossary_term_id: onto:column/steam_pressure_dev_from_sp
+    description: Steam pressure dev from sp (cure cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  nitrogen_pressure_avg:
+    glossary_term_id: onto:column/nitrogen_pressure_avg
+    description: Nitrogen pressure avg (cure cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  press_force_max:
+    glossary_term_id: onto:column/press_force_max
+    description: Press force max (cure cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  cure_time_s:
+    glossary_term_id: onto:column/cure_time_s
+    description: Cure time s (cure cycle)
+    data_type: double
+    unit: s
+    owner: Analytics
+    status: draft
+  cure_time_sp_s:
+    glossary_term_id: onto:column/cure_time_sp_s
+    description: Cure time sp s (cure cycle)
+    data_type: double
+    unit: s
+    owner: Analytics
+    status: draft
+  equivalent_cure_pct:
+    glossary_term_id: onto:column/equivalent_cure_pct
+    description: Equivalent cure pct (cure cycle)
+    data_type: double
+    unit: '%'
+    owner: Analytics
+    status: draft
+  temp_recovery_s:
+    glossary_term_id: onto:column/temp_recovery_s
+    description: Temp recovery s (cure cycle)
+    data_type: double
+    unit: s
+    owner: Analytics
+    status: draft
+  is_compliant:
+    glossary_term_id: onto:column/is_compliant
+    description: Is compliant (cure cycle)
+    data_type: boolean
+    owner: Analytics
+    status: draft
+  bladder_cycles_at_cure:
+    glossary_term_id: onto:column/bladder_cycles_at_cure
+    description: Bladder cycles at cure (cure cycle)
+    data_type: int
+    owner: Analytics
+    status: draft
+  dump_temp:
+    glossary_term_id: onto:column/dump_temp
+    description: Dump temp (batch / extrusion run / build cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  mixing_time:
+    glossary_term_id: onto:column/mixing_time
+    description: Mixing time (batch / extrusion run / build cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  energy_kwh:
+    glossary_term_id: onto:column/energy_kwh
+    description: Energy kwh (batch / extrusion run / build cycle)
+    data_type: double
+    unit: kWh
+    owner: Analytics
+    status: draft
+  batch_weight:
+    glossary_term_id: onto:column/batch_weight
+    description: Batch weight (batch / extrusion run / build cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  mooney:
+    glossary_term_id: onto:column/mooney
+    description: Mooney (batch / extrusion run / build cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  throughput:
+    glossary_term_id: onto:column/throughput
+    description: Throughput (batch / extrusion run / build cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  profile_deviation:
+    glossary_term_id: onto:column/profile_deviation
+    description: Profile deviation (batch / extrusion run / build cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  gauge:
+    glossary_term_id: onto:column/gauge
+    description: Gauge (batch / extrusion run / build cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  epi:
+    glossary_term_id: onto:column/epi
+    description: Epi (batch / extrusion run / build cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  roll_temp:
+    glossary_term_id: onto:column/roll_temp
+    description: Roll temp (batch / extrusion run / build cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  cycle_time:
+    glossary_term_id: onto:column/cycle_time
+    description: Cycle time (batch / extrusion run / build cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  green_weight:
+    glossary_term_id: onto:column/green_weight
+    description: Green weight (batch / extrusion run / build cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  centring_deviation:
+    glossary_term_id: onto:column/centring_deviation
+    description: Centring deviation (batch / extrusion run / build cycle)
+    data_type: double
+    owner: Analytics
+    status: draft
+  inspected:
+    glossary_term_id: onto:column/inspected
+    description: Inspected (product × asset × day)
+    data_type: int
+    owner: Analytics
+    status: draft
+  passed:
+    glossary_term_id: onto:column/passed
+    description: Passed (product × asset × day)
+    data_type: int
+    owner: Analytics
+    status: draft
+  fpy:
+    glossary_term_id: onto:column/fpy
+    description: Fpy (product × asset × day)
+    data_type: double
+    unit: '%'
+    owner: Analytics
+    status: draft
+  grade_mix:
+    glossary_term_id: onto:column/grade_mix
+    description: Grade mix (product × asset × day)
+    data_type: string
+    owner: Analytics
+    status: draft
+  top_defect_codes:
+    glossary_term_id: onto:column/top_defect_codes
+    description: Top defect codes (product × asset × day)
+    data_type: string
+    owner: Analytics
+    status: draft
+  subgroup_id:
+    glossary_term_id: onto:column/subgroup_id
+    description: Grain column (measurement_type × asset × subgroup)
+    data_type: string
+    owner: Analytics
+    status: active
+  xbar:
+    glossary_term_id: onto:column/xbar
+    description: Xbar (measurement_type × asset × subgroup)
+    data_type: double
+    owner: Analytics
+    status: draft
+  range:
+    glossary_term_id: onto:column/range
+    description: Range (measurement_type × asset × subgroup)
+    data_type: double
+    owner: Analytics
+    status: draft
+  sigma:
+    glossary_term_id: onto:column/sigma
+    description: Sigma (measurement_type × asset × subgroup)
+    data_type: double
+    owner: Analytics
+    status: draft
+  cp:
+    glossary_term_id: onto:column/cp
+    description: Cp (measurement_type × asset × subgroup)
+    data_type: double
+    owner: Analytics
+    status: draft
+  cpk:
+    glossary_term_id: onto:column/cpk
+    description: Cpk (measurement_type × asset × subgroup)
+    data_type: double
+    owner: Analytics
+    status: draft
+  ppk:
+    glossary_term_id: onto:column/ppk
+    description: Ppk (measurement_type × asset × subgroup)
+    data_type: double
+    owner: Analytics
+    status: draft
+  nelson_rule_violations:
+    glossary_term_id: onto:column/nelson_rule_violations
+    description: Nelson rule violations (measurement_type × asset × subgroup)
+    data_type: int
+    owner: Analytics
+    status: draft
+  events:
+    glossary_term_id: onto:column/events
+    description: Events (asset × reason × day)
+    data_type: int
+    owner: Analytics
+    status: draft
+  minutes:
+    glossary_term_id: onto:column/minutes
+    description: Minutes (asset × reason × day)
+    data_type: double
+    owner: Analytics
+    status: draft
+  mttr_min:
+    glossary_term_id: onto:column/mttr_min
+    description: Mttr min (asset × reason × day)
+    data_type: double
+    unit: min
+    owner: Analytics
+    status: draft
+  month:
+    glossary_term_id: onto:column/month
+    description: Grain column (asset × month)
+    data_type: date
+    owner: Analytics
+    status: active
+  mtbf_h:
+    glossary_term_id: onto:column/mtbf_h
+    description: Mtbf h (asset × month)
+    data_type: double
+    unit: h
+    owner: Analytics
+    status: draft
+  mttr_h:
+    glossary_term_id: onto:column/mttr_h
+    description: Mttr h (asset × month)
+    data_type: double
+    unit: h
+    owner: Analytics
+    status: draft
+  failures_by_mode:
+    glossary_term_id: onto:column/failures_by_mode
+    description: Failures by mode (asset × month)
+    data_type: string
+    owner: Analytics
+    status: draft
+  pm_compliance_pct:
+    glossary_term_id: onto:column/pm_compliance_pct
+    description: Pm compliance pct (asset × month)
+    data_type: double
+    unit: '%'
+    owner: Analytics
+    status: draft
+  pdm_wo_count:
+    glossary_term_id: onto:column/pdm_wo_count
+    description: Pdm wo count (asset × month)
+    data_type: int
+    owner: Analytics
+    status: draft
+  hour_start_utc:
+    glossary_term_id: onto:column/hour_start_utc
+    description: Grain column (asset × hour)
+    data_type: timestamp
+    owner: Data science
+    status: active
+  bearing_temp_avg:
+    glossary_term_id: onto:column/bearing_temp_avg
+    description: Bearing temp avg (asset × hour)
+    data_type: double
+    owner: Data science
+    status: draft
+  bearing_temp_max:
+    glossary_term_id: onto:column/bearing_temp_max
+    description: Bearing temp max (asset × hour)
+    data_type: double
+    owner: Data science
+    status: draft
+  bearing_vibration_rms:
+    glossary_term_id: onto:column/bearing_vibration_rms
+    description: Bearing vibration rms (asset × hour)
+    data_type: double
+    owner: Data science
+    status: draft
+  bearing_vibration_max:
+    glossary_term_id: onto:column/bearing_vibration_max
+    description: Bearing vibration max (asset × hour)
+    data_type: double
+    owner: Data science
+    status: draft
+  gearbox_oil_temp_avg:
+    glossary_term_id: onto:column/gearbox_oil_temp_avg
+    description: Gearbox oil temp avg (asset × hour)
+    data_type: double
+    owner: Data science
+    status: draft
+  gearbox_oil_temp_max:
+    glossary_term_id: onto:column/gearbox_oil_temp_max
+    description: Gearbox oil temp max (asset × hour)
+    data_type: double
+    owner: Data science
+    status: draft
+  gearbox_vibration_rms:
+    glossary_term_id: onto:column/gearbox_vibration_rms
+    description: Gearbox vibration rms (asset × hour)
+    data_type: double
+    owner: Data science
+    status: draft
+  gearbox_vibration_max:
+    glossary_term_id: onto:column/gearbox_vibration_max
+    description: Gearbox vibration max (asset × hour)
+    data_type: double
+    owner: Data science
+    status: draft
+  hydraulic_pressure_avg:
+    glossary_term_id: onto:column/hydraulic_pressure_avg
+    description: Hydraulic pressure avg (asset × hour)
+    data_type: double
+    owner: Data science
+    status: draft
+  hydraulic_pressure_max:
+    glossary_term_id: onto:column/hydraulic_pressure_max
+    description: Hydraulic pressure max (asset × hour)
+    data_type: double
+    owner: Data science
+    status: draft
+  hydraulic_oil_temp_avg:
+    glossary_term_id: onto:column/hydraulic_oil_temp_avg
+    description: Hydraulic oil temp avg (asset × hour)
+    data_type: double
+    owner: Data science
+    status: draft
+  hydraulic_oil_temp_max:
+    glossary_term_id: onto:column/hydraulic_oil_temp_max
+    description: Hydraulic oil temp max (asset × hour)
+    data_type: double
+    owner: Data science
+    status: draft
+  motor_temperature_avg:
+    glossary_term_id: onto:column/motor_temperature_avg
+    description: Motor temperature avg (asset × hour)
+    data_type: double
+    owner: Data science
+    status: draft
+  motor_current_avg:
+    glossary_term_id: onto:column/motor_current_avg
+    description: Motor current avg (asset × hour)
+    data_type: double
+    owner: Data science
+    status: draft
+  motor_torque_avg:
+    glossary_term_id: onto:column/motor_torque_avg
+    description: Motor torque avg (asset × hour)
+    data_type: double
+    owner: Data science
+    status: draft
+  motor_speed_avg:
+    glossary_term_id: onto:column/motor_speed_avg
+    description: Motor speed avg (asset × hour)
+    data_type: double
+    owner: Data science
+    status: draft
+  runtime_hours:
+    glossary_term_id: onto:column/runtime_hours
+    description: Runtime hours (asset × hour)
+    data_type: double
+    unit: h
+    owner: Data science
+    status: draft
+  alarm_count:
+    glossary_term_id: onto:column/alarm_count
+    description: Alarm count (asset × hour)
+    data_type: int
+    owner: Data science
+    status: draft
+  label_failure_within_7d:
+    glossary_term_id: onto:column/label_failure_within_7d
+    description: Label failure within 7d (asset × hour)
+    data_type: boolean
+    owner: Data science
+    status: draft
+  kwh_per_good_tyre:
+    glossary_term_id: onto:column/kwh_per_good_tyre
+    description: Kwh per good tyre (asset × product × day)
+    data_type: double
+    owner: Analytics
+    status: draft
+  steam_kg_per_tyre:
+    glossary_term_id: onto:column/steam_kg_per_tyre
+    description: Steam kg per tyre (asset × product × day)
+    data_type: double
+    owner: Analytics
+    status: draft
+  air_bar_avg:
+    glossary_term_id: onto:column/air_bar_avg
+    description: Air bar avg (asset × product × day)
+    data_type: double
+    owner: Analytics
+    status: draft
+  opening_stock:
+    glossary_term_id: onto:column/opening_stock
+    description: Opening stock (material × day)
+    data_type: double
+    owner: Analytics
+    status: draft
+  consumed:
+    glossary_term_id: onto:column/consumed
+    description: Consumed (material × day)
+    data_type: double
+    owner: Analytics
+    status: draft
+  closing_stock:
+    glossary_term_id: onto:column/closing_stock
+    description: Closing stock (material × day)
+    data_type: double
+    owner: Analytics
+    status: draft
+  rm_lots:
+    glossary_term_id: onto:column/rm_lots
+    description: Rm lots (tyre serial)
+    data_type: string
+    owner: Analytics
+    status: draft
+  components:
+    glossary_term_id: onto:column/components
+    description: Components (tyre serial)
+    data_type: string
+    owner: Analytics
+    status: draft
+  green_tyre_id:
+    glossary_term_id: onto:column/green_tyre_id
+    description: Green tyre id (tyre serial)
+    data_type: string
+    owner: Analytics
+    status: draft
+  build_cycle:
+    glossary_term_id: onto:column/build_cycle
+    description: Build cycle (tyre serial)
+    data_type: string
+    owner: Analytics
+    status: draft
+  cure_cycle:
+    glossary_term_id: onto:column/cure_cycle
+    description: Cure cycle (tyre serial)
+    data_type: string
+    owner: Analytics
+    status: draft
+  press:
+    glossary_term_id: onto:column/press
+    description: Press (tyre serial)
+    data_type: string
+    owner: Analytics
+    status: draft
+  grade:
+    glossary_term_id: onto:column/grade
+    description: Grade (tyre serial)
+    data_type: string
+    owner: Analytics
+    status: draft
+  quantity_in:
+    glossary_term_id: onto:column/quantity_in
+    description: QuantityIn
+    data_type: double
+    owner: MES team
+    status: active
+  quantity_out:
+    glossary_term_id: onto:column/quantity_out
+    description: QuantityOut
+    data_type: double
+    owner: MES team
+    status: active
+  scrap_qty:
+    glossary_term_id: onto:column/scrap_qty
+    description: derived
+    data_type: double
+    owner: MES team
+    status: active
+  rework_qty:
+    glossary_term_id: onto:column/rework_qty
+    description: from LotActionReworkDetails
+    data_type: double
+    owner: MES team
+    status: active
+  start_ts:
+    glossary_term_id: onto:column/start_ts
+    description: StartDateTime
+    data_type: timestamp
+    owner: MES team
+    status: active
+  end_ts:
+    glossary_term_id: onto:column/end_ts
+    description: EndDateTime
+    data_type: timestamp
+    owner: MES team
+    status: active
+  operator_id_hash:
+    glossary_term_id: onto:column/operator_id_hash
+    description: LotActionOperators (hashed)
+    data_type: string
+    owner: MES team
+    status: active
+  tool_ids:
+    glossary_term_id: onto:column/tool_ids
+    description: LotActionTools (mould, bladder)
+    data_type: array<string>
+    owner: MES team
+    status: active
+  weld_test_result_id:
+    glossary_term_id: onto:column/weld_test_result_id
+    description: WeldTestResultId
+    data_type: string
+    owner: MES team
+    status: active
+  lot_type:
+    glossary_term_id: onto:column/lot_type
+    description: BATCH / COMPONENT / GREEN_TYRE / CURED_TYRE
+    data_type: string
+    owner: MES team
+    status: active
+  quantity:
+    glossary_term_id: onto:column/quantity
+    description: Quantity (per source record (SCD2 for masters))
+    data_type: double
+    owner: MES team
+    status: draft
+  closed_ts:
+    glossary_term_id: onto:column/closed_ts
+    description: ClosedDateTime
+    data_type: timestamp
+    owner: MES team
+    status: active
+  current_process:
+    glossary_term_id: onto:column/current_process
+    description: Current process (per source record (SCD2 for masters))
+    data_type: string
+    owner: MES team
+    status: draft
+  released_quantity:
+    glossary_term_id: onto:column/released_quantity
+    description: ReleasedQuantity
+    data_type: double
+    owner: MES team
+    status: active
+  pending_quantity:
+    glossary_term_id: onto:column/pending_quantity
+    description: PendingQuantity
+    data_type: double
+    owner: MES team
+    status: active
+  planned_end:
+    glossary_term_id: onto:column/planned_end
+    description: Planned end (per source record (SCD2 for masters))
+    data_type: timestamp
+    owner: MES team
+    status: draft
+  actual_end:
+    glossary_term_id: onto:column/actual_end
+    description: Actual end (per source record (SCD2 for masters))
+    data_type: timestamp
+    owner: MES team
+    status: draft
+  root_cause_code:
+    glossary_term_id: onto:column/root_cause_code
+    description: EquipmentProblemRootCauses
+    data_type: string
+    owner: MES team
+    status: active
+  reported_ts:
+    glossary_term_id: onto:column/reported_ts
+    description: Reported ts (per source record (SCD2 for masters))
+    data_type: timestamp
+    owner: MES team
+    status: draft
+  resolved_ts:
+    glossary_term_id: onto:column/resolved_ts
+    description: Resolved ts (per source record (SCD2 for masters))
+    data_type: timestamp
+    owner: MES team
+    status: draft
+  downtime_h:
+    glossary_term_id: onto:column/downtime_h
+    description: Downtime h (per source record (SCD2 for masters))
+    data_type: double
+    unit: h
+    owner: MES team
+    status: draft
+  held_location:
+    glossary_term_id: onto:column/held_location
+    description: Held location (per source record (SCD2 for masters))
+    data_type: string
+    owner: Quality
+    status: draft
+  held_code:
+    glossary_term_id: onto:column/held_code
+    description: Held code (per source record (SCD2 for masters))
+    data_type: string
+    owner: Quality
+    status: draft
+  reason_code:
+    glossary_term_id: onto:column/reason_code
+    description: NCMReasons
+    data_type: string
+    owner: Quality
+    status: active
+  failure_mode_group:
+    glossary_term_id: onto:column/failure_mode_group
+    description: NCMFailureModeGroups
+    data_type: string
+    owner: Quality
+    status: active
+  hold_start_ts:
+    glossary_term_id: onto:column/hold_start_ts
+    description: Hold start ts (per source record (SCD2 for masters))
+    data_type: timestamp
+    owner: Quality
+    status: draft
+  hold_end_ts:
+    glossary_term_id: onto:column/hold_end_ts
+    description: Hold end ts (per source record (SCD2 for masters))
+    data_type: timestamp
+    owner: Quality
+    status: draft
+  disposition:
+    glossary_term_id: onto:column/disposition
+    description: Disposition (per source record (SCD2 for masters))
+    data_type: string
+    owner: Quality
+    status: draft

@@ -1,0 +1,87 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: silver.mes_production_cycle
+layer: silver
+version: 0.1.0
+description: 'one cycle (batch/build/cure/inspection). Source: MES Edge events'
+grain: one cycle (batch/build/cure/inspection)
+primary_key:
+- cycle_id
+partition_by:
+- days(ts_start)
+- area
+owner: MES team
+freshness: 10min
+glossary_term_id: onto:entity/production_cycle
+source: MES Edge events
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/silver/mes_production_cycle/
+columns:
+- name: cycle_id
+  type: string
+  nullable: false
+  term: production_cycle
+  description: CYC-…
+- name: canonical_asset_id
+  type: string
+  nullable: true
+  term: asset
+- name: area
+  type: string
+  nullable: true
+  term: process_area
+  partition: true
+- name: work_order_id
+  type: string
+  nullable: true
+  term: production_order
+  description: PO-…
+- name: recipe_id
+  type: string
+  nullable: true
+  term: recipe
+- name: product_id
+  type: string
+  nullable: true
+  term: product
+  description: MAT-…
+- name: batch_id
+  type: string
+  nullable: true
+  term: compound_batch
+- name: tyre_serial
+  type: string
+  nullable: true
+  term: cured_tyre
+- name: ts_start
+  type: timestamp
+  nullable: true
+  term: ts_start
+  partition: true
+- name: ts_end
+  type: timestamp
+  nullable: true
+  term: ts_end
+- name: cycle_time_s
+  type: double
+  nullable: true
+  term: cycle_time_s
+- name: std_cycle_time_s
+  type: double
+  nullable: true
+  term: std_cycle_time_s
+- name: result
+  type: string
+  nullable: true
+  term: result
+  description: OK/NOK/ABORTED
+- name: shift_no
+  type: string
+  nullable: true
+  term: shift
+- name: edge_txn_id
+  type: string
+  nullable: true
+  technical: true
+  description: dedup

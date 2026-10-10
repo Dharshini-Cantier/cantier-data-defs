@@ -1,0 +1,25 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# DATA QUALITY - checks each row of this table must pass. error = row rejected, warn = counted. (DQDL generation is B3.6)
+table: silver.mes_equipment_problem
+version: 0.1.0
+rules:
+- id: dq_mes_equipment_problem_pk_unique
+  type: unique
+  columns:
+  - problem_id
+  severity: error
+  description: One row per grain
+- id: dq_mes_equipment_problem_problem_id_not_null
+  type: not_null
+  column: problem_id
+  severity: error
+- id: dq_mes_equipment_problem_asset_id_format
+  type: pattern
+  column: canonical_asset_id
+  pattern: ^AST-[A-Z]{3}-\d{6}$
+  severity: error
+  description: Unresolved assets go to ops rejects, never into Silver
+- id: dq_mes_equipment_problem_reported_ts_before_resolved_ts
+  type: expression
+  check: reported_ts <= resolved_ts
+  severity: error

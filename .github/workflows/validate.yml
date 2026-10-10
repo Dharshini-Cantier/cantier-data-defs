@@ -1,0 +1,33 @@
+# Runs on every pull request and on main (B1.2 "Invalid YAML fails CI"). Branch protection requires job "validate".
+name: validate-definitions
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0            # version check compares with the target branch
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: 00 shape of every file (JSON Schema)
+        run: python scripts/00_validate_schemas.py
+      - name: 01 ontology (LinkML) + asset seeds (linkml-validate)
+        run: python scripts/01_validate_ontology.py
+      - name: 03 files agree with each other
+        run: python scripts/03_validate_defs.py
+      - name: 04 templates rebuild all tag instances
+        run: python scripts/04_check_coverage.py
+      - name: 05 contracts -> JSON Schema
+        run: python scripts/05_build_contracts.py
+      - name: 07 fixtures through the reference engine
+        run: python scripts/07_run_fixtures.py
+      - name: 06 version bumps (pull requests only)
+        if: github.event_name == 'pull_request'
+        run: python scripts/06_check_versions.py --base origin/${{ github.base_ref }}

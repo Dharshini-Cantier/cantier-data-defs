@@ -1,0 +1,359 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mapping.schema.json",
+  "title": "Source mapping (mappings/mes/*.yaml, mappings/iiot/streams/*.yaml)",
+  "description": "Each column uses exactly one of from / expr / value.",
+  "type": "object",
+  "properties": {
+    "target_table": {
+      "$ref": "common.schema.json#/$defs/table_name"
+    },
+    "version": {
+      "$ref": "common.schema.json#/$defs/semver"
+    },
+    "mapping_version": {
+      "type": "string",
+      "pattern": "^(mes|iiot)-map-\\d{4}\\.\\d{2}\\.\\d{2}$"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "system": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tables": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": {
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "additionalProperties": {
+            "$ref": "common.schema.json#/$defs/table_name"
+          }
+        },
+        "joins": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "left": {
+                "$ref": "common.schema.json#/$defs/column_ref"
+              },
+              "right": {
+                "$ref": "common.schema.json#/$defs/column_ref"
+              },
+              "how": {
+                "enum": [
+                  "left",
+                  "inner",
+                  "right",
+                  "outer"
+                ]
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "left",
+              "right"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "tables"
+      ]
+    },
+    "cdc": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/column_ref"
+          },
+          "minItems": 1
+        },
+        "order_by": {
+          "$ref": "common.schema.json#/$defs/column_ref"
+        },
+        "op_column": {
+          "$ref": "common.schema.json#/$defs/column_ref"
+        },
+        "delete_value": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "order_by",
+        "op_column"
+      ],
+      "description": "DMS change rows: keep latest version per key, drop keys whose latest change is a delete"
+    },
+    "columns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "target": {
+            "$ref": "common.schema.json#/$defs/column_name"
+          },
+          "from": {
+            "$ref": "common.schema.json#/$defs/column_ref"
+          },
+          "expr": {
+            "type": "string",
+            "minLength": 1
+          },
+          "value": {},
+          "lookup": {
+            "type": "object",
+            "properties": {
+              "map": {
+                "enum": [
+                  "identity_map",
+                  "code_map",
+                  "tag_map"
+                ]
+              },
+              "source_system": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_type": {
+                "type": "string",
+                "minLength": 1
+              },
+              "attribute": {
+                "type": "string",
+                "description": "field to return instead of the canonical id"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "map",
+              "source_system",
+              "source_type"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "transform": {
+            "type": "object",
+            "required": [
+              "fn"
+            ],
+            "additionalProperties": false,
+            "description": "standard transform - see docs/DEVELOPER_GUIDE.md for the PySpark equivalent",
+            "properties": {
+              "fn": {
+                "enum": [
+                  "trim",
+                  "upper",
+                  "lower",
+                  "to_utc",
+                  "to_timezone",
+                  "floor_minutes",
+                  "opc_segment",
+                  "sha1",
+                  "unit_convert",
+                  "null_if"
+                ]
+              },
+              "source_tz": {
+                "type": "string"
+              },
+              "tz": {
+                "type": "string"
+              },
+              "minutes": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "index": {
+                "type": "integer"
+              },
+              "inputs": {
+                "type": "array",
+                "items": {
+                  "$ref": "common.schema.json#/$defs/column_ref"
+                },
+                "minItems": 1
+              },
+              "value": {
+                "description": "null_if: source value that means 'no value'"
+              }
+            }
+          },
+          "generate": {
+            "enum": [
+              "now"
+            ],
+            "description": "value made by the engine at run time"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "target"
+        ],
+        "oneOf": [
+          {
+            "required": [
+              "from"
+            ]
+          },
+          {
+            "required": [
+              "expr"
+            ]
+          },
+          {
+            "required": [
+              "value"
+            ]
+          },
+          {
+            "required": [
+              "generate"
+            ]
+          },
+          {
+            "required": [
+              "transform"
+            ],
+            "properties": {
+              "transform": {
+                "properties": {
+                  "fn": {
+                    "const": "sha1"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minItems": 1
+    },
+    "kind": {
+      "enum": [
+        "cdc_table",
+        "event_stream"
+      ]
+    },
+    "tag_map": {
+      "type": "object",
+      "description": "source tag name -> glossary measurement type (+ unit conversion)",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "measurement_type"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "measurement_type": {
+            "$ref": "common.schema.json#/$defs/snake"
+          },
+          "source_unit": {
+            "type": "string"
+          },
+          "factor": {
+            "type": "number"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "rejects": {
+      "type": "object",
+      "required": [
+        "table",
+        "when",
+        "columns"
+      ],
+      "additionalProperties": false,
+      "description": "rows that must not enter Silver go to this ops table",
+      "properties": {
+        "table": {
+          "$ref": "common.schema.json#/$defs/table_name"
+        },
+        "when": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "column",
+              "test",
+              "reason"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "column": {
+                "$ref": "common.schema.json#/$defs/column_name"
+              },
+              "test": {
+                "enum": [
+                  "is_null",
+                  "not_equal"
+                ]
+              },
+              "value": {},
+              "reason": {
+                "type": "string",
+                "pattern": "^[A-Z_]+$"
+              }
+            }
+          }
+        },
+        "columns": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "target"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "target": {
+                "$ref": "common.schema.json#/$defs/column_name"
+              },
+              "from": {
+                "$ref": "common.schema.json#/$defs/column_ref"
+              },
+              "silver": {
+                "$ref": "common.schema.json#/$defs/column_name"
+              },
+              "generate": {
+                "enum": [
+                  "now",
+                  "reason"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "target_table",
+    "version",
+    "mapping_version",
+    "description",
+    "source",
+    "columns"
+  ]
+}

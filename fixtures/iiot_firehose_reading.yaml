@@ -1,0 +1,28 @@
+# FIXTURE - Bronze rows IN -> exactly these Silver rows + rejects OUT. Rows 1-6 are the real sample (Bronze_Test/IIOT/Sample_S3_Iceberg_Data).
+name: iiot_firehose_reading
+version: 0.1.0
+task: B2.10
+mapping: mappings/iiot/streams/firehose_events.yaml
+description: Six Banbury01 events from the Firehose sample plus two bad rows - GOOD rows land in Silver, the rest in ops rejects
+covers: [identity lookup (assets/site01.yaml), tag_map to measurement type, canonical unit, Good -> GOOD code map, UTC + IST + 5-min window, quality reject, unresolved asset, unmapped tag]
+input:
+  bronze.iiot_firehose_events:
+    - {eventtype: tag.valueChanged, timestamp: "2026-10-10T01:31:00.000Z", plant: Site01, line: MixingLine01, equipment: Banbury01, mappingid: 3, mappingname: Bearing_Temperature, opcnodeid: "ns=2;s=Prosys.Banburry.Simulation.Site01.Mixing.MixingLine01.Banbury01.Condition.Bearing_Temperature", rawvalue: "78.4", normalizedvalue: 78.4, quality: Good, previousvalue: "76.1", issignificantchange: true, apptriggertimestamp: "2026-10-10T01:31:00.045Z"}
+    - {eventtype: tag.valueChanged, timestamp: "2026-10-10T01:32:00.000Z", plant: Site01, line: MixingLine01, equipment: Banbury01, mappingid: 3, mappingname: Bearing_Temperature, opcnodeid: "ns=2;s=Prosys.Banburry.Simulation.Site01.Mixing.MixingLine01.Banbury01.Condition.Bearing_Temperature", rawvalue: "82.1", normalizedvalue: 82.1, quality: Good, previousvalue: "78.4", issignificantchange: true, apptriggertimestamp: "2026-10-10T01:32:00.012Z"}
+    - {eventtype: tag.valueChanged, timestamp: "2026-10-10T01:33:00.000Z", plant: Site01, line: MixingLine01, equipment: Banbury01, mappingid: 4, mappingname: Rotor_Speed_RPM, opcnodeid: "ns=2;s=Prosys.Banburry.Simulation.Site01.Mixing.MixingLine01.Banbury01.Operational.Rotor_Speed", rawvalue: "45.0", normalizedvalue: 45.0, quality: Good, previousvalue: "40.0", issignificantchange: true, apptriggertimestamp: "2026-10-10T01:33:00.050Z"}
+    - {eventtype: tag.valueChanged, timestamp: "2026-10-10T01:34:00.000Z", plant: Site01, line: MixingLine01, equipment: Banbury01, mappingid: 5, mappingname: Hydraulic_Pressure_Bar, opcnodeid: "ns=2;s=Prosys.Banburry.Simulation.Site01.Mixing.MixingLine01.Banbury01.Condition.Hydraulic_Pressure", rawvalue: "142.6", normalizedvalue: 142.6, quality: Good, previousvalue: "141.9", issignificantchange: false, apptriggertimestamp: "2026-10-10T01:34:00.080Z"}
+    - {eventtype: tag.valueChanged, timestamp: "2026-10-10T01:35:00.000Z", plant: Site01, line: MixingLine01, equipment: Banbury01, mappingid: 3, mappingname: Bearing_Temperature, opcnodeid: "ns=2;s=Prosys.Banburry.Simulation.Site01.Mixing.MixingLine01.Banbury01.Condition.Bearing_Temperature", rawvalue: "0.0", normalizedvalue: 0.0, quality: Bad, previousvalue: "82.1", issignificantchange: true, apptriggertimestamp: "2026-10-10T01:35:00.003Z"}
+    - {eventtype: tag.valueChanged, timestamp: "2026-10-10T01:36:00.000Z", plant: Site01, line: MixingLine01, equipment: Banbury01, mappingid: 6, mappingname: Motor_Power_KW, opcnodeid: "ns=2;s=Prosys.Banburry.Simulation.Site01.Mixing.MixingLine01.Banbury01.Electrical.Power_KW", rawvalue: "310.5", normalizedvalue: 310.5, quality: Good, previousvalue: "295.0", issignificantchange: true, apptriggertimestamp: "2026-10-10T01:36:00.060Z"}
+    - {eventtype: tag.valueChanged, timestamp: "2026-10-10T01:37:00.000Z", plant: Site01, line: MixingLine01, equipment: Banbury09, mappingid: 3, mappingname: Bearing_Temperature, opcnodeid: "ns=2;s=Prosys.Banburry.Simulation.Site01.Mixing.MixingLine01.Banbury09.Condition.Bearing_Temperature", rawvalue: "70.0", normalizedvalue: 70.0, quality: Good, apptriggertimestamp: "2026-10-10T01:37:00.010Z"}
+    - {eventtype: tag.valueChanged, timestamp: "2026-10-10T01:38:00.000Z", plant: Site01, line: MixingLine01, equipment: Banbury01, mappingid: 9, mappingname: Oil_Level_Pct, opcnodeid: "ns=2;s=Prosys.Banburry.Simulation.Site01.Mixing.MixingLine01.Banbury01.Condition.Oil_Level", rawvalue: "64.0", normalizedvalue: 64.0, quality: Good, apptriggertimestamp: "2026-10-10T01:38:00.010Z"}
+expected:
+  silver.iiot_tag_reading:
+    - {canonical_asset_id: AST-MIX-000001, area: Mixing, asset_type: Banbury, tag_group: Condition, tag_name: Bearing_Temperature, measurement_type: BEARING_TEMPERATURE, normalized_value: 78.4, unit: "°C", quality: GOOD, event_ts_utc: "2026-10-10 01:31:00", event_ts_ist: "2026-10-10 07:01:00", window_5min_utc: "2026-10-10 01:30:00", mapping_id: 3}
+    - {canonical_asset_id: AST-MIX-000001, tag_name: Bearing_Temperature, measurement_type: BEARING_TEMPERATURE, normalized_value: 82.1, event_ts_utc: "2026-10-10 01:32:00", window_5min_utc: "2026-10-10 01:30:00"}
+    - {canonical_asset_id: AST-MIX-000001, tag_group: Operational, tag_name: Rotor_Speed_RPM, measurement_type: MIXER_ROTOR_SPEED, normalized_value: 45.0, unit: rpm, event_ts_utc: "2026-10-10 01:33:00"}
+    - {canonical_asset_id: AST-MIX-000001, tag_group: Condition, tag_name: Hydraulic_Pressure_Bar, measurement_type: HYDRAULIC_PRESSURE, normalized_value: 142.6, unit: bar, window_5min_utc: "2026-10-10 01:30:00"}
+    - {canonical_asset_id: AST-MIX-000001, tag_group: Electrical, tag_name: Motor_Power_KW, measurement_type: MIXER_MOTOR_POWER, normalized_value: 310.5, unit: kW, event_ts_utc: "2026-10-10 01:36:00", window_5min_utc: "2026-10-10 01:35:00"}
+  ops.iiot_tag_reading_rejects:
+    - {source_time_raw: "2026-10-10T01:35:00.000Z", source_value_raw: "0.0", quality_raw: Bad, reject_reason: QUALITY_BAD}
+    - {source_time_raw: "2026-10-10T01:37:00.000Z", reject_reason: UNRESOLVED_ASSET}
+    - {source_time_raw: "2026-10-10T01:38:00.000Z", reject_reason: UNMAPPED_TAG}

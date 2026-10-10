@@ -1,0 +1,67 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: silver.mes_lot
+layer: silver
+version: 0.1.0
+description: 'per source record (SCD2 for masters). Source: LotTravellers'
+grain: per source record (SCD2 for masters)
+primary_key:
+- lot_id
+owner: MES team
+freshness: 15min
+glossary_term_id: onto:entity/lot
+source: LotTravellers
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/silver/mes_lot/
+columns:
+- name: lot_id
+  type: string
+  nullable: false
+  term: lot
+- name: lot_type
+  type: string
+  nullable: true
+  term: lot_type
+  description: BATCH / COMPONENT / GREEN_TYRE / CURED_TYRE
+- name: tyre_serial
+  type: string
+  nullable: true
+  term: cured_tyre
+  description: if qty 1
+- name: item_id
+  type: string
+  nullable: true
+  term: product
+  description: Items
+- name: job_order_id
+  type: string
+  nullable: true
+  term: production_order
+- name: production_line_id
+  type: string
+  nullable: true
+  term: production_line
+  description: ProductionLineId
+- name: quantity
+  type: double
+  nullable: true
+  term: quantity
+- name: start_ts
+  type: timestamp
+  nullable: true
+  term: start_ts
+  description: StartDateTime
+- name: closed_ts
+  type: timestamp
+  nullable: true
+  term: closed_ts
+  description: ClosedDateTime
+- name: current_process
+  type: string
+  nullable: true
+  term: current_process
+- name: status
+  type: string
+  nullable: true
+  term: status

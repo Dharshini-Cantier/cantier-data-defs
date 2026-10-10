@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sources.schema.json",
+  "title": "Source systems (sources.yaml) - never put passwords here",
+  "type": "object",
+  "minProperties": 1,
+  "propertyNames": {
+    "pattern": "^[a-z][a-z0-9_]*$"
+  },
+  "additionalProperties": {
+    "type": "object",
+    "properties": {
+      "system": {
+        "type": "string",
+        "minLength": 1
+      },
+      "kind": {
+        "enum": [
+          "sql",
+          "dms",
+          "msk",
+          "file"
+        ]
+      },
+      "description": {
+        "type": "string"
+      },
+      "server": {
+        "type": "string"
+      },
+      "database": {
+        "type": "string"
+      },
+      "path": {
+        "type": "string"
+      },
+      "topic": {
+        "type": "string"
+      },
+      "tables": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "$ref": "common.schema.json#/$defs/snake"
+            },
+            "source": {
+              "type": "string",
+              "minLength": 1
+            },
+            "exclude_columns": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "source"
+          ]
+        }
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "system",
+      "kind"
+    ]
+  }
+}

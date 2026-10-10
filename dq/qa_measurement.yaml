@@ -1,0 +1,19 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# DATA QUALITY - checks each row of this table must pass. error = row rejected, warn = counted. (DQDL generation is B3.6)
+table: silver.qa_measurement
+version: 0.1.0
+rules:
+- id: dq_qa_measurement_pk_unique
+  type: unique
+  columns:
+  - measurement_id
+  severity: error
+  description: One row per grain
+- id: dq_qa_measurement_measurement_id_not_null
+  type: not_null
+  column: measurement_id
+  severity: error
+- id: dq_qa_measurement_limits_ordered
+  type: expression
+  check: lsl <= target and target <= usl
+  severity: error

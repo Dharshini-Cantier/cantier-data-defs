@@ -1,0 +1,49 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# CONTRACT - the agreed shape of an event between a producer and the platform.
+id: curing.condition.v2
+version: 0.1.0
+kind: event
+extends: envelope.v1
+description: Curing press condition/process reading incl. steam valve CMD/FB for the valve-stiction PdM model (PdM doc sample).
+topic: manufacturing.<site>.curing.condition.v2
+key:
+- plant_asset_id
+- tag_name
+compatibility: BACKWARD
+bronze_table: bronze.iiot_uns_events
+silver_table: silver.iiot_tag_reading
+allowed_tags:
+- Cure_MoldTemp
+- Cure_BladderTemp
+- Cure_SteamPressure
+- Cure_NitrogenPressure
+- Cure_Time
+- Cure_PressForce
+- Cure_BladderCycles
+- Cure_PressStatus
+- Cure_DegreeOfCure
+- Cure_ExhaustTemp
+- Cure_CycleTime
+- Cure_MoldPressure
+- Cure_BladderPressure
+- Cure_WaterTemperature
+- Maintenance_DueHours
+- Gearbox_OilTemp
+- Hydraulic_OilPressure
+- Machine_RuntimeHours
+- Curing_PressVibration
+- Motor_Temperature
+- Bearing_Vibration
+- Bearing_Temperature
+- Gearbox_Vibration
+- Hydraulic_OilTemperature
+- Hydraulic_Pressure
+- Pneumatic_Pressure
+- Motor_Speed
+- Motor_Torque
+- SteamValve_Position_CMD
+- SteamValve_Position_FB
+rules:
+- cycle_id required while the press is curing
+- SteamValve_Position_CMD/FB are MISSING at source today (finding) - add to Curing template
+fields: []

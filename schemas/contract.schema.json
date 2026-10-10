@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "contract.schema.json",
+  "title": "Event contract (contracts/<id>.yaml)",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z_]+(\\.[a-z_]+)*\\.v[0-9]+$"
+    },
+    "version": {
+      "$ref": "common.schema.json#/$defs/semver"
+    },
+    "kind": {
+      "enum": [
+        "envelope",
+        "event"
+      ]
+    },
+    "extends": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "topic": {
+      "type": "string"
+    },
+    "key": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/snake"
+      }
+    },
+    "compatibility": {
+      "enum": [
+        "BACKWARD",
+        "FORWARD",
+        "FULL",
+        "NONE"
+      ]
+    },
+    "bronze_table": {
+      "$ref": "common.schema.json#/$defs/table_name"
+    },
+    "silver_table": {
+      "$ref": "common.schema.json#/$defs/table_name"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "allowed_tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "$ref": "common.schema.json#/$defs/snake"
+          },
+          "type": {
+            "enum": [
+              "string",
+              "int",
+              "bigint",
+              "double",
+              "boolean",
+              "date",
+              "timestamp",
+              "array<string>",
+              "any",
+              "decimal(18,2)"
+            ]
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "required_when": {
+            "type": "string"
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/snake"
+            }
+          },
+          "term": {
+            "$ref": "common.schema.json#/$defs/snake"
+          },
+          "pii": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "example": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "type",
+          "required"
+        ]
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "version",
+    "kind",
+    "description",
+    "compatibility",
+    "fields"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "event"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "extends",
+          "topic",
+          "key"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "catalogue.schema.json",
+  "title": "Table catalogue (tables/catalogue.yaml)",
+  "type": "object",
+  "properties": {
+    "version": {
+      "$ref": "common.schema.json#/$defs/semver"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tables": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^(bronze|silver|gold|ops|ref)\\.[a-z][a-z0-9_]*$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "has_spec": {
+            "type": "boolean"
+          },
+          "grain": {
+            "type": "string"
+          },
+          "partition": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "freshness": {
+            "type": "string"
+          },
+          "glossary_term_id": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "has_spec"
+        ]
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "tables"
+  ]
+}

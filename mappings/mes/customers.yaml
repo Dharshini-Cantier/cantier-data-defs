@@ -1,0 +1,56 @@
+# MAPPING - how Bronze bronze.mes_cdc_customers becomes Silver silver.mes_customer. The Bronze->Silver job follows this file.
+target_table: silver.mes_customer
+version: 0.1.0
+mapping_version: mes-map-2026.10.10
+kind: cdc_table
+description: MES Customers (DMS full load + CDC) to the canonical customer master
+source:
+  system: MES_CORE
+  tables: {c: bronze.mes_cdc_customers}
+cdc:                                  # keep the latest change per Id; drop customers whose latest change is a delete
+  key: [c.Id]
+  order_by: c.dms_commit_ts
+  op_column: c.Op
+  delete_value: D
+columns:
+  - target: golden_customer_id
+    from: c.Id
+    lookup: {map: identity_map, source_system: MES_CORE, source_type: customer}
+  - {target: customer_id,                    from: c.Id}
+  - {target: customer_code,                  from: c.CustomerCode, transform: {fn: upper}}
+  - {target: customer_name,                  from: c.CustomerName, transform: {fn: trim}}
+  - {target: business_partner_type_code,     from: c.BusinessPartnerType}
+  - {target: credit_limit,                   from: c.CreditLimit}
+  - {target: outstanding_sales_order_amount, from: c.OutstandingSalesOrder}
+  - {target: address,                        from: c.Address, transform: {fn: trim}}
+  - {target: email,                          from: c.EmailAddress, transform: {fn: lower}}
+  - {target: contact_number,                 from: c.ContactNumber, transform: {fn: trim}}
+  - {target: fax_number,                     from: c.FaxNumber}
+  - {target: line_of_business,               from: c.LineOfBusiness}
+  - {target: tax_id_number,                  from: c.TinNumber}
+  - {target: sec_registration_number,        from: c.SecNumber}
+  - {target: contact_person_name,            from: c.ContactPerson, transform: {fn: trim}}
+  - {target: contact_person_position,        from: c.ContactPersonPosition}
+  - {target: remarks,                        from: c.Remarks}
+  - target: is_active
+    from: c.IsActive
+    lookup: {map: code_map, source_system: MES_CORE, source_type: is_active}
+  - target: vatability
+    from: c.Vatability
+    lookup: {map: code_map, source_system: MES_CORE, source_type: vatability}
+  - {target: currency_id,                    from: c.CurrencyId}
+  - {target: payment_term_id,                from: c.PaymentTermId}
+  - {target: parent_customer_id,             from: c.MotherCustomerId}
+  - {target: sales_person_id,                from: c.SalesPersonId, transform: {fn: null_if, value: 0}}
+  - {target: collector_id,                   from: c.CollectorId}
+  - {target: transport_time,                 from: c.TransportTime}
+  - {target: website,                        from: c.Website, transform: {fn: lower}}
+  - {target: custom_properties_json,         from: c.CustomPropertyValuesJsonString}
+  - {target: created_by_user_id,             from: c.AddedByUserId}
+  - {target: created_at_utc,                 from: c.AddedDate, transform: {fn: to_utc, source_tz: UTC}}
+  - {target: updated_by_user_id,             from: c.UpdatedByUserId}
+  - {target: updated_at_utc,                 from: c.UpdatedDate, transform: {fn: to_utc, source_tz: UTC}}
+  - {target: source_system,                  value: MES_CORE}
+  - {target: _source_commit_ts,              from: c.dms_commit_ts, transform: {fn: to_utc, source_tz: UTC}}
+  - {target: _mapping_version,               value: mes-map-2026.10.10}
+  - {target: _ts_processed,                  generate: now}

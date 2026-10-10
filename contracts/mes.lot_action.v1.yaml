@@ -1,0 +1,81 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# CONTRACT - the agreed shape of an event between a producer and the platform.
+id: mes.lot_action.v1
+version: 0.1.0
+kind: event
+extends: envelope.v1
+description: One operation executed on a lot (Banbury batch, extrusion run, build, cure, inspection) = production cycle.
+topic: manufacturing.<site>.mes.lot_action.v1
+key:
+- lot_action_id
+compatibility: BACKWARD
+bronze_table: bronze.mes_edge_events
+silver_table: silver.mes_lot_action
+rules:
+- lot_action_id is published on UNS as cycle_id at action start (decision 0.1)
+fields:
+- name: lot_action_id
+  type: string
+  required: true
+  term: production_cycle
+- name: lot_id
+  type: string
+  required: false
+  term: lot
+- name: job_order_id
+  type: string
+  required: false
+  term: production_order
+- name: operation_id
+  type: string
+  required: false
+  term: operation
+- name: quantity_in
+  type: double
+  required: false
+  term: quantity_in
+- name: quantity_out
+  type: double
+  required: false
+  term: quantity_out
+- name: scrap_qty
+  type: double
+  required: false
+  term: scrap_qty
+- name: rework_qty
+  type: double
+  required: false
+  term: rework_qty
+- name: cycle_time_s
+  type: double
+  required: false
+  term: cycle_time_s
+- name: std_cycle_time_s
+  type: double
+  required: false
+  term: std_cycle_time_s
+- name: start_ts
+  type: timestamp
+  required: false
+  term: start_ts
+- name: end_ts
+  type: timestamp
+  required: false
+  term: end_ts
+- name: shift_name
+  type: string
+  required: false
+  term: shift
+- name: operator_id_hash
+  type: string
+  required: false
+  term: operator_id_hash
+  pii: true
+- name: tool_ids
+  type: array<string>
+  required: false
+  term: tool_ids
+- name: weld_test_result_id
+  type: string
+  required: false
+  term: weld_test_result_id

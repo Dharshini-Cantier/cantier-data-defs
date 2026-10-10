@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "kpi.schema.json",
+  "title": "KPI definitions (kpi/*.yaml)",
+  "type": "object",
+  "properties": {
+    "area": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "$ref": "common.schema.json#/$defs/semver"
+    },
+    "kpis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^kpi_[a-z0-9_]+$"
+          },
+          "number": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "formula": {
+            "type": "string",
+            "minLength": 1
+          },
+          "grain": {
+            "type": "string",
+            "minLength": 1
+          },
+          "mes_source_tables": {
+            "type": "string"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/table_name"
+            }
+          },
+          "gold_table": {
+            "$ref": "common.schema.json#/$defs/table_name"
+          },
+          "reconciliation_note": {
+            "type": "string"
+          },
+          "tyre_relevance": {
+            "type": "string"
+          },
+          "owner": {
+            "$ref": "common.schema.json#/$defs/owner"
+          },
+          "status": {
+            "$ref": "common.schema.json#/$defs/status"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "number",
+          "name",
+          "description",
+          "formula",
+          "grain",
+          "owner",
+          "status"
+        ]
+      },
+      "minItems": 1
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "area",
+    "version",
+    "kpis"
+  ]
+}

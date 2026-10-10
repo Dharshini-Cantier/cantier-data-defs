@@ -1,0 +1,824 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# ONTOLOGY (LinkML) - what things exist in the plant and how they connect. Check: python scripts/01_validate_ontology.py
+id: https://w3id.org/cantier/manufacturing
+name: manufacturing
+title: Cantier tyre plant - canonical manufacturing ontology
+version: 0.2.0
+description: Classes and relations of the tyre plant (sheets 09/10 of workbook v3). Relations are attributes on the subject class; cardinality
+  from the workbook is kept as an annotation.
+annotations:
+  canonical_model_version: manufacturing-v0.2
+prefixes:
+  linkml: https://w3id.org/linkml/
+  onto: https://w3id.org/cantier/onto/
+default_prefix: onto
+default_range: string
+imports:
+- linkml:types
+enums:
+  ProcessAreaEnum:
+    permissible_values:
+      RawMaterial: {}
+      Mixing: {}
+      Extrusion: {}
+      Calendering: {}
+      TyreBuilding: {}
+      Curing: {}
+      Inspection: {}
+      Utilities: {}
+  AssetTemplateEnum:
+    permissible_values:
+      RM: {}
+      Banbury: {}
+      Extruder: {}
+      Calender: {}
+      Building: {}
+      Curing: {}
+      Quality: {}
+      Utility: {}
+  CriticalityEnum:
+    permissible_values:
+      A:
+        description: Critical - stops the plant
+      B:
+        description: Important
+      C:
+        description: Low impact
+  MatchMethodEnum:
+    permissible_values:
+      DETERMINISTIC_CROSSWALK: {}
+      ENTITY_RESOLUTION: {}
+      MANUAL: {}
+  MappingStatusEnum:
+    permissible_values:
+      PROPOSED:
+        description: Pattern id, not yet confirmed with MES/CMMS
+      CONFIRMED: {}
+      INACTIVE: {}
+classes:
+  Plant:
+    description: Tyre plant (TyrePlant01 / Site01; PLANT-CHN-01 in PdM doc)
+    annotations:
+      label: Plant / Site
+      standard_alignment: ISA-95 Site
+      id_prefix: PLANT
+      golden_source: MES MDM
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (PLANT-...)
+      has_area:
+        description: Plant hasArea Process Area
+        range: ProcessArea
+        multivalued: true
+        annotations:
+          cardinality: 1:N
+  ProcessArea:
+    description: RawMaterial, Mixing, Extrusion, Calendering, TyreBuilding, Curing, Inspection, Utilities
+    annotations:
+      label: Process Area
+      standard_alignment: ISA-95 Area
+      id_prefix: AREA
+      golden_source: MES MDM
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (AREA-...)
+      has_line:
+        description: Process Area hasLine Production Line
+        range: ProductionLine
+        multivalued: true
+        annotations:
+          cardinality: 1:N
+  ProductionLine:
+    description: RM_Line01, MixingLine01, … UtilityLine01
+    annotations:
+      label: Production Line
+      standard_alignment: ISA-95 Line
+      id_prefix: LINE
+      golden_source: MES MDM
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (LINE-...)
+      has_asset:
+        description: Production Line hasAsset Asset
+        range: Asset
+        multivalued: true
+        annotations:
+          cardinality: 1:N
+  Asset:
+    description: Banbury, Extruder, Calender, TBM, Curing Press, TUM, Utility unit — canonical AST-*
+    annotations:
+      label: Asset (Machine)
+      standard_alignment: ISA-95 Work Unit / ISO 14224 Equipment
+      id_prefix: AST
+      golden_source: MES MDM (id) + CMMS (maint attrs)
+    attributes:
+      canonical_asset_id:
+        identifier: true
+        pattern: ^AST-[A-Z]{3}-\d{6}$
+        description: Golden asset id AST-<TYPE>-<6 digits>
+      machine_id:
+        required: true
+        description: IIoT machine id (Shopfloor Master Machine_ID)
+      name:
+        required: true
+      process:
+        range: ProcessAreaEnum
+        required: true
+      line:
+        required: true
+      template:
+        range: AssetTemplateEnum
+        required: true
+      mes_asset_id:
+        pattern: ^MES-[A-Z0-9]+-[A-Z0-9_-]+$
+      cmms_asset_id:
+        pattern: ^EQ-[A-Z0-9]+-[A-Z0-9_-]+$
+      uns_base_path:
+        required: true
+        pattern: ^tyreplant01(/[a-z0-9_]+){3}$
+      kepware_device:
+        required: true
+      criticality:
+        range: CriticalityEnum
+      match_method:
+        range: MatchMethodEnum
+      mapping_version:
+        required: true
+      mapping_status:
+        range: MappingStatusEnum
+        required: true
+      is_of_type:
+        description: Asset isOfType Asset Type
+        range: AssetType
+        multivalued: false
+        annotations:
+          cardinality: N:1
+      has_component:
+        description: Asset hasComponent Component
+        range: Component
+        multivalued: true
+        annotations:
+          cardinality: 1:N
+      consumes:
+        description: Asset consumes Utility Supply
+        range: UtilitySupply
+        multivalued: true
+        annotations:
+          cardinality: N:M
+  AssetType:
+    description: 'Tag_Template: RM, Banbury, Extruder, Calender, Building, Curing, Quality, Utility'
+    annotations:
+      label: Asset Type / Template
+      standard_alignment: Equipment class
+      id_prefix: —
+      golden_source: Git definitions
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (—-...)
+  Component:
+    description: Bearing, gearbox, hydraulic unit, motor, bladder, steam control valve, mould
+    annotations:
+      label: Component
+      standard_alignment: ISO 14224 maintainable item
+      id_prefix: CMP
+      golden_source: CMMS
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (CMP-...)
+  Signal:
+    description: A measurable variable of an asset (tag instance) with unit, node id, UNS path
+    annotations:
+      label: Signal / Tag
+      standard_alignment: OT
+      id_prefix: SIG
+      golden_source: Git (from Shopfloor Master)
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (SIG-...)
+      measures:
+        description: Signal measures Measurement Type
+        range: MeasurementType
+        multivalued: false
+        annotations:
+          cardinality: N:1
+      observes:
+        description: Signal observes Asset / Component
+        any_of:
+        - range: Asset
+        - range: Component
+        multivalued: false
+        annotations:
+          cardinality: N:1
+      occurs_in:
+        description: Signal reading occursIn Production Cycle
+        range: ProductionCycle
+        multivalued: false
+        annotations:
+          cardinality: N:1 (by cycle_id or time window)
+  MeasurementType:
+    description: What is measured, independent of asset (MIXER_TEMPERATURE, BEARING_VIBRATION…)
+    annotations:
+      label: Measurement Type
+      standard_alignment: Controlled vocabulary
+      id_prefix: MT
+      golden_source: Git glossary
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (MT-...)
+  MaterialLot:
+    description: NR, SBR, carbon black, silica, steel cord, textile cord, bead wire, chemicals
+    annotations:
+      label: Raw Material / Material Lot
+      standard_alignment: ISA-95 Material
+      id_prefix: MAT / LOT
+      golden_source: ERP / MES
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (MAT / LOT-...)
+      consumed_by:
+        description: Raw Material Lot consumedBy Compound Batch
+        range: CompoundBatch
+        multivalued: true
+        annotations:
+          cardinality: N:M (Banbury cycle)
+  CompoundBatch:
+    description: Banbury output (Batch_ID)
+    annotations:
+      label: Compound Batch
+      standard_alignment: Material lot
+      id_prefix: BAT
+      golden_source: MES Edge
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (BAT-...)
+      consumed_by:
+        description: Compound Batch consumedBy Component (tread/ply)
+        range: SemiFinishedComponent
+        multivalued: true
+        annotations:
+          cardinality: N:M
+  SemiFinishedComponent:
+    description: Tread, calendered ply/cord sheet, bead
+    annotations:
+      label: Component (semi-finished)
+      standard_alignment: Material lot
+      id_prefix: SFG
+      golden_source: MES Edge
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (SFG-...)
+      consumed_by:
+        description: Component consumedBy Green Tyre
+        range: GreenTyre
+        multivalued: true
+        annotations:
+          cardinality: N:M
+  GreenTyre:
+    description: Building output
+    annotations:
+      label: Green Tyre
+      standard_alignment: Serialized WIP
+      id_prefix: GT
+      golden_source: MES Edge
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (GT-...)
+      cured_into:
+        description: Green Tyre curedInto Cured Tyre
+        range: CuredTyre
+        multivalued: false
+        annotations:
+          cardinality: '1:1'
+  CuredTyre:
+    description: Curing output with serial/DOT; Tyre_Size, Tyre_Type
+    annotations:
+      label: Cured Tyre
+      standard_alignment: Serialized product
+      id_prefix: TYR
+      golden_source: MES Edge
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (TYR-...)
+  Product:
+    description: Product_ID, size, type
+    annotations:
+      label: Product (SKU)
+      standard_alignment: Material definition
+      id_prefix: MAT-…
+      golden_source: MES MDM
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (MAT-…-...)
+  Recipe:
+    description: Recipe_ID with setpoints & tolerances per step
+    annotations:
+      label: Recipe
+      standard_alignment: Process definition
+      id_prefix: RCP
+      golden_source: MES MDM
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (RCP-...)
+  SpecLimit:
+    description: LSL/Target/USL per measurement type × product × recipe
+    annotations:
+      label: Spec Limit
+      standard_alignment: Quality definition
+      id_prefix: SPEC
+      golden_source: MES MDM
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (SPEC-...)
+  ProductionOrder:
+    description: PO-yyyy-seq
+    annotations:
+      label: Production Order
+      standard_alignment: ISA-95 Job order
+      id_prefix: PO
+      golden_source: MES / ERP
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (PO-...)
+  ProductionCycle:
+    description: One batch / build / cure / inspection on one asset (cycle_id)
+    annotations:
+      label: Production Cycle
+      standard_alignment: Process segment execution
+      id_prefix: CYC
+      golden_source: MES Edge
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (CYC-...)
+      runs_on:
+        description: Production Cycle runsOn Asset
+        range: Asset
+        multivalued: false
+        annotations:
+          cardinality: N:1
+      executes:
+        description: Production Cycle executes Production Order
+        range: ProductionOrder
+        multivalued: false
+        annotations:
+          cardinality: N:1
+      uses_recipe:
+        description: Production Cycle usesRecipe Recipe
+        range: Recipe
+        multivalued: false
+        annotations:
+          cardinality: N:1
+      produces:
+        description: Production Cycle produces Compound Batch / Component / Green Tyre / Cured Tyre
+        any_of:
+        - range: CompoundBatch
+        - range: SemiFinishedComponent
+        - range: GreenTyre
+        - range: CuredTyre
+        multivalued: true
+        annotations:
+          cardinality: 1:N
+  MachineStateEvent:
+    description: Stopped/Starting/Running/Idle/Down/Alarm interval
+    annotations:
+      label: Machine State Event
+      standard_alignment: Event
+      id_prefix: EVT
+      golden_source: IIoT/MES
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (EVT-...)
+      'on':
+        description: Machine State Event on Asset
+        range: Asset
+        multivalued: false
+        annotations:
+          cardinality: N:1
+  Alarm:
+    description: Alarm_Code occurrence
+    annotations:
+      label: Alarm
+      standard_alignment: ISA-18.2
+      id_prefix: ALM
+      golden_source: IIoT
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (ALM-...)
+  DowntimeEvent:
+    description: Downtime_ReasonCode interval
+    annotations:
+      label: Downtime Event
+      standard_alignment: Event
+      id_prefix: DT
+      golden_source: MES
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (DT-...)
+      explained_by:
+        description: Downtime Event explainedBy Maintenance Work Order
+        range: MaintenanceWorkOrder
+        multivalued: false
+        annotations:
+          cardinality: N:0..1
+  InspectionResult:
+    description: Per-tyre uniformity/balance/dimension/visual result + grade
+    annotations:
+      label: Inspection Result
+      standard_alignment: Quality
+      id_prefix: INS
+      golden_source: MES/QMS
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (INS-...)
+      inspects:
+        description: Inspection Result inspects Cured Tyre
+        range: CuredTyre
+        multivalued: false
+        annotations:
+          cardinality: N:1
+      evaluated_against:
+        description: Inspection Result evaluatedAgainst Spec Limit
+        range: SpecLimit
+        multivalued: true
+        annotations:
+          cardinality: N:M
+  LabTest:
+    description: Tensile, elongation, adhesion, hardness, Mooney — per sample/batch
+    annotations:
+      label: Lab Test
+      standard_alignment: Quality
+      id_prefix: LAB
+      golden_source: QMS
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (LAB-...)
+      tests:
+        description: Lab Test tests Compound Batch
+        range: CompoundBatch
+        multivalued: false
+        annotations:
+          cardinality: N:1
+  Defect:
+    description: Defect type code, NCR, disposition
+    annotations:
+      label: Defect / NCR
+      standard_alignment: Quality
+      id_prefix: NCR
+      golden_source: QMS
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (NCR-...)
+      found_on:
+        description: Defect foundOn Cured Tyre
+        range: CuredTyre
+        multivalued: false
+        annotations:
+          cardinality: N:1
+      attributed_to:
+        description: Defect attributedTo Production Cycle
+        range: ProductionCycle
+        multivalued: false
+        annotations:
+          cardinality: N:1
+  MaintenanceWorkOrder:
+    description: WO-yyyy-seq; PREDICTIVE/PM/CM
+    annotations:
+      label: Maintenance Work Order
+      standard_alignment: CMMS
+      id_prefix: WO
+      golden_source: CMMS
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (WO-...)
+      performed_on:
+        description: Maintenance Work Order performedOn Asset / Component
+        any_of:
+        - range: Asset
+        - range: Component
+        multivalued: false
+        annotations:
+          cardinality: N:1
+      raised_from:
+        description: Maintenance Work Order raisedFrom Prediction
+        range: Prediction
+        multivalued: false
+        annotations:
+          cardinality: 0..1:1
+      approved_by:
+        description: Maintenance Work Order approvedBy Approval
+        range: Approval
+        multivalued: false
+        annotations:
+          cardinality: '1:1'
+      resolves:
+        description: Maintenance Work Order resolves Equipment Problem
+        range: EquipmentProblem
+        multivalued: true
+        annotations:
+          cardinality: 1:N
+  FailureMode:
+    description: VALVE_STICTION, BEARING_WEAR …
+    annotations:
+      label: Failure Mode
+      standard_alignment: ISO 14224
+      id_prefix: FM
+      golden_source: CMMS / Git
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (FM-...)
+  Prediction:
+    description: pred-…; failure_probability_7d, RUL, health_score
+    annotations:
+      label: Prediction
+      standard_alignment: Analytics
+      id_prefix: PRED
+      golden_source: SageMaker
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (PRED-...)
+      predicts:
+        description: Prediction predicts Failure Mode on Component
+        range: FailureMode
+        multivalued: false
+        annotations:
+          cardinality: N:1
+      evidenced_by:
+        description: Prediction evidencedBy Signal readings (features)
+        range: Signal
+        multivalued: true
+        annotations:
+          cardinality: 1:N
+  Meter:
+    description: Run hours, bladder cycles
+    annotations:
+      label: Meter
+      standard_alignment: CMMS
+      id_prefix: MTR
+      golden_source: CMMS (fed by IIoT)
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (MTR-...)
+      'on':
+        description: Meter on Asset / Component
+        any_of:
+        - range: Asset
+        - range: Component
+        multivalued: false
+        annotations:
+          cardinality: N:1
+  UtilitySupply:
+    description: Steam, compressed air, cooling water, electricity
+    annotations:
+      label: Utility Supply
+      standard_alignment: Resource
+      id_prefix: UTL
+      golden_source: MES MDM
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (UTL-...)
+  Shift:
+    description: Shift_No instance
+    annotations:
+      label: Shift
+      standard_alignment: Calendar
+      id_prefix: SHF
+      golden_source: MES
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (SHF-...)
+  Approval:
+    description: MCP approval & audit records
+    annotations:
+      label: Approval / Audit
+      standard_alignment: Governance
+      id_prefix: APR / AUD
+      golden_source: MCP control
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (APR / AUD-...)
+  Lot:
+    description: 'MES tracking unit: compound batch, component lot, green tyre, cured tyre (qty 1)'
+    annotations:
+      label: Lot (LotTraveller)
+      standard_alignment: ISA-95 Material Lot
+      id_prefix: LOT
+      golden_source: MES
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (LOT-...)
+      belongs_to:
+        description: Lot belongsTo Production Order (JobOrder)
+        range: ProductionOrder
+        multivalued: false
+        annotations:
+          cardinality: N:1
+  LotAction:
+    description: Operation executed on a lot = Production Cycle (cycle_id)
+    annotations:
+      label: Lot Action
+      standard_alignment: ISA-95 Segment Response
+      id_prefix: CYC
+      golden_source: MES
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (CYC-...)
+      acts_on:
+        description: Lot Action actsOn Lot
+        range: Lot
+        multivalued: false
+        annotations:
+          cardinality: N:1
+      runs_on:
+        description: Lot Action runsOn (LotActionMachines) Asset
+        range: Asset
+        multivalued: true
+        annotations:
+          cardinality: N:M
+          via: LotActionMachines
+      uses_tool:
+        description: Lot Action usesTool (LotActionTools) Tool
+        range: Tool
+        multivalued: true
+        annotations:
+          cardinality: N:M
+          via: LotActionTools
+      consumes:
+        description: Lot Action consumes (LotActionMaterials) Lot
+        range: Lot
+        multivalued: true
+        annotations:
+          cardinality: N:M
+          via: LotActionMaterials
+      records:
+        description: Lot Action records (LotActionDataCollection…) Measurement
+        range: DataCollectionParameter
+        multivalued: true
+        annotations:
+          cardinality: 1:N
+          via: LotActionDataCollection…
+      has_defect:
+        description: Lot Action hasDefect Defect
+        range: Defect
+        multivalued: true
+        annotations:
+          cardinality: 1:N
+      raises_ncm:
+        description: Lot Action raisesNCM NCR
+        range: Defect
+        multivalued: true
+        annotations:
+          cardinality: 1:N
+      has_signal_profile:
+        description: Lot Action hasSignalProfile (cycle_id) Signal readings
+        range: Signal
+        multivalued: true
+        annotations:
+          cardinality: 1:N
+          via: cycle_id
+  Operation:
+    description: ProductionOperations, ProductSpecOperations (std CT)
+    annotations:
+      label: Operation / Routing
+      standard_alignment: ISA-95 Process Segment
+      id_prefix: OPR
+      golden_source: MES MDM
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (OPR-...)
+  DataCollectionParameter:
+    description: DataCollectionParameters — the inline quality characteristic
+    annotations:
+      label: Data Collection Parameter
+      standard_alignment: Quality characteristic
+      id_prefix: DCP
+      golden_source: MES MDM
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (DCP-...)
+  Tool:
+    description: Mould, bladder, die (LotActionTools, Cleanings)
+    annotations:
+      label: Tool
+      standard_alignment: Equipment subclass
+      id_prefix: TOOL
+      golden_source: MES
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (TOOL-...)
+  EquipmentProblem:
+    description: Breakdown with root cause
+    annotations:
+      label: Equipment Problem
+      standard_alignment: Event
+      id_prefix: PRB
+      golden_source: MES/CMMS
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (PRB-...)
+      'on':
+        description: Equipment Problem on Asset
+        range: Asset
+        multivalued: false
+        annotations:
+          cardinality: N:1
+  InventoryLocation:
+    description: Locations / locators
+    annotations:
+      label: Inventory Location
+      standard_alignment: ISA-95 Storage
+      id_prefix: LOC
+      golden_source: MES
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (LOC-...)
+  Qualification:
+    description: Operator × process skill
+    annotations:
+      label: Qualification
+      standard_alignment: Personnel
+      id_prefix: QUAL
+      golden_source: MES
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (QUAL-...)
+  ChecklistEvent:
+    description: Shift / equipment checklist
+    annotations:
+      label: Checklist Event
+      standard_alignment: Compliance
+      id_prefix: CHK
+      golden_source: MES
+    attributes:
+      id:
+        identifier: true
+        description: Canonical id (CHK-...)
+  Customer:
+    description: A company that buys tyres from the plant (MES Customers master; golden id from entity resolution / MDM)
+    annotations:
+      label: Customer
+      standard_alignment: ISA-95 Party / Business partner
+      id_prefix: GOLDEN_CUST
+      golden_source: MES MDM (customer master) + entity resolution
+    attributes:
+      id:
+        identifier: true
+        pattern: ^GOLDEN_CUST_\d+$
+        description: Golden customer id (GOLDEN_CUST_<n>)
+      parent_customer:
+        description: Customer hasParent Customer (MES MotherCustomerId)
+        range: Customer
+        multivalued: false
+        annotations:
+          cardinality: N:0..1
+  AssetRegistry:
+    description: Container for one site's asset seed file (assets/<site>.yaml) - validated with linkml-validate
+    tree_root: true
+    attributes:
+      site:
+        required: true
+      version:
+        required: true
+      mapping_version:
+        required: true
+      assets:
+        range: Asset
+        multivalued: true
+        inlined_as_list: true
+        required: true

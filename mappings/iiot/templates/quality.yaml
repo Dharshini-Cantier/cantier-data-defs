@@ -1,0 +1,405 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# IIoT TEMPLATE - tag list of one machine type. machines x tags = tag instances (check: scripts/04_check_coverage.py).
+template: Quality
+version: 0.1.0
+mapping_version: iiot-map-2026.10.10
+description: 'Quality machines: which tags they publish and what each tag measures.'
+machines:
+- UniformityTester01
+- UniformityTester02
+patterns:
+  uns_path: tyreplant01/{process_lc}/{line_lc}/{machine_lc}/{domain_lc}/{tag_lc}
+  opc_node_id: ns=2;s=test.opc.Simulation.Site01.{process}.{line}.{machine}.{domain}.{tag}
+  kepware_device: '{machine}_Device'
+  kepware_tag: '{tag}'
+tags:
+- tag_name: Timestamp
+  measurement_type: timestamp
+  domain: Context
+  data_type: timestamp
+  unit: s
+  access: Read
+  simulation_profile: System timestamp
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Data_Quality
+  measurement_type: data_quality
+  domain: Context
+  data_type: string
+  unit: OPC UA StatusCode
+  access: Read
+  simulation_profile: OPC UA quality
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Batch_ID
+  measurement_type: batch_id
+  domain: Context
+  data_type: string
+  access: Read
+  simulation_profile: Production context sequence
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Recipe_ID
+  measurement_type: recipe_id
+  domain: Context
+  data_type: string
+  access: Read
+  simulation_profile: Production context sequence
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Product_ID
+  measurement_type: product_id
+  domain: Context
+  data_type: string
+  access: Read
+  simulation_profile: Production context sequence
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Tyre_Size
+  measurement_type: tyre_size
+  domain: Context
+  data_type: string
+  access: Read
+  simulation_profile: Production context sequence
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Tyre_Type
+  measurement_type: tyre_type
+  domain: Context
+  data_type: string
+  access: Read
+  simulation_profile: Production context sequence
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Shift_No
+  measurement_type: shift_no
+  domain: Context
+  data_type: string
+  access: Read
+  simulation_profile: Production context sequence
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.mes_production_context
+- tag_name: Quality_RadialForceVariation
+  measurement_type: quality_radial_force_variation
+  domain: Quality
+  data_type: double
+  unit: N
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_LateralForceVariation
+  measurement_type: quality_lateral_force_variation
+  domain: Quality
+  data_type: double
+  unit: N
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_DynamicBalance
+  measurement_type: quality_dynamic_balance
+  domain: Quality
+  data_type: double
+  unit: g·cm
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_TensileStrength
+  measurement_type: quality_tensile_strength
+  domain: Quality
+  data_type: double
+  unit: MPa
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_Elongation
+  measurement_type: quality_elongation
+  domain: Quality
+  data_type: double
+  unit: '%'
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_AdhesionStrength
+  measurement_type: quality_adhesion_strength
+  domain: Quality
+  data_type: double
+  unit: MPa
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_TyreWeight
+  measurement_type: quality_tyre_weight
+  domain: Quality
+  data_type: double
+  unit: kg
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_DefectFlag
+  measurement_type: quality_defect_flag
+  domain: Quality
+  data_type: boolean
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_DefectTypeCode
+  measurement_type: quality_defect_type_code
+  domain: Quality
+  data_type: string
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_Grade
+  measurement_type: quality_grade
+  domain: Quality
+  data_type: string
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_UniformityPass
+  measurement_type: quality_uniformity_pass
+  domain: Quality
+  data_type: boolean
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_InspectionResult
+  measurement_type: quality_inspection_result
+  domain: Quality
+  data_type: string
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_OverallDiameter
+  measurement_type: quality_overall_diameter
+  domain: Quality
+  data_type: double
+  unit: mm
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_SectionWidth
+  measurement_type: quality_section_width
+  domain: Quality
+  data_type: double
+  unit: mm
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_TreadDepth
+  measurement_type: quality_tread_depth
+  domain: Quality
+  data_type: double
+  unit: mm
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_RadialRunout
+  measurement_type: quality_radial_runout
+  domain: Quality
+  data_type: double
+  unit: mm
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_LateralRunout
+  measurement_type: quality_lateral_runout
+  domain: Quality
+  data_type: double
+  unit: mm
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_BeadDiameter
+  measurement_type: quality_bead_diameter
+  domain: Quality
+  data_type: double
+  unit: mm
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_SidewallThickness
+  measurement_type: quality_sidewall_thickness
+  domain: Quality
+  data_type: double
+  unit: mm
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_Hardness
+  measurement_type: quality_hardness
+  domain: Quality
+  data_type: double
+  unit: Shore A
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_AirPressureRetention
+  measurement_type: quality_air_pressure_retention
+  domain: Quality
+  data_type: double
+  unit: bar
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Quality_VisualInspection
+  measurement_type: quality_visual_inspection
+  domain: Quality
+  data_type: string
+  access: Read
+  simulation_profile: Inspection result profile
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.qa_inspection_result
+- tag_name: Machine_State
+  measurement_type: machine_state
+  domain: State_Alarm
+  data_type: string
+  source_data_type: boolean
+  unit: enum
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Alarm_Active
+  measurement_type: alarm_active
+  domain: State_Alarm
+  data_type: boolean
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Alarm_Code
+  measurement_type: alarm_code
+  domain: State_Alarm
+  data_type: string
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Emergency_Stop
+  measurement_type: emergency_stop
+  domain: State_Alarm
+  data_type: boolean
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Downtime_ReasonCode
+  measurement_type: downtime_reason_code
+  domain: State_Alarm
+  data_type: string
+  access: Read
+  simulation_profile: State machine
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_state_event
+- tag_name: Maintenance_DueHours
+  measurement_type: maintenance_due_hours
+  domain: Condition
+  data_type: double
+  unit: h
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Gearbox_OilTemp
+  measurement_type: gearbox_oil_temp
+  domain: Condition
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Machine_RuntimeHours
+  measurement_type: machine_runtime_hours
+  domain: Condition
+  data_type: double
+  unit: h
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Motor_Temperature
+  measurement_type: motor_temperature
+  domain: Condition
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Bearing_Vibration
+  measurement_type: bearing_vibration
+  domain: Condition
+  data_type: double
+  unit: mm/s
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Bearing_Temperature
+  measurement_type: bearing_temperature
+  domain: Condition
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Gearbox_Vibration
+  measurement_type: gearbox_vibration
+  domain: Condition
+  data_type: double
+  unit: mm/s
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Hydraulic_OilTemperature
+  measurement_type: hydraulic_oil_temperature
+  domain: Condition
+  data_type: double
+  unit: °C
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Motor_Speed
+  measurement_type: motor_speed
+  domain: Condition
+  data_type: double
+  unit: rpm
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading
+- tag_name: Motor_Torque
+  measurement_type: motor_torque
+  domain: Condition
+  data_type: double
+  unit: N·m
+  access: Read
+  simulation_profile: Slow drift / excursions
+  bronze_table: bronze.iiot_uns_events
+  silver_table: silver.iiot_tag_reading

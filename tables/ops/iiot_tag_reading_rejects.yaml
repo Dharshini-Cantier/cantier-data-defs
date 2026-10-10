@@ -1,0 +1,48 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: ops.iiot_tag_reading_rejects
+layer: ops
+version: 0.1.0
+description: 'one rejected bronze row. Source: Silver job'
+grain: one rejected bronze row
+primary_key:
+- bronze_row_id
+partition_by:
+- days(_ts_processed)
+owner: IIoT / process engineering
+freshness: 10min
+source: Silver job
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/ops/iiot_tag_reading_rejects/
+columns:
+- name: bronze_row_id
+  type: string
+  nullable: false
+  technical: true
+- name: source_time_raw
+  type: string
+  nullable: true
+  technical: true
+- name: source_value_raw
+  type: string
+  nullable: true
+  technical: true
+- name: quality_raw
+  type: string
+  nullable: true
+  technical: true
+- name: opc_node_id
+  type: string
+  nullable: true
+  technical: true
+- name: reject_reason
+  type: string
+  nullable: true
+  term: reject_reason
+  description: quality_bad | parse_error | unmapped_asset | out_of_range | duplicate
+- name: _ts_processed
+  type: timestamp
+  nullable: true
+  technical: true
+  partition: true

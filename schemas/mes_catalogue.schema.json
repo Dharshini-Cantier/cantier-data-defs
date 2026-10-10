@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mes_catalogue.schema.json",
+  "title": "MES table catalogue (mappings/mes_catalogue.yaml)",
+  "type": "object",
+  "properties": {
+    "version": {
+      "$ref": "common.schema.json#/$defs/semver"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "mes_tables": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "module": {
+            "type": "string"
+          },
+          "known_columns": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "ontology_class": {
+            "type": "string"
+          },
+          "meaning": {
+            "type": "string"
+          },
+          "bronze_tables": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "silver_target": {
+            "$ref": "common.schema.json#/$defs/table_name"
+          },
+          "kpis": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "relevance": {
+            "type": "string"
+          },
+          "mapping_status": {
+            "enum": [
+              "waiting_for_schema_export",
+              "mapped",
+              "out_of_scope"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "mes_tables",
+          "mapping_status"
+        ]
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "tables"
+  ]
+}

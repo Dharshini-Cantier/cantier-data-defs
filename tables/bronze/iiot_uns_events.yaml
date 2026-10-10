@@ -1,0 +1,96 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: bronze.iiot_uns_events
+layer: bronze
+version: 0.1.0
+description: 'one row per UNS/MSK message. Source: MSK via Firehose'
+grain: one row per UNS/MSK message
+primary_key:
+- ingestion_id
+partition_by:
+- days(ingested_at)
+- source_topic
+owner: IIoT / process engineering
+freshness: 5min
+glossary_term_id: onto:entity/signal_reading
+source: MSK via Firehose
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/bronze/iiot_uns_events/
+columns:
+- name: ingestion_id
+  type: string
+  nullable: false
+  technical: true
+  description: Firehose record id
+- name: ingested_at
+  type: timestamp
+  nullable: true
+  technical: true
+  description: Landing time
+  partition: true
+- name: source_topic
+  type: string
+  nullable: true
+  technical: true
+  description: MSK topic
+  partition: true
+- name: kafka_partition
+  type: int
+  nullable: true
+  technical: true
+- name: kafka_offset
+  type: bigint
+  nullable: true
+  technical: true
+- name: schema_id
+  type: string
+  nullable: true
+  technical: true
+  description: Contract id
+- name: event_id
+  type: string
+  nullable: true
+  technical: true
+  description: Producer id
+- name: event_time
+  type: timestamp
+  nullable: true
+  technical: true
+  description: Source time
+- name: plant_asset_id
+  type: string
+  nullable: true
+  technical: true
+  description: Source asset
+- name: uns_path
+  type: string
+  nullable: true
+  technical: true
+  description: Full UNS topic
+- name: tag_name
+  type: string
+  nullable: true
+  technical: true
+- name: opc_node_id
+  type: string
+  nullable: true
+  technical: true
+- name: value_raw
+  type: string
+  nullable: true
+  technical: true
+- name: quality_raw
+  type: string
+  nullable: true
+  technical: true
+- name: payload_json
+  type: string
+  nullable: true
+  technical: true
+  description: Full original payload
+- name: record_status
+  type: string
+  nullable: true
+  technical: true
+  description: RAW

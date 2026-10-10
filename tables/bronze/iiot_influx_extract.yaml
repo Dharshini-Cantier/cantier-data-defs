@@ -1,0 +1,114 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: bronze.iiot_influx_extract
+layer: bronze
+version: 0.1.0
+description: 'one row per Influx point (POC). Source: InfluxDB CSV export (query 2.csv)'
+grain: one row per Influx point (POC)
+primary_key:
+- bronze_row_id
+partition_by:
+- days(_time)
+owner: IIoT / process engineering
+glossary_term_id: onto:entity/signal_reading
+source: InfluxDB CSV export (query 2.csv)
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/bronze/iiot_influx_extract/
+columns:
+- name: bronze_row_id
+  type: bigint
+  nullable: false
+  technical: true
+  description: Surrogate row id
+- name: result
+  type: string
+  nullable: true
+  technical: true
+  description: Influx annotated CSV
+- name: table
+  type: int
+  nullable: true
+  technical: true
+  description: Influx table index
+- name: _start
+  type: timestamp
+  nullable: true
+  technical: true
+  description: Query window start
+- name: _stop
+  type: timestamp
+  nullable: true
+  technical: true
+  description: Query window end
+- name: _time
+  type: timestamp
+  nullable: true
+  technical: true
+  description: Point time (UTC)
+  partition: true
+- name: _value
+  type: string
+  nullable: true
+  technical: true
+  description: Raw value as text
+- name: _field
+  type: string
+  nullable: true
+  technical: true
+  description: e.g. normalizedValue
+- name: _measurement
+  type: string
+  nullable: true
+  technical: true
+  description: e.g. tag_values
+- name: equipment
+  type: string
+  nullable: true
+  technical: true
+  description: Influx tag — currently 'unknown'
+- name: line
+  type: string
+  nullable: true
+  technical: true
+  description: currently 'unknown'
+- name: plant
+  type: string
+  nullable: true
+  technical: true
+  description: currently 'unknown'
+- name: mapping_id
+  type: int
+  nullable: true
+  technical: true
+  description: Cantier IIoT mapping id
+- name: mapping_name
+  type: string
+  nullable: true
+  technical: true
+  description: Source tag name
+- name: opc_node_id
+  type: string
+  nullable: true
+  technical: true
+  description: OPC UA node id
+- name: quality
+  type: string
+  nullable: true
+  technical: true
+  description: Good/Bad
+- name: source_system
+  type: string
+  nullable: true
+  technical: true
+  description: InfluxDB
+- name: source_file
+  type: string
+  nullable: true
+  technical: true
+  description: Extract file
+- name: ingested_at_utc
+  type: timestamp
+  nullable: true
+  technical: true
+  description: Landing time

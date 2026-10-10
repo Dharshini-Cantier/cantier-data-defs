@@ -1,0 +1,146 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# KPI DEFINITIONS - formula, grain, sources and owner of each KPI (dbt models generated in B3.7).
+area: Production & Output
+version: 0.1.0
+kpis:
+- id: kpi_wip_quantity
+  number: 1
+  name: WIP Quantity
+  description: Quantity of lots currently in each process/operation, by product.
+  formula: SUM(lot qty) WHERE lot open, BY operation, item
+  grain: snapshot (hourly)
+  mes_source_tables: LotTravellers, ProductionOperations, Processes, Items
+  sources:
+  - silver.mdm_item
+  - silver.mdm_operation
+  - silver.mdm_process
+  - silver.mes_lot
+  gold_table: gold.wip_snapshot
+  tyre_relevance: High
+  owner: Production & Output owner (to confirm)
+  status: draft
+- id: kpi_output_quantity
+  number: 2
+  name: Output Quantity
+  description: Good quantity completed per shift, day, week and month.
+  formula: SUM(QuantityOut − scrap) BY shift/day/week/month
+  grain: machine × shift
+  mes_source_tables: LotActions (QuantityOut, ShiftName)
+  sources:
+  - silver.mes_lot_action
+  gold_table: gold.production_output
+  reconciliation_note: IIoT Prod counts must NOT be a second source
+  tyre_relevance: High
+  owner: Production & Output owner (to confirm)
+  status: draft
+- id: kpi_yield
+  number: 3
+  name: Yield %
+  description: Quantity out / quantity in per operation and line.
+  formula: SUM(QuantityOut) / SUM(QuantityIn)
+  grain: operation × line × day
+  mes_source_tables: LotActions (QuantityIn, QuantityOut)
+  sources:
+  - silver.mes_lot_action
+  gold_table: gold.production_output
+  tyre_relevance: High
+  owner: Production & Output owner (to confirm)
+  status: draft
+- id: kpi_first_pass_yield
+  number: 4
+  name: First Pass Yield
+  description: Share of units passing an operation with no rework or scrap.
+  formula: units with no rework & no scrap / units in
+  grain: operation × SKU × day
+  mes_source_tables: LotActions, LotActionReworkDetails
+  sources:
+  - silver.mes_lot_action
+  - silver.qa_rework
+  gold_table: gold.quality_fpy
+  reconciliation_note: Also uses Quality_UniformityPass per tyre
+  tyre_relevance: High
+  owner: Production & Output owner (to confirm)
+  status: draft
+- id: kpi_job_order_completion
+  number: 5
+  name: Job Order Completion %
+  description: Completed vs released vs pending quantity per job order.
+  formula: completed / Quantity; ReleasedQuantity / Quantity; PendingQuantity
+  grain: job order
+  mes_source_tables: JobOrders (Quantity, ReleasedQuantity, PendingQuantity)
+  sources:
+  - silver.mes_job_order
+  gold_table: gold.job_order_status
+  tyre_relevance: High
+  owner: Production & Output owner (to confirm)
+  status: draft
+- id: kpi_on_time_delivery
+  number: 6
+  name: On-Time Delivery
+  description: Planned vs actual start and completion dates of job orders.
+  formula: COUNT(ActualEnd ≤ PlannedEnd) / COUNT(*)
+  grain: job order × week
+  mes_source_tables: JobOrders (Planned/Actual dates)
+  sources:
+  - silver.mes_job_order
+  gold_table: gold.job_order_status
+  tyre_relevance: High
+  owner: Production & Output owner (to confirm)
+  status: draft
+- id: kpi_lot_lead_time
+  number: 7
+  name: Lot Lead Time
+  description: Time from lot start to lot close.
+  formula: ClosedDateTime − StartDateTime
+  grain: lot
+  mes_source_tables: LotTravellers (StartDateTime, ClosedDateTime)
+  sources:
+  - silver.mes_lot
+  gold_table: gold.lot_flow
+  reconciliation_note: Green tyre ageing before cure is critical
+  tyre_relevance: High
+  owner: Production & Output owner (to confirm)
+  status: draft
+- id: kpi_cycle_time_vs_standard
+  number: 8
+  name: Cycle Time vs Standard
+  description: Actual cycle time per operation vs standard in product spec.
+  formula: AVG(Cycletime) / std_cycle_time
+  grain: operation × machine × SKU
+  mes_source_tables: LotActions (Cycletime, StartDateTime, EndDateTime), ProductSpecOperations
+  sources:
+  - silver.mdm_product_spec_operation
+  - silver.mes_lot_action
+  gold_table: gold.process_cycle_summary
+  reconciliation_note: Cure cycle time also from IIoT Cure_CycleTime — reconcile
+  tyre_relevance: High
+  owner: Production & Output owner (to confirm)
+  status: draft
+- id: kpi_throughput_per_line
+  number: 9
+  name: Throughput per Line
+  description: Output per production line over time.
+  formula: SUM(QuantityOut) / hours
+  grain: line × hour
+  mes_source_tables: LotTravellers (ProductionLineId), LotActions
+  sources:
+  - silver.mes_lot
+  - silver.mes_lot_action
+  gold_table: gold.production_output
+  tyre_relevance: High
+  owner: Production & Output owner (to confirm)
+  status: draft
+- id: kpi_plan_vs_actual
+  number: 10
+  name: Plan vs Actual
+  description: Planned quantity vs actual output by shift or day.
+  formula: SUM(actual) / SUM(planned)
+  grain: line × shift
+  mes_source_tables: JobOrders, LotActions
+  sources:
+  - silver.mes_job_order
+  - silver.mes_lot_action
+  gold_table: gold.job_order_status
+  tyre_relevance: High
+  owner: Production & Output owner (to confirm)
+  status: draft

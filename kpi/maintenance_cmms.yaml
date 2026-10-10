@@ -1,0 +1,129 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# KPI DEFINITIONS - formula, grain, sources and owner of each KPI (dbt models generated in B3.7).
+area: Maintenance (CMMS)
+version: 0.1.0
+kpis:
+- id: kpi_work_order_status
+  number: 32
+  name: Work Order Status
+  description: Open vs closed work orders by type (PM, corrective).
+  formula: COUNT BY status, type
+  grain: snapshot
+  mes_source_tables: WorkOrders (MaintenanceStatus, WorkOrderType)
+  sources:
+  - silver.cmms_work_order
+  gold_table: gold.maintenance_kpi
+  tyre_relevance: High
+  owner: Maintenance (CMMS) owner (to confirm)
+  status: draft
+- id: kpi_pm_compliance
+  number: 33
+  name: PM Compliance %
+  description: PM completed on schedule vs planned.
+  formula: PM done by ScheduleDate / PM planned
+  grain: month
+  mes_source_tables: WorkOrders (ScheduleDate, CompletionDateTime), MaintenanceDefinitions
+  sources:
+  - silver.cmms_pm_plan
+  - silver.cmms_work_order
+  gold_table: gold.maintenance_kpi
+  tyre_relevance: High
+  owner: Maintenance (CMMS) owner (to confirm)
+  status: draft
+- id: kpi_mttr
+  number: 34
+  name: MTTR
+  description: 'Mean time to repair: average of start to completion per work order.'
+  formula: AVG(CompletionDateTime − MaintenanceStartDateTime)
+  grain: equipment × month
+  mes_source_tables: WorkOrders (MaintenanceStartDateTime, CompletionDateTime)
+  sources:
+  - silver.cmms_work_order
+  gold_table: gold.maintenance_kpi
+  reconciliation_note: Add response time = start − problem reported
+  tyre_relevance: High
+  owner: Maintenance (CMMS) owner (to confirm)
+  status: draft
+- id: kpi_mtbf
+  number: 35
+  name: MTBF
+  description: Mean time between failures per equipment/group.
+  formula: operating time / COUNT(failures)
+  grain: equipment × month
+  mes_source_tables: WorkOrders, EquipmentProblems
+  sources:
+  - silver.cmms_work_order
+  - silver.mes_equipment_problem
+  gold_table: gold.maintenance_kpi
+  reconciliation_note: Operating time from IIoT Machine_RuntimeHours, not calendar time
+  tyre_relevance: High
+  owner: Maintenance (CMMS) owner (to confirm)
+  status: draft
+- id: kpi_breakdown_count_downtime
+  number: 36
+  name: Breakdown Count & Downtime
+  description: Breakdowns and downtime hours by equipment, problem and root cause.
+  formula: COUNT, SUM(downtime h) BY equipment, problem, root cause
+  grain: month
+  mes_source_tables: WorkOrders, EquipmentProblems, EquipmentProblemRootCauses
+  sources:
+  - silver.cmms_work_order
+  - silver.mes_equipment_problem
+  gold_table: gold.maintenance_kpi
+  tyre_relevance: High
+  owner: Maintenance (CMMS) owner (to confirm)
+  status: draft
+- id: kpi_maintenance_backlog_ageing
+  number: 37
+  name: Maintenance Backlog & Ageing
+  description: Open work orders and how overdue they are.
+  formula: open WOs; NOW − ScheduleDate
+  grain: snapshot
+  mes_source_tables: WorkOrders (ScheduleDate, MaintenanceStatus)
+  sources:
+  - silver.cmms_work_order
+  gold_table: gold.maintenance_kpi
+  tyre_relevance: High
+  owner: Maintenance (CMMS) owner (to confirm)
+  status: draft
+- id: kpi_spare_parts_consumption
+  number: 38
+  name: Spare Parts Consumption
+  description: Spares/supplies used per work order.
+  formula: SUM(supply qty, cost) per WO
+  grain: WO
+  mes_source_tables: WorkOrderSupplies, MaintenanceSupplies
+  sources:
+  - silver.cmms_parts_usage
+  gold_table: gold.maintenance_kpi
+  tyre_relevance: High
+  owner: Maintenance (CMMS) owner (to confirm)
+  status: draft
+- id: kpi_technician_workload
+  number: 39
+  name: Technician Workload
+  description: Work orders assigned per technician.
+  formula: COUNT(WO) per technician
+  grain: technician × week
+  mes_source_tables: WorkOrderAssignedTechnicians, WorkOrderTechnicians, Technician
+  sources:
+  - silver.cmms_labour
+  gold_table: gold.maintenance_kpi
+  reconciliation_note: Pseudonymise
+  tyre_relevance: High
+  owner: Maintenance (CMMS) owner (to confirm)
+  status: draft
+- id: kpi_project_tracking
+  number: 40
+  name: Project Tracking
+  description: Project task, milestone, budget and billing status.
+  formula: task/milestone/budget status
+  grain: project
+  mes_source_tables: Projects, ProjectTasks, ProjectMilestones, ProjectBudgetTrackers
+  sources:
+  - silver.cmms_project
+  gold_table: gold.project_tracking
+  reconciliation_note: Low tyre relevance
+  tyre_relevance: Low
+  owner: Maintenance (CMMS) owner (to confirm)
+  status: draft

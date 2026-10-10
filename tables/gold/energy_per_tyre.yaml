@@ -1,0 +1,45 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: gold.energy_per_tyre
+layer: gold
+version: 0.1.0
+description: 'asset × product × day. Source: utility tags + cycles'
+grain: asset × product × day
+primary_key:
+- canonical_asset_id
+- product_id
+- summary_date
+owner: Analytics
+freshness: 15min
+source: utility tags + cycles
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/gold/energy_per_tyre/
+columns:
+- name: summary_date
+  type: date
+  nullable: false
+  term: summary_date
+  description: Grain column (asset × product × day)
+- name: product_id
+  type: string
+  nullable: false
+  term: product
+  description: Grain column (asset × product × day)
+- name: canonical_asset_id
+  type: string
+  nullable: false
+  term: asset
+  description: Grain column (asset × product × day)
+- name: kwh_per_good_tyre
+  type: double
+  nullable: true
+  term: kwh_per_good_tyre
+- name: steam_kg_per_tyre
+  type: double
+  nullable: true
+  term: steam_kg_per_tyre
+- name: air_bar_avg
+  type: double
+  nullable: true
+  term: air_bar_avg

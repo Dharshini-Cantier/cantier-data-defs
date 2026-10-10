@@ -1,0 +1,18 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# CONTRACT - the agreed shape of an event between a producer and the platform.
+id: iiot.reading.v1
+version: 0.1.0
+kind: event
+extends: envelope.v1
+description: One tag reading from Cantier IIoT (Process, Setpoint, Condition, Utility, RawMaterial domains).
+topic: manufacturing.<site>.<area>.iiot.reading.v1
+key:
+- plant_asset_id
+- tag_name
+compatibility: BACKWARD
+bronze_table: bronze.iiot_uns_events
+silver_table: silver.iiot_tag_reading
+rules:
+- tag_domain in Process, Setpoint, Condition, Utility_Environment, RawMaterial
+- unit is the canonical unit of the measurement type
+fields: []

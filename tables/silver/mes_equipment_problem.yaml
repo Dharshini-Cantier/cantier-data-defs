@@ -1,0 +1,51 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: silver.mes_equipment_problem
+layer: silver
+version: 0.1.0
+description: 'per source record (SCD2 for masters). Source: EquipmentProblems / EquipmentProblemRootCauses'
+grain: per source record (SCD2 for masters)
+primary_key:
+- problem_id
+owner: MES team
+freshness: 15min
+glossary_term_id: onto:entity/downtime/failure
+source: EquipmentProblems / EquipmentProblemRootCauses
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/silver/mes_equipment_problem/
+columns:
+- name: problem_id
+  type: string
+  nullable: false
+  term: equipment_problem
+- name: canonical_asset_id
+  type: string
+  nullable: true
+  term: asset
+- name: problem_code
+  type: string
+  nullable: true
+  term: problem_code
+- name: root_cause_code
+  type: string
+  nullable: true
+  term: root_cause_code
+  description: EquipmentProblemRootCauses
+- name: reported_ts
+  type: timestamp
+  nullable: true
+  term: reported_ts
+- name: resolved_ts
+  type: timestamp
+  nullable: true
+  term: resolved_ts
+- name: downtime_h
+  type: double
+  nullable: true
+  term: downtime_h
+- name: work_order_id
+  type: string
+  nullable: true
+  term: maintenance_work_order
+  description: link to WorkOrders

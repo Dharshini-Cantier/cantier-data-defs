@@ -1,0 +1,4032 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# GLOSSARY - the dictionary: meaning, type, unit, valid values and owner of each term.
+version: 0.1.0
+description: What each IIoT / MES / quality / condition datapoint measures (sheets 03-06). valid_range = physical bounds only; plant limits live
+  in silver.mdm_spec_limit.
+terms:
+  mixer_temperature:
+    glossary_term_id: onto:measure/mixer_temperature
+    label: Mixer_Temperature
+    measurement_type: MIXER_TEMPERATURE
+    description: Mixer temperature (Process) measured on Banbury Internal Mixer
+    data_type: double
+    unit: °C
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  mixer_rotor_speed:
+    glossary_term_id: onto:measure/mixer_rotor_speed
+    label: Mixer_RotorSpeed
+    measurement_type: MIXER_ROTOR_SPEED
+    description: Mixer rotor speed (Process) measured on Banbury Internal Mixer
+    data_type: double
+    unit: rpm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  mixer_ram_pressure:
+    glossary_term_id: onto:measure/mixer_ram_pressure
+    label: Mixer_RamPressure
+    measurement_type: MIXER_RAM_PRESSURE
+    description: Mixer ram pressure (Process) measured on Banbury Internal Mixer
+    data_type: double
+    unit: bar
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  mixer_mixing_time:
+    glossary_term_id: onto:measure/mixer_mixing_time
+    label: Mixer_MixingTime
+    measurement_type: MIXER_MIXING_TIME
+    description: Mixer mixing time (Process) measured on Banbury Internal Mixer
+    data_type: double
+    unit: s
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  mixer_batch_weight:
+    glossary_term_id: onto:measure/mixer_batch_weight
+    label: Mixer_BatchWeight
+    measurement_type: MIXER_BATCH_WEIGHT
+    description: Mixer batch weight (Process) measured on Banbury Internal Mixer
+    data_type: double
+    unit: kg
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  mixer_motor_power:
+    glossary_term_id: onto:measure/mixer_motor_power
+    label: Mixer_MotorPower
+    measurement_type: MIXER_MOTOR_POWER
+    description: Mixer motor power (Process) measured on Banbury Internal Mixer
+    data_type: double
+    unit: kW
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  mixer_dump_temp:
+    glossary_term_id: onto:measure/mixer_dump_temp
+    label: Mixer_DumpTemp
+    measurement_type: MIXER_DUMP_TEMP
+    description: Mixer dump temp (Process) measured on Banbury Internal Mixer
+    data_type: double
+    unit: °C
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  mixer_cooling_water_flow:
+    glossary_term_id: onto:measure/mixer_cooling_water_flow
+    label: Mixer_CoolingWaterFlow
+    measurement_type: MIXER_COOLING_WATER_FLOW
+    description: Mixer cooling water flow (Process) measured on Banbury Internal Mixer
+    data_type: double
+    unit: L/min
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  mixer_chamber_pressure:
+    glossary_term_id: onto:measure/mixer_chamber_pressure
+    label: Mixer_ChamberPressure
+    measurement_type: MIXER_CHAMBER_PRESSURE
+    description: Mixer chamber pressure (Process) measured on Banbury Internal Mixer
+    data_type: double
+    unit: bar
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  mixer_energy_consumption:
+    glossary_term_id: onto:measure/mixer_energy_consumption
+    label: Mixer_EnergyConsumption
+    measurement_type: MIXER_ENERGY_CONSUMPTION
+    description: Mixer energy consumption (Process) measured on Banbury Internal Mixer
+    data_type: double
+    unit: kWh
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  mixer_dump_time:
+    glossary_term_id: onto:measure/mixer_dump_time
+    label: Mixer_DumpTime
+    measurement_type: MIXER_DUMP_TIME
+    description: Mixer dump time (Process) measured on Banbury Internal Mixer
+    data_type: double
+    unit: s
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  compound_mooney_viscosity:
+    glossary_term_id: onto:measure/compound_mooney_viscosity
+    label: Compound_MooneyViscosity
+    measurement_type: COMPOUND_MOONEY_VISCOSITY
+    description: Compound mooney viscosity (Process) measured on Banbury Internal Mixer
+    data_type: double
+    unit: MU
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  compound_hardness:
+    glossary_term_id: onto:measure/compound_hardness
+    label: Compound_Hardness
+    measurement_type: COMPOUND_HARDNESS
+    description: Compound hardness (Process) measured on Banbury Internal Mixer
+    data_type: double
+    unit: Shore A
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  compound_specific_gravity:
+    glossary_term_id: onto:measure/compound_specific_gravity
+    label: Compound_SpecificGravity
+    measurement_type: COMPOUND_SPECIFIC_GRAVITY
+    description: Compound specific gravity (Process) measured on Banbury Internal Mixer
+    data_type: double
+    unit: g/cm³
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  compound_scorch_time:
+    glossary_term_id: onto:measure/compound_scorch_time
+    label: Compound_ScorchTime
+    measurement_type: COMPOUND_SCORCH_TIME
+    description: Compound scorch time (Process) measured on Banbury Internal Mixer
+    data_type: double
+    unit: s
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  compound_cure_time:
+    glossary_term_id: onto:measure/compound_cure_time
+    label: Compound_CureTime
+    measurement_type: COMPOUND_CURE_TIME
+    description: Compound cure time (Process) measured on Banbury Internal Mixer
+    data_type: double
+    unit: s
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  extruder_screw_speed:
+    glossary_term_id: onto:measure/extruder_screw_speed
+    label: Extruder_ScrewSpeed
+    measurement_type: EXTRUDER_SCREW_SPEED
+    description: Extruder screw speed (Process) measured on Tyre Tread Extruder
+    data_type: double
+    unit: rpm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Extruder
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  extruder_barrel_temp:
+    glossary_term_id: onto:measure/extruder_barrel_temp
+    label: Extruder_BarrelTemp
+    measurement_type: EXTRUDER_BARREL_TEMP
+    description: Extruder barrel temp (Process) measured on Tyre Tread Extruder
+    data_type: double
+    unit: °C
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Extruder
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  extruder_die_temp:
+    glossary_term_id: onto:measure/extruder_die_temp
+    label: Extruder_DieTemp
+    measurement_type: EXTRUDER_DIE_TEMP
+    description: Extruder die temp (Process) measured on Tyre Tread Extruder
+    data_type: double
+    unit: °C
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Extruder
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  extruder_head_pressure:
+    glossary_term_id: onto:measure/extruder_head_pressure
+    label: Extruder_HeadPressure
+    measurement_type: EXTRUDER_HEAD_PRESSURE
+    description: Extruder head pressure (Process) measured on Tyre Tread Extruder
+    data_type: double
+    unit: bar
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Extruder
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  extruder_die_pressure:
+    glossary_term_id: onto:measure/extruder_die_pressure
+    label: Extruder_DiePressure
+    measurement_type: EXTRUDER_DIE_PRESSURE
+    description: Extruder die pressure (Process) measured on Tyre Tread Extruder
+    data_type: double
+    unit: bar
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Extruder
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  extruder_melt_temp:
+    glossary_term_id: onto:measure/extruder_melt_temp
+    label: Extruder_MeltTemp
+    measurement_type: EXTRUDER_MELT_TEMP
+    description: Extruder melt temp (Process) measured on Tyre Tread Extruder
+    data_type: double
+    unit: °C
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Extruder
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  extruder_compound_temp:
+    glossary_term_id: onto:measure/extruder_compound_temp
+    label: Extruder_CompoundTemp
+    measurement_type: EXTRUDER_COMPOUND_TEMP
+    description: Extruder compound temp (Process) measured on Tyre Tread Extruder
+    data_type: double
+    unit: °C
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Extruder
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  extruder_throughput:
+    glossary_term_id: onto:measure/extruder_throughput
+    label: Extruder_Throughput
+    measurement_type: EXTRUDER_THROUGHPUT
+    description: Extruder throughput (Process) measured on Tyre Tread Extruder
+    data_type: double
+    unit: kg/h
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Extruder
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  extruder_profile_deviation:
+    glossary_term_id: onto:measure/extruder_profile_deviation
+    label: Extruder_ProfileDeviation
+    measurement_type: EXTRUDER_PROFILE_DEVIATION
+    description: Extruder profile deviation (Process) measured on Tyre Tread Extruder
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Extruder
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  tread_width:
+    glossary_term_id: onto:measure/tread_width
+    label: Tread_Width
+    measurement_type: TREAD_WIDTH
+    description: Tread width (Process) measured on Tyre Tread Extruder
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Extruder
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  tread_gauge:
+    glossary_term_id: onto:measure/tread_gauge
+    label: Tread_Gauge
+    measurement_type: TREAD_GAUGE
+    description: Tread gauge (Process) measured on Tyre Tread Extruder
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Extruder
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  calender_roll_temp:
+    glossary_term_id: onto:measure/calender_roll_temp
+    label: Calender_RollTemp
+    measurement_type: CALENDER_ROLL_TEMP
+    description: Calender roll temp (Process) measured on Rubber Calender
+    data_type: double
+    unit: °C
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Calender
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  calender_line_speed:
+    glossary_term_id: onto:measure/calender_line_speed
+    label: Calender_LineSpeed
+    measurement_type: CALENDER_LINE_SPEED
+    description: Calender line speed (Process) measured on Rubber Calender
+    data_type: double
+    unit: m/min
+    source_unit: rpm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Calender
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    source_issue: Line speed of a calender is linear; rpm is roll speed
+    owner: IIoT / process engineering
+  calender_fabric_gauge:
+    glossary_term_id: onto:measure/calender_fabric_gauge
+    label: Calender_FabricGauge
+    measurement_type: CALENDER_FABRIC_GAUGE
+    description: Calender fabric gauge (Process) measured on Rubber Calender
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Calender
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  calender_roll_gap:
+    glossary_term_id: onto:measure/calender_roll_gap
+    label: Calender_RollGap
+    measurement_type: CALENDER_ROLL_GAP
+    description: Calender roll gap (Process) measured on Rubber Calender
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Calender
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: missing_at_source
+    source_issue: Missing unit
+    owner: IIoT / process engineering
+  calender_rubber_thickness:
+    glossary_term_id: onto:measure/calender_rubber_thickness
+    label: Calender_RubberThickness
+    measurement_type: CALENDER_RUBBER_THICKNESS
+    description: Calender rubber thickness (Process) measured on Rubber Calender
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Calender
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  calender_cord_tension:
+    glossary_term_id: onto:measure/calender_cord_tension
+    label: Calender_CordTension
+    measurement_type: CALENDER_CORD_TENSION
+    description: Calender cord tension (Process) measured on Rubber Calender
+    data_type: double
+    unit: N
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Calender
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  calender_cord_spacing:
+    glossary_term_id: onto:measure/calender_cord_spacing
+    label: Calender_CordSpacing
+    measurement_type: CALENDER_CORD_SPACING
+    description: Calender cord spacing (Process) measured on Rubber Calender
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Calender
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: missing_at_source
+    source_issue: Missing unit
+    owner: IIoT / process engineering
+  calender_nip_pressure:
+    glossary_term_id: onto:measure/calender_nip_pressure
+    label: Calender_NipPressure
+    measurement_type: CALENDER_NIP_PRESSURE
+    description: Calender nip pressure (Process) measured on Rubber Calender
+    data_type: double
+    unit: bar
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Calender
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  calender_sheet_width:
+    glossary_term_id: onto:measure/calender_sheet_width
+    label: Calender_SheetWidth
+    measurement_type: CALENDER_SHEET_WIDTH
+    description: Calender sheet width (Process) measured on Rubber Calender
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Calender
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  cord_epi:
+    glossary_term_id: onto:measure/cord_epi
+    label: Cord_EPI
+    measurement_type: CORD_EPI
+    description: Cord epi (Process) measured on Rubber Calender
+    data_type: double
+    unit: ends/in
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Calender
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  building_drum_speed:
+    glossary_term_id: onto:measure/building_drum_speed
+    label: Building_DrumSpeed
+    measurement_type: BUILDING_DRUM_SPEED
+    description: Building drum speed (Process) measured on Tyre Building Machine
+    data_type: double
+    unit: rpm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Building
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  building_belt_angle:
+    glossary_term_id: onto:measure/building_belt_angle
+    label: Building_BeltAngle
+    measurement_type: BUILDING_BELT_ANGLE
+    description: Building belt angle (Process) measured on Tyre Building Machine
+    data_type: double
+    unit: deg
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Building
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  building_ply_count:
+    glossary_term_id: onto:measure/building_ply_count
+    label: Building_PlyCount
+    measurement_type: BUILDING_PLY_COUNT
+    description: Building ply count (Process) measured on Tyre Building Machine
+    data_type: int
+    unit: count
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Building
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  building_green_tyre_weight:
+    glossary_term_id: onto:measure/building_green_tyre_weight
+    label: Building_GreenTyreWeight
+    measurement_type: BUILDING_GREEN_TYRE_WEIGHT
+    description: Building green tyre weight (Process) measured on Tyre Building Machine
+    data_type: double
+    unit: kg
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Building
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  building_splice_quality:
+    glossary_term_id: onto:measure/building_splice_quality
+    label: Building_SpliceQuality
+    measurement_type: BUILDING_SPLICE_QUALITY
+    description: Building splice quality (Process) measured on Tyre Building Machine
+    data_type: double
+    unit: index 0-100
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Building
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: missing_at_source
+    source_issue: Missing unit — define scoring
+    owner: IIoT / process engineering
+  building_cycle_time:
+    glossary_term_id: onto:measure/building_cycle_time
+    label: Building_CycleTime
+    measurement_type: BUILDING_CYCLE_TIME
+    description: Building cycle time (Process) measured on Tyre Building Machine
+    data_type: double
+    unit: s
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Building
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  building_green_tyre_count:
+    glossary_term_id: onto:measure/building_green_tyre_count
+    label: Building_GreenTyreCount
+    measurement_type: BUILDING_GREEN_TYRE_COUNT
+    description: Building green tyre count (Process) measured on Tyre Building Machine
+    data_type: int
+    unit: count
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Building
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  building_ply_tension:
+    glossary_term_id: onto:measure/building_ply_tension
+    label: Building_PlyTension
+    measurement_type: BUILDING_PLY_TENSION
+    description: Building ply tension (Process) measured on Tyre Building Machine
+    data_type: double
+    unit: N
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Building
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  building_bead_diameter:
+    glossary_term_id: onto:measure/building_bead_diameter
+    label: Building_BeadDiameter
+    measurement_type: BUILDING_BEAD_DIAMETER
+    description: Building bead diameter (Process) measured on Tyre Building Machine
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Building
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  building_bead_position:
+    glossary_term_id: onto:measure/building_bead_position
+    label: Building_BeadPosition
+    measurement_type: BUILDING_BEAD_POSITION
+    description: Building bead position (Process) measured on Tyre Building Machine
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Building
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: missing_at_source
+    source_issue: Missing unit
+    owner: IIoT / process engineering
+  building_ply_overlap:
+    glossary_term_id: onto:measure/building_ply_overlap
+    label: Building_PlyOverlap
+    measurement_type: BUILDING_PLY_OVERLAP
+    description: Building ply overlap (Process) measured on Tyre Building Machine
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Building
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: missing_at_source
+    source_issue: Missing unit
+    owner: IIoT / process engineering
+  building_belt_width:
+    glossary_term_id: onto:measure/building_belt_width
+    label: Building_BeltWidth
+    measurement_type: BUILDING_BELT_WIDTH
+    description: Building belt width (Process) measured on Tyre Building Machine
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Building
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  building_tread_width:
+    glossary_term_id: onto:measure/building_tread_width
+    label: Building_TreadWidth
+    measurement_type: BUILDING_TREAD_WIDTH
+    description: Building tread width (Process) measured on Tyre Building Machine
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Building
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  building_sidewall_position:
+    glossary_term_id: onto:measure/building_sidewall_position
+    label: Building_SidewallPosition
+    measurement_type: BUILDING_SIDEWALL_POSITION
+    description: Building sidewall position (Process) measured on Tyre Building Machine
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Building
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: missing_at_source
+    source_issue: Missing unit
+    owner: IIoT / process engineering
+  building_centring_deviation:
+    glossary_term_id: onto:measure/building_centring_deviation
+    label: Building_CentringDeviation
+    measurement_type: BUILDING_CENTRING_DEVIATION
+    description: Building centring deviation (Process) measured on Tyre Building Machine
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Building
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  cure_mold_temp:
+    glossary_term_id: onto:measure/cure_mold_temp
+    label: Cure_MoldTemp
+    measurement_type: CURE_MOLD_TEMP
+    description: Cure mold temp (Process) measured on Tyre Curing Press
+    data_type: double
+    unit: °C
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  cure_bladder_temp:
+    glossary_term_id: onto:measure/cure_bladder_temp
+    label: Cure_BladderTemp
+    measurement_type: CURE_BLADDER_TEMP
+    description: Cure bladder temp (Process) measured on Tyre Curing Press
+    data_type: double
+    unit: °C
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  cure_steam_pressure:
+    glossary_term_id: onto:measure/cure_steam_pressure
+    label: Cure_SteamPressure
+    measurement_type: CURE_STEAM_PRESSURE
+    description: Cure steam pressure (Process) measured on Tyre Curing Press
+    data_type: double
+    unit: bar
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  cure_nitrogen_pressure:
+    glossary_term_id: onto:measure/cure_nitrogen_pressure
+    label: Cure_NitrogenPressure
+    measurement_type: CURE_NITROGEN_PRESSURE
+    description: Cure nitrogen pressure (Process) measured on Tyre Curing Press
+    data_type: double
+    unit: bar
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  cure_time:
+    glossary_term_id: onto:measure/cure_time
+    label: Cure_Time
+    measurement_type: CURE_TIME
+    description: Cure time (Process) measured on Tyre Curing Press
+    data_type: double
+    unit: s
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  cure_press_force:
+    glossary_term_id: onto:measure/cure_press_force
+    label: Cure_PressForce
+    measurement_type: CURE_PRESS_FORCE
+    description: Cure press force (Process) measured on Tyre Curing Press
+    data_type: double
+    unit: kN
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  cure_bladder_cycles:
+    glossary_term_id: onto:measure/cure_bladder_cycles
+    label: Cure_BladderCycles
+    measurement_type: CURE_BLADDER_CYCLES
+    description: Cure bladder cycles (Process) measured on Tyre Curing Press
+    data_type: int
+    unit: count
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    cmms_relevance: Meter (bladder cycles) → bladder change PM
+    status: active
+    owner: IIoT / process engineering
+  cure_press_status:
+    glossary_term_id: onto:measure/cure_press_status
+    label: Cure_PressStatus
+    measurement_type: CURE_PRESS_STATUS
+    description: Cure press status (Process) measured on Tyre Curing Press
+    data_type: string
+    unit: enum
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    source_issue: Source data_type was double - changed to a string enum. Data type Double for a status — must be enum (IDLE/LOADING/SHAPING/CURING/EXHAUST/UNLOADING/FAULT)
+    owner: IIoT / process engineering
+    enum_values:
+      Stopped: Not running, no fault
+      Starting: Ramping up
+      Running: Curing
+      Idle: Ready, not curing
+      Down: Fault / breakdown
+      Alarm: Running with active alarm
+  cure_degree_of_cure:
+    glossary_term_id: onto:measure/cure_degree_of_cure
+    label: Cure_DegreeOfCure
+    measurement_type: CURE_DEGREE_OF_CURE
+    description: Cure degree of cure (Process) measured on Tyre Curing Press
+    data_type: double
+    unit: '%'
+    valid_range:
+      min: 0
+      max: 100
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    source_issue: Derived (Arrhenius equivalent cure) — compute in Silver, not a PLC tag
+    owner: IIoT / process engineering
+  cure_exhaust_temp:
+    glossary_term_id: onto:measure/cure_exhaust_temp
+    label: Cure_ExhaustTemp
+    measurement_type: CURE_EXHAUST_TEMP
+    description: Cure exhaust temp (Process) measured on Tyre Curing Press
+    data_type: double
+    unit: °C
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  cure_cycle_time:
+    glossary_term_id: onto:measure/cure_cycle_time
+    label: Cure_CycleTime
+    measurement_type: CURE_CYCLE_TIME
+    description: Cure cycle time (Process) measured on Tyre Curing Press
+    data_type: double
+    unit: s
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  cure_mold_pressure:
+    glossary_term_id: onto:measure/cure_mold_pressure
+    label: Cure_MoldPressure
+    measurement_type: CURE_MOLD_PRESSURE
+    description: Cure mold pressure (Process) measured on Tyre Curing Press
+    data_type: double
+    unit: bar
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  cure_bladder_pressure:
+    glossary_term_id: onto:measure/cure_bladder_pressure
+    label: Cure_BladderPressure
+    measurement_type: CURE_BLADDER_PRESSURE
+    description: Cure bladder pressure (Process) measured on Tyre Curing Press
+    data_type: double
+    unit: bar
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  cure_water_temperature:
+    glossary_term_id: onto:measure/cure_water_temperature
+    label: Cure_WaterTemperature
+    measurement_type: CURE_WATER_TEMPERATURE
+    description: Cure water temperature (Process) measured on Tyre Curing Press
+    data_type: double
+    unit: °C
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  mixer_temperature_sp:
+    glossary_term_id: onto:measure/mixer_temperature_sp
+    label: Mixer_Temperature_SP
+    measurement_type: MIXER_TEMPERATURE_SP
+    description: Mixer temperature sp (Setpoint) measured on Banbury Internal Mixer
+    data_type: double
+    unit: °C
+    category: Setpoint
+    domain: IIoT setpoint
+    capture_rule: On change
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    - silver.mes_recipe_setpoint
+    status: active
+    owner: IIoT / process engineering
+  extruder_screw_speed_sp:
+    glossary_term_id: onto:measure/extruder_screw_speed_sp
+    label: Extruder_ScrewSpeed_SP
+    measurement_type: EXTRUDER_SCREW_SPEED_SP
+    description: Extruder screw speed sp (Setpoint) measured on Tyre Tread Extruder
+    data_type: double
+    unit: rpm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Setpoint
+    domain: IIoT setpoint
+    capture_rule: On change
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    templates:
+    - Extruder
+    silver_tables:
+    - silver.iiot_tag_reading
+    - silver.mes_recipe_setpoint
+    status: active
+    owner: IIoT / process engineering
+  cure_mold_temp_sp:
+    glossary_term_id: onto:measure/cure_mold_temp_sp
+    label: Cure_MoldTemp_SP
+    measurement_type: CURE_MOLD_TEMP_SP
+    description: Cure mold temp sp (Setpoint) measured on Tyre Curing Press
+    data_type: double
+    unit: °C
+    category: Setpoint
+    domain: IIoT setpoint
+    capture_rule: On change
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    - silver.mes_recipe_setpoint
+    status: active
+    owner: IIoT / process engineering
+  cure_steam_pressure_sp:
+    glossary_term_id: onto:measure/cure_steam_pressure_sp
+    label: Cure_SteamPressure_SP
+    measurement_type: CURE_STEAM_PRESSURE_SP
+    description: Cure steam pressure sp (Setpoint) measured on Tyre Curing Press
+    data_type: double
+    unit: bar
+    category: Setpoint
+    domain: IIoT setpoint
+    capture_rule: On change
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    - silver.mes_recipe_setpoint
+    status: active
+    owner: IIoT / process engineering
+  cure_time_sp:
+    glossary_term_id: onto:measure/cure_time_sp
+    label: Cure_Time_SP
+    measurement_type: CURE_TIME_SP
+    description: Cure time sp (Setpoint) measured on Tyre Curing Press
+    data_type: double
+    unit: s
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Setpoint
+    domain: IIoT setpoint
+    capture_rule: On change
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    - silver.mes_recipe_setpoint
+    status: active
+    owner: IIoT / process engineering
+  cure_temp_deviation:
+    glossary_term_id: onto:measure/cure_temp_deviation
+    label: Cure_Temp_Deviation
+    measurement_type: CURE_TEMP_DEVIATION
+    description: Cure temp deviation (Setpoint) measured on Tyre Curing Press
+    data_type: double
+    unit: °C
+    category: Setpoint
+    domain: Derived
+    capture_rule: On change
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    - silver.mes_recipe_setpoint
+    status: active
+    source_issue: Derived (PV−SP) filed under Setpoint — compute in Silver
+    owner: Data platform team
+  machine_state:
+    glossary_term_id: onto:measure/machine_state
+    label: Machine_State
+    measurement_type: MACHINE_STATE
+    description: Machine state (State_Alarm) measured on Plant Equipment
+    data_type: string
+    unit: enum
+    category: State_Alarm
+    domain: IIoT state/alarm → MES OEE + CMMS
+    capture_rule: On change (event)
+    observes: Asset
+    evidence_for:
+    - gold.downtime_pareto
+    - gold.oee_machine_shift
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    - Utility
+    silver_tables:
+    - silver.iiot_alarm_event
+    - silver.iiot_state_event
+    status: active
+    source_issue: Source data_type was boolean - changed to a string enum. Boolean cannot hold Stopped/Starting/Running/Idle/Down/Alarm (your
+      own State machine profile)
+    owner: IIoT / process engineering
+    enum_values:
+      Stopped: Not running, no fault
+      Starting: Ramping up
+      Running: Producing
+      Idle: Ready, not producing
+      Down: Fault / breakdown
+      Alarm: Running with active alarm
+  alarm_active:
+    glossary_term_id: onto:measure/alarm_active
+    label: Alarm_Active
+    measurement_type: ALARM_ACTIVE
+    description: Alarm active (State_Alarm) measured on Plant Equipment
+    data_type: boolean
+    category: State_Alarm
+    domain: IIoT state/alarm → MES OEE + CMMS
+    capture_rule: On change (event)
+    observes: Asset
+    evidence_for:
+    - gold.downtime_pareto
+    - gold.oee_machine_shift
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    - Utility
+    silver_tables:
+    - silver.iiot_alarm_event
+    - silver.iiot_state_event
+    status: active
+    owner: IIoT / process engineering
+  alarm_code:
+    glossary_term_id: onto:measure/alarm_code
+    label: Alarm_Code
+    measurement_type: ALARM_CODE
+    description: Alarm code (State_Alarm) measured on Plant Equipment
+    data_type: string
+    category: State_Alarm
+    domain: IIoT state/alarm → MES OEE + CMMS
+    capture_rule: On change (event)
+    observes: Asset
+    evidence_for:
+    - gold.downtime_pareto
+    - gold.oee_machine_shift
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    - Utility
+    silver_tables:
+    - silver.iiot_alarm_event
+    - silver.iiot_state_event
+    cmms_relevance: Failure-mode evidence
+    status: active
+    owner: IIoT / process engineering
+  emergency_stop:
+    glossary_term_id: onto:measure/emergency_stop
+    label: Emergency_Stop
+    measurement_type: EMERGENCY_STOP
+    description: Emergency stop (State_Alarm) measured on Plant Equipment
+    data_type: boolean
+    category: State_Alarm
+    domain: IIoT state/alarm → MES OEE + CMMS
+    capture_rule: On change (event)
+    observes: Asset
+    evidence_for:
+    - gold.downtime_pareto
+    - gold.oee_machine_shift
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    - Utility
+    silver_tables:
+    - silver.iiot_alarm_event
+    - silver.iiot_state_event
+    cmms_relevance: Safety event
+    status: active
+    owner: IIoT / process engineering
+  downtime_reason_code:
+    glossary_term_id: onto:measure/downtime_reason_code
+    label: Downtime_ReasonCode
+    measurement_type: DOWNTIME_REASON_CODE
+    description: Downtime reason code (State_Alarm) measured on Plant Equipment
+    data_type: string
+    category: State_Alarm
+    domain: IIoT state/alarm → MES OEE + CMMS
+    capture_rule: On change (event)
+    observes: Asset
+    evidence_for:
+    - gold.downtime_pareto
+    - gold.oee_machine_shift
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    - Utility
+    silver_tables:
+    - silver.iiot_alarm_event
+    - silver.iiot_state_event
+    cmms_relevance: Links downtime → MWO
+    status: active
+    owner: IIoT / process engineering
+  maintenance_due_hours:
+    glossary_term_id: onto:measure/maintenance_due_hours
+    label: Maintenance_DueHours
+    measurement_type: MAINTENANCE_DUE_HOURS
+    description: Maintenance due hours (Condition) measured on Plant Equipment
+    data_type: double
+    unit: h
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Condition
+    domain: IIoT condition → CMMS/PdM
+    capture_rule: 10 s (vibration 1 s RMS from edge)
+    observes: Component
+    evidence_for:
+    - gold.maintenance_risk
+    - gold.pdm_feature_hourly
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    cmms_relevance: Should come FROM CMMS PM plan, not PLC
+    status: active
+    owner: IIoT / process engineering
+  mixer_motor_current:
+    glossary_term_id: onto:measure/mixer_motor_current
+    label: Mixer_MotorCurrent
+    measurement_type: MIXER_MOTOR_CURRENT
+    description: Mixer motor current (Process) measured on Banbury Internal Mixer
+    data_type: double
+    unit: A
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  extruder_motor_current:
+    glossary_term_id: onto:measure/extruder_motor_current
+    label: Extruder_MotorCurrent
+    measurement_type: EXTRUDER_MOTOR_CURRENT
+    description: Extruder motor current (Process) measured on Tyre Tread Extruder
+    data_type: double
+    unit: A
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Extruder
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  calender_motor_current:
+    glossary_term_id: onto:measure/calender_motor_current
+    label: Calender_MotorCurrent
+    measurement_type: CALENDER_MOTOR_CURRENT
+    description: Calender motor current (Process) measured on Rubber Calender
+    data_type: double
+    unit: A
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV deadband
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    - gold.iiot_tag_5min
+    - gold.process_cycle_summary
+    templates:
+    - Calender
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  mixer_vibration:
+    glossary_term_id: onto:measure/mixer_vibration
+    label: Mixer_Vibration
+    measurement_type: MIXER_VIBRATION
+    description: Mixer vibration (Condition) measured on Banbury Internal Mixer
+    data_type: double
+    unit: mm/s
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Condition
+    domain: IIoT condition → CMMS/PdM
+    capture_rule: 10 s (vibration 1 s RMS from edge)
+    observes: Asset
+    evidence_for:
+    - gold.maintenance_risk
+    - gold.pdm_feature_hourly
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  extruder_vibration:
+    glossary_term_id: onto:measure/extruder_vibration
+    label: Extruder_Vibration
+    measurement_type: EXTRUDER_VIBRATION
+    description: Extruder vibration (Condition) measured on Tyre Tread Extruder
+    data_type: double
+    unit: mm/s
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Condition
+    domain: IIoT condition → CMMS/PdM
+    capture_rule: 10 s (vibration 1 s RMS from edge)
+    observes: Asset
+    evidence_for:
+    - gold.maintenance_risk
+    - gold.pdm_feature_hourly
+    templates:
+    - Extruder
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  mixer_bearing_temp:
+    glossary_term_id: onto:measure/mixer_bearing_temp
+    label: Mixer_BearingTemp
+    measurement_type: MIXER_BEARING_TEMP
+    description: Mixer bearing temp (Condition) measured on Banbury Internal Mixer
+    data_type: double
+    unit: °C
+    category: Condition
+    domain: IIoT condition → CMMS/PdM
+    capture_rule: 10 s (vibration 1 s RMS from edge)
+    observes: Asset
+    evidence_for:
+    - gold.maintenance_risk
+    - gold.pdm_feature_hourly
+    templates:
+    - Banbury
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  gearbox_oil_temp:
+    glossary_term_id: onto:measure/gearbox_oil_temp
+    label: Gearbox_OilTemp
+    measurement_type: GEARBOX_OIL_TEMP
+    description: Gearbox oil temp (Condition) measured on Plant Equipment
+    data_type: double
+    unit: °C
+    category: Condition
+    domain: IIoT condition → CMMS/PdM
+    capture_rule: 10 s (vibration 1 s RMS from edge)
+    observes: Component
+    evidence_for:
+    - gold.maintenance_risk
+    - gold.pdm_feature_hourly
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  hydraulic_oil_pressure:
+    glossary_term_id: onto:measure/hydraulic_oil_pressure
+    label: Hydraulic_OilPressure
+    measurement_type: HYDRAULIC_OIL_PRESSURE
+    description: Hydraulic oil pressure (Condition) measured on Tyre Curing Press
+    data_type: double
+    unit: bar
+    category: Condition
+    domain: IIoT condition → CMMS/PdM
+    capture_rule: 10 s (vibration 1 s RMS from edge)
+    observes: Asset
+    evidence_for:
+    - gold.maintenance_risk
+    - gold.pdm_feature_hourly
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  machine_runtime_hours:
+    glossary_term_id: onto:measure/machine_runtime_hours
+    label: Machine_RuntimeHours
+    measurement_type: MACHINE_RUNTIME_HOURS
+    description: Machine runtime hours (Condition) measured on Plant Equipment
+    data_type: double
+    unit: h
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Condition
+    domain: IIoT condition → CMMS/PdM
+    capture_rule: 10 s (vibration 1 s RMS from edge)
+    observes: Component
+    evidence_for:
+    - gold.maintenance_risk
+    - gold.pdm_feature_hourly
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    cmms_relevance: Meter (run hours) → CMMS meter-based PM
+    status: active
+    owner: IIoT / process engineering
+  curing_press_vibration:
+    glossary_term_id: onto:measure/curing_press_vibration
+    label: Curing_PressVibration
+    measurement_type: CURING_PRESS_VIBRATION
+    description: Curing press vibration (Condition) measured on Tyre Curing Press
+    data_type: double
+    unit: mm/s
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Condition
+    domain: IIoT condition → CMMS/PdM
+    capture_rule: 10 s (vibration 1 s RMS from edge)
+    observes: Asset
+    evidence_for:
+    - gold.maintenance_risk
+    - gold.pdm_feature_hourly
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  motor_temperature:
+    glossary_term_id: onto:measure/motor_temperature
+    label: Motor_Temperature
+    measurement_type: MOTOR_TEMPERATURE
+    description: Motor temperature (Condition) measured on Plant Equipment
+    data_type: double
+    unit: °C
+    category: Condition
+    domain: IIoT condition → CMMS/PdM
+    capture_rule: 10 s (vibration 1 s RMS from edge)
+    observes: Component
+    evidence_for:
+    - gold.maintenance_risk
+    - gold.pdm_feature_hourly
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  bearing_vibration:
+    glossary_term_id: onto:measure/bearing_vibration
+    label: Bearing_Vibration
+    measurement_type: BEARING_VIBRATION
+    description: Bearing vibration (Condition) measured on Plant Equipment
+    data_type: double
+    unit: mm/s
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Condition
+    domain: IIoT condition → CMMS/PdM
+    capture_rule: 10 s (vibration 1 s RMS from edge)
+    observes: Component
+    evidence_for:
+    - gold.maintenance_risk
+    - gold.pdm_feature_hourly
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  bearing_temperature:
+    glossary_term_id: onto:measure/bearing_temperature
+    label: Bearing_Temperature
+    measurement_type: BEARING_TEMPERATURE
+    description: Bearing temperature (Condition) measured on Plant Equipment
+    data_type: double
+    unit: °C
+    category: Condition
+    domain: IIoT condition → CMMS/PdM
+    capture_rule: 10 s (vibration 1 s RMS from edge)
+    observes: Component
+    evidence_for:
+    - gold.maintenance_risk
+    - gold.pdm_feature_hourly
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  gearbox_vibration:
+    glossary_term_id: onto:measure/gearbox_vibration
+    label: Gearbox_Vibration
+    measurement_type: GEARBOX_VIBRATION
+    description: Gearbox vibration (Condition) measured on Plant Equipment
+    data_type: double
+    unit: mm/s
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Condition
+    domain: IIoT condition → CMMS/PdM
+    capture_rule: 10 s (vibration 1 s RMS from edge)
+    observes: Component
+    evidence_for:
+    - gold.maintenance_risk
+    - gold.pdm_feature_hourly
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  hydraulic_oil_temperature:
+    glossary_term_id: onto:measure/hydraulic_oil_temperature
+    label: Hydraulic_OilTemperature
+    measurement_type: HYDRAULIC_OIL_TEMPERATURE
+    description: Hydraulic oil temperature (Condition) measured on Plant Equipment
+    data_type: double
+    unit: °C
+    category: Condition
+    domain: IIoT condition → CMMS/PdM
+    capture_rule: 10 s (vibration 1 s RMS from edge)
+    observes: Component
+    evidence_for:
+    - gold.maintenance_risk
+    - gold.pdm_feature_hourly
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  hydraulic_pressure:
+    glossary_term_id: onto:measure/hydraulic_pressure
+    label: Hydraulic_Pressure
+    measurement_type: HYDRAULIC_PRESSURE
+    description: Hydraulic pressure (Condition) measured on Tyre Curing Press
+    data_type: double
+    unit: bar
+    category: Condition
+    domain: IIoT condition → CMMS/PdM
+    capture_rule: 10 s (vibration 1 s RMS from edge)
+    observes: Asset
+    evidence_for:
+    - gold.maintenance_risk
+    - gold.pdm_feature_hourly
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  pneumatic_pressure:
+    glossary_term_id: onto:measure/pneumatic_pressure
+    label: Pneumatic_Pressure
+    measurement_type: PNEUMATIC_PRESSURE
+    description: Pneumatic pressure (Condition) measured on Tyre Curing Press
+    data_type: double
+    unit: bar
+    category: Condition
+    domain: IIoT condition → CMMS/PdM
+    capture_rule: 10 s (vibration 1 s RMS from edge)
+    observes: Asset
+    evidence_for:
+    - gold.maintenance_risk
+    - gold.pdm_feature_hourly
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  motor_speed:
+    glossary_term_id: onto:measure/motor_speed
+    label: Motor_Speed
+    measurement_type: MOTOR_SPEED
+    description: Motor speed (Condition) measured on Plant Equipment
+    data_type: double
+    unit: rpm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Condition
+    domain: IIoT condition → CMMS/PdM
+    capture_rule: 10 s (vibration 1 s RMS from edge)
+    observes: Component
+    evidence_for:
+    - gold.maintenance_risk
+    - gold.pdm_feature_hourly
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  motor_torque:
+    glossary_term_id: onto:measure/motor_torque
+    label: Motor_Torque
+    measurement_type: MOTOR_TORQUE
+    description: Motor torque (Condition) measured on Plant Equipment
+    data_type: double
+    unit: N·m
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Condition
+    domain: IIoT condition → CMMS/PdM
+    capture_rule: 10 s (vibration 1 s RMS from edge)
+    observes: Component
+    evidence_for:
+    - gold.maintenance_risk
+    - gold.pdm_feature_hourly
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    owner: IIoT / process engineering
+  util_electricity_consumption:
+    glossary_term_id: onto:measure/util_electricity_consumption
+    label: Util_ElectricityConsumption
+    measurement_type: UTIL_ELECTRICITY_CONSUMPTION
+    description: Util electricity consumption (Utility_Environment) measured on Electrical Utility System
+    data_type: double
+    unit: kWh
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Utility_Environment
+    domain: IIoT utility/energy
+    capture_rule: 10 s – 1 min
+    observes: Asset
+    evidence_for:
+    - gold.energy_per_tyre
+    templates:
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    source_issue: All 9 utility tags templated on every utility asset (e.g. steam flow on Air Compressor) — split template per utility
+    owner: IIoT / process engineering
+  util_steam_flow:
+    glossary_term_id: onto:measure/util_steam_flow
+    label: Util_SteamFlow
+    measurement_type: UTIL_STEAM_FLOW
+    description: Util steam flow (Utility_Environment) measured on Boiler / Steam Utility System
+    data_type: double
+    unit: kg/h
+    source_unit: L/min
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Utility_Environment
+    domain: IIoT utility/energy
+    capture_rule: 10 s – 1 min
+    observes: Asset
+    evidence_for:
+    - gold.energy_per_tyre
+    templates:
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    source_issue: Steam is metered by mass; All 9 utility tags templated on every utility asset (e.g. steam flow on Air Compressor) — split template
+      per utility
+    owner: IIoT / process engineering
+  util_compressed_air_pressure:
+    glossary_term_id: onto:measure/util_compressed_air_pressure
+    label: Util_CompressedAirPressure
+    measurement_type: UTIL_COMPRESSED_AIR_PRESSURE
+    description: Util compressed air pressure (Utility_Environment) measured on Air Compressor
+    data_type: double
+    unit: bar
+    category: Utility_Environment
+    domain: IIoT utility/energy
+    capture_rule: 10 s – 1 min
+    observes: Asset
+    evidence_for:
+    - gold.energy_per_tyre
+    templates:
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    source_issue: All 9 utility tags templated on every utility asset (e.g. steam flow on Air Compressor) — split template per utility
+    owner: IIoT / process engineering
+  util_water_flow:
+    glossary_term_id: onto:measure/util_water_flow
+    label: Util_WaterFlow
+    measurement_type: UTIL_WATER_FLOW
+    description: Util water flow (Utility_Environment) measured on Cooling Water System
+    data_type: double
+    unit: L/min
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Utility_Environment
+    domain: IIoT utility/energy
+    capture_rule: 10 s – 1 min
+    observes: Asset
+    evidence_for:
+    - gold.energy_per_tyre
+    templates:
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    source_issue: All 9 utility tags templated on every utility asset (e.g. steam flow on Air Compressor) — split template per utility
+    owner: IIoT / process engineering
+  util_cooling_water_temp:
+    glossary_term_id: onto:measure/util_cooling_water_temp
+    label: Util_CoolingWaterTemp
+    measurement_type: UTIL_COOLING_WATER_TEMP
+    description: Util cooling water temp (Utility_Environment) measured on Cooling Water System
+    data_type: double
+    unit: °C
+    category: Utility_Environment
+    domain: IIoT utility/energy
+    capture_rule: 10 s – 1 min
+    observes: Asset
+    evidence_for:
+    - gold.energy_per_tyre
+    templates:
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    source_issue: All 9 utility tags templated on every utility asset (e.g. steam flow on Air Compressor) — split template per utility
+    owner: IIoT / process engineering
+  env_co2_emission:
+    glossary_term_id: onto:measure/env_co2_emission
+    label: Env_CO2Emission
+    measurement_type: ENV_CO2_EMISSION
+    description: Env co2 emission (Utility_Environment) measured on Environmental Monitoring Station
+    data_type: double
+    unit: ppm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Utility_Environment
+    domain: IIoT utility/energy
+    capture_rule: 10 s – 1 min
+    observes: Asset
+    evidence_for:
+    - gold.energy_per_tyre
+    templates:
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    source_issue: All 9 utility tags templated on every utility asset (e.g. steam flow on Air Compressor) — split template per utility
+    owner: IIoT / process engineering
+  env_voc_level:
+    glossary_term_id: onto:measure/env_voc_level
+    label: Env_VOCLevel
+    measurement_type: ENV_VOC_LEVEL
+    description: Env voclevel (Utility_Environment) measured on Environmental Monitoring Station
+    data_type: double
+    unit: ppm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Utility_Environment
+    domain: IIoT utility/energy
+    capture_rule: 10 s – 1 min
+    observes: Asset
+    evidence_for:
+    - gold.energy_per_tyre
+    templates:
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    source_issue: All 9 utility tags templated on every utility asset (e.g. steam flow on Air Compressor) — split template per utility
+    owner: IIoT / process engineering
+  env_ambient_temp:
+    glossary_term_id: onto:measure/env_ambient_temp
+    label: Env_AmbientTemp
+    measurement_type: ENV_AMBIENT_TEMP
+    description: Env ambient temp (Utility_Environment) measured on Environmental Monitoring Station
+    data_type: double
+    unit: °C
+    category: Utility_Environment
+    domain: IIoT utility/energy
+    capture_rule: 10 s – 1 min
+    observes: Asset
+    evidence_for:
+    - gold.energy_per_tyre
+    templates:
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    source_issue: All 9 utility tags templated on every utility asset (e.g. steam flow on Air Compressor) — split template per utility
+    owner: IIoT / process engineering
+  env_humidity:
+    glossary_term_id: onto:measure/env_humidity
+    label: Env_Humidity
+    measurement_type: ENV_HUMIDITY
+    description: Env humidity (Utility_Environment) measured on Environmental Monitoring Station
+    data_type: double
+    unit: '%'
+    valid_range:
+      min: 0
+      max: 100
+    range_basis: physical
+    category: Utility_Environment
+    domain: IIoT utility/energy
+    capture_rule: 10 s – 1 min
+    observes: Asset
+    evidence_for:
+    - gold.energy_per_tyre
+    templates:
+    - Utility
+    silver_tables:
+    - silver.iiot_tag_reading
+    status: active
+    source_issue: All 9 utility tags templated on every utility asset (e.g. steam flow on Air Compressor) — split template per utility
+    owner: IIoT / process engineering
+  rm_natural_rubber_stock:
+    glossary_term_id: onto:measure/rm_natural_rubber_stock
+    label: RM_NaturalRubberStock
+    measurement_type: RM_NATURAL_RUBBER_STOCK
+    description: Rm natural rubber stock (RawMaterial) measured on Raw Material Handling & Weighing System
+    data_type: double
+    unit: kg
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: RawMaterial
+    domain: IIoT/MES inventory
+    capture_rule: 1 min or on transaction
+    observes: Asset
+    evidence_for:
+    - gold.material_consumption_daily
+    templates:
+    - RM
+    silver_tables:
+    - silver.mes_material_inventory
+    status: missing_at_source
+    source_issue: Missing unit
+    owner: IIoT / process engineering
+  rm_carbon_black_stock:
+    glossary_term_id: onto:measure/rm_carbon_black_stock
+    label: RM_CarbonBlackStock
+    measurement_type: RM_CARBON_BLACK_STOCK
+    description: Rm carbon black stock (RawMaterial) measured on Raw Material Handling & Weighing System
+    data_type: double
+    unit: kg
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: RawMaterial
+    domain: IIoT/MES inventory
+    capture_rule: 1 min or on transaction
+    observes: Asset
+    evidence_for:
+    - gold.material_consumption_daily
+    templates:
+    - RM
+    silver_tables:
+    - silver.mes_material_inventory
+    status: missing_at_source
+    source_issue: Missing unit
+    owner: IIoT / process engineering
+  rm_silica_stock:
+    glossary_term_id: onto:measure/rm_silica_stock
+    label: RM_SilicaStock
+    measurement_type: RM_SILICA_STOCK
+    description: Rm silica stock (RawMaterial) measured on Raw Material Handling & Weighing System
+    data_type: double
+    unit: kg
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: RawMaterial
+    domain: IIoT/MES inventory
+    capture_rule: 1 min or on transaction
+    observes: Asset
+    evidence_for:
+    - gold.material_consumption_daily
+    templates:
+    - RM
+    silver_tables:
+    - silver.mes_material_inventory
+    status: missing_at_source
+    source_issue: Missing unit
+    owner: IIoT / process engineering
+  rm_steel_cord_stock:
+    glossary_term_id: onto:measure/rm_steel_cord_stock
+    label: RM_SteelCordStock
+    measurement_type: RM_STEEL_CORD_STOCK
+    description: Rm steel cord stock (RawMaterial) measured on Raw Material Handling & Weighing System
+    data_type: double
+    unit: m (or kg)
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: RawMaterial
+    domain: IIoT/MES inventory
+    capture_rule: 1 min or on transaction
+    observes: Asset
+    evidence_for:
+    - gold.material_consumption_daily
+    templates:
+    - RM
+    silver_tables:
+    - silver.mes_material_inventory
+    status: missing_at_source
+    source_issue: Missing unit — cord/wire usually tracked in metres
+    owner: IIoT / process engineering
+  rm_synthetic_rubber_stock:
+    glossary_term_id: onto:measure/rm_synthetic_rubber_stock
+    label: RM_SyntheticRubberStock
+    measurement_type: RM_SYNTHETIC_RUBBER_STOCK
+    description: Rm synthetic rubber stock (RawMaterial) measured on Raw Material Handling & Weighing System
+    data_type: double
+    unit: kg
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: RawMaterial
+    domain: IIoT/MES inventory
+    capture_rule: 1 min or on transaction
+    observes: Asset
+    evidence_for:
+    - gold.material_consumption_daily
+    templates:
+    - RM
+    silver_tables:
+    - silver.mes_material_inventory
+    status: missing_at_source
+    source_issue: Missing unit
+    owner: IIoT / process engineering
+  rm_chemical_stock:
+    glossary_term_id: onto:measure/rm_chemical_stock
+    label: RM_ChemicalStock
+    measurement_type: RM_CHEMICAL_STOCK
+    description: Rm chemical stock (RawMaterial) measured on Raw Material Handling & Weighing System
+    data_type: double
+    unit: kg
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: RawMaterial
+    domain: IIoT/MES inventory
+    capture_rule: 1 min or on transaction
+    observes: Asset
+    evidence_for:
+    - gold.material_consumption_daily
+    templates:
+    - RM
+    silver_tables:
+    - silver.mes_material_inventory
+    status: missing_at_source
+    source_issue: Missing unit
+    owner: IIoT / process engineering
+  rm_textile_cord_stock:
+    glossary_term_id: onto:measure/rm_textile_cord_stock
+    label: RM_TextileCordStock
+    measurement_type: RM_TEXTILE_CORD_STOCK
+    description: Rm textile cord stock (RawMaterial) measured on Raw Material Handling & Weighing System
+    data_type: double
+    unit: m (or kg)
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: RawMaterial
+    domain: IIoT/MES inventory
+    capture_rule: 1 min or on transaction
+    observes: Asset
+    evidence_for:
+    - gold.material_consumption_daily
+    templates:
+    - RM
+    silver_tables:
+    - silver.mes_material_inventory
+    status: missing_at_source
+    source_issue: Missing unit — cord/wire usually tracked in metres
+    owner: IIoT / process engineering
+  rm_bead_wire_stock:
+    glossary_term_id: onto:measure/rm_bead_wire_stock
+    label: RM_BeadWireStock
+    measurement_type: RM_BEAD_WIRE_STOCK
+    description: Rm bead wire stock (RawMaterial) measured on Raw Material Handling & Weighing System
+    data_type: double
+    unit: m (or kg)
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: RawMaterial
+    domain: IIoT/MES inventory
+    capture_rule: 1 min or on transaction
+    observes: Asset
+    evidence_for:
+    - gold.material_consumption_daily
+    templates:
+    - RM
+    silver_tables:
+    - silver.mes_material_inventory
+    status: missing_at_source
+    source_issue: Missing unit — cord/wire usually tracked in metres
+    owner: IIoT / process engineering
+  rm_natural_rubber_consumption:
+    glossary_term_id: onto:measure/rm_natural_rubber_consumption
+    label: RM_NaturalRubberConsumption
+    measurement_type: RM_NATURAL_RUBBER_CONSUMPTION
+    description: Rm natural rubber consumption (RawMaterial) measured on Raw Material Handling & Weighing System
+    data_type: double
+    unit: kg
+    source_unit: kWh
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: RawMaterial
+    domain: IIoT/MES inventory
+    capture_rule: 1 min or on transaction
+    observes: Asset
+    evidence_for:
+    - gold.material_consumption_daily
+    templates:
+    - RM
+    silver_tables:
+    - silver.mes_material_inventory
+    status: active
+    source_issue: Material consumption tagged as energy (kWh) — wrong unit
+    owner: IIoT / process engineering
+  rm_carbon_black_consumption:
+    glossary_term_id: onto:measure/rm_carbon_black_consumption
+    label: RM_CarbonBlackConsumption
+    measurement_type: RM_CARBON_BLACK_CONSUMPTION
+    description: Rm carbon black consumption (RawMaterial) measured on Raw Material Handling & Weighing System
+    data_type: double
+    unit: kg
+    source_unit: kWh
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: RawMaterial
+    domain: IIoT/MES inventory
+    capture_rule: 1 min or on transaction
+    observes: Asset
+    evidence_for:
+    - gold.material_consumption_daily
+    templates:
+    - RM
+    silver_tables:
+    - silver.mes_material_inventory
+    status: active
+    source_issue: Material consumption tagged as energy (kWh) — wrong unit
+    owner: IIoT / process engineering
+  rm_silica_consumption:
+    glossary_term_id: onto:measure/rm_silica_consumption
+    label: RM_SilicaConsumption
+    measurement_type: RM_SILICA_CONSUMPTION
+    description: Rm silica consumption (RawMaterial) measured on Raw Material Handling & Weighing System
+    data_type: double
+    unit: kg
+    source_unit: kWh
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: RawMaterial
+    domain: IIoT/MES inventory
+    capture_rule: 1 min or on transaction
+    observes: Asset
+    evidence_for:
+    - gold.material_consumption_daily
+    templates:
+    - RM
+    silver_tables:
+    - silver.mes_material_inventory
+    status: active
+    source_issue: Material consumption tagged as energy (kWh) — wrong unit
+    owner: IIoT / process engineering
+  rm_steel_cord_consumption:
+    glossary_term_id: onto:measure/rm_steel_cord_consumption
+    label: RM_SteelCordConsumption
+    measurement_type: RM_STEEL_CORD_CONSUMPTION
+    description: Rm steel cord consumption (RawMaterial) measured on Raw Material Handling & Weighing System
+    data_type: double
+    unit: m
+    source_unit: kWh
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: RawMaterial
+    domain: IIoT/MES inventory
+    capture_rule: 1 min or on transaction
+    observes: Asset
+    evidence_for:
+    - gold.material_consumption_daily
+    templates:
+    - RM
+    silver_tables:
+    - silver.mes_material_inventory
+    status: active
+    source_issue: Material consumption tagged as energy (kWh) — wrong unit
+    owner: IIoT / process engineering
+  rm_synthetic_rubber_consumption:
+    glossary_term_id: onto:measure/rm_synthetic_rubber_consumption
+    label: RM_SyntheticRubberConsumption
+    measurement_type: RM_SYNTHETIC_RUBBER_CONSUMPTION
+    description: Rm synthetic rubber consumption (RawMaterial) measured on Raw Material Handling & Weighing System
+    data_type: double
+    unit: kg
+    source_unit: kWh
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: RawMaterial
+    domain: IIoT/MES inventory
+    capture_rule: 1 min or on transaction
+    observes: Asset
+    evidence_for:
+    - gold.material_consumption_daily
+    templates:
+    - RM
+    silver_tables:
+    - silver.mes_material_inventory
+    status: active
+    source_issue: Material consumption tagged as energy (kWh) — wrong unit
+    owner: IIoT / process engineering
+  rm_chemical_consumption:
+    glossary_term_id: onto:measure/rm_chemical_consumption
+    label: RM_ChemicalConsumption
+    measurement_type: RM_CHEMICAL_CONSUMPTION
+    description: Rm chemical consumption (RawMaterial) measured on Raw Material Handling & Weighing System
+    data_type: double
+    unit: kg
+    source_unit: kWh
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: RawMaterial
+    domain: IIoT/MES inventory
+    capture_rule: 1 min or on transaction
+    observes: Asset
+    evidence_for:
+    - gold.material_consumption_daily
+    templates:
+    - RM
+    silver_tables:
+    - silver.mes_material_inventory
+    status: active
+    source_issue: Material consumption tagged as energy (kWh) — wrong unit
+    owner: IIoT / process engineering
+  steam_valve_position_cmd:
+    glossary_term_id: onto:measure/steam_valve_position_cmd
+    label: SteamValve_Position_CMD
+    measurement_type: STEAM_VALVE_POSITION_CMD
+    description: Steam valve position cmd (Process) measured on Tyre Curing Press
+    data_type: double
+    unit: '%'
+    valid_range:
+      min: 0
+      max: 100
+    range_basis: physical
+    category: Process
+    domain: IIoT process → PdM
+    capture_rule: 1 s, COV 0.5%
+    observes: Asset
+    evidence_for:
+    - gold.maintenance_risk
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    cmms_relevance: Valve stiction feature
+    status: missing_at_source
+    source_issue: MISSING — required by PdM reference (ValvePosition_CMD)
+    owner: IIoT / process engineering
+  steam_valve_position_fb:
+    glossary_term_id: onto:measure/steam_valve_position_fb
+    label: SteamValve_Position_FB
+    measurement_type: STEAM_VALVE_POSITION_FB
+    description: Steam valve position fb (Process) measured on Tyre Curing Press
+    data_type: double
+    unit: '%'
+    valid_range:
+      min: 0
+      max: 100
+    range_basis: physical
+    category: Process
+    domain: IIoT process → PdM
+    capture_rule: 1 s, COV 0.5%
+    observes: Asset
+    evidence_for:
+    - gold.maintenance_risk
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    cmms_relevance: Valve stiction feature
+    status: missing_at_source
+    source_issue: MISSING — required by PdM reference (ValvePosition_FB)
+    owner: IIoT / process engineering
+  platen_temp_top:
+    glossary_term_id: onto:measure/platen_temp_top
+    label: Cure_PlatenTempTop
+    measurement_type: PLATEN_TEMP_TOP
+    description: Cure platen temp top (Process) measured on Tyre Curing Press
+    data_type: double
+    unit: °C
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV 0.2 °C
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    cmms_relevance: Slow recovery cycles feature
+    status: missing_at_source
+    source_issue: MISSING — PdM doc uses PlatenTempTop_PV/SP; only Cure_MoldTemp exists
+    owner: IIoT / process engineering
+  platen_temp_bottom:
+    glossary_term_id: onto:measure/platen_temp_bottom
+    label: Cure_PlatenTempBottom
+    measurement_type: PLATEN_TEMP_BOTTOM
+    description: Cure platen temp bottom (Process) measured on Tyre Curing Press
+    data_type: double
+    unit: °C
+    category: Process
+    domain: IIoT process
+    capture_rule: 1 s, COV 0.2 °C
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    templates:
+    - Curing
+    silver_tables:
+    - silver.iiot_tag_reading
+    cmms_relevance: Slow recovery cycles feature
+    status: missing_at_source
+    source_issue: MISSING — PdM doc uses PlatenTempTop_PV/SP; only Cure_MoldTemp exists
+    owner: IIoT / process engineering
+  timestamp:
+    glossary_term_id: onto:measure/timestamp
+    label: Timestamp
+    measurement_type: TIMESTAMP
+    description: Timestamp (Context) measured on MES/SCADA
+    data_type: timestamp
+    unit: s
+    category: Context
+    domain: MES context
+    capture_rule: On change (event)
+    observes: Asset
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    silver_tables:
+    - silver.mes_production_context
+    status: active
+    owner: MES team
+  data_quality:
+    glossary_term_id: onto:measure/data_quality
+    label: Data_Quality
+    measurement_type: DATA_QUALITY
+    description: Data quality (Context) measured on MES/SCADA
+    data_type: string
+    unit: OPC UA StatusCode
+    category: Context
+    domain: MES context
+    capture_rule: On change (event)
+    observes: Asset
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    silver_tables:
+    - silver.mes_production_context
+    status: active
+    source_issue: Normalise to GOOD/UNCERTAIN/BAD + substatus
+    owner: MES team
+  batch_id:
+    glossary_term_id: onto:measure/batch_id
+    label: Batch_ID
+    measurement_type: BATCH_ID
+    description: Batch id (Context) measured on MES/SCADA
+    data_type: string
+    category: Context
+    domain: MES context
+    capture_rule: On change (event)
+    observes: Asset
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    silver_tables:
+    - silver.mes_production_context
+    status: active
+    owner: MES team
+  recipe_id:
+    glossary_term_id: onto:measure/recipe_id
+    label: Recipe_ID
+    measurement_type: RECIPE_ID
+    description: Recipe id (Context) measured on MES/SCADA
+    data_type: string
+    category: Context
+    domain: MES context
+    capture_rule: On change (event)
+    observes: Asset
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    silver_tables:
+    - silver.mes_production_context
+    status: active
+    owner: MES team
+  product_id:
+    glossary_term_id: onto:measure/product_id
+    label: Product_ID
+    measurement_type: PRODUCT_ID
+    description: Product id (Context) measured on MES/SCADA
+    data_type: string
+    category: Context
+    domain: MES context
+    capture_rule: On change (event)
+    observes: Asset
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    silver_tables:
+    - silver.mes_production_context
+    status: active
+    owner: MES team
+  tyre_size:
+    glossary_term_id: onto:measure/tyre_size
+    label: Tyre_Size
+    measurement_type: TYRE_SIZE
+    description: Tyre size (Context) measured on MES/SCADA
+    data_type: string
+    category: Context
+    domain: MES context
+    capture_rule: On change (event)
+    observes: Asset
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    silver_tables:
+    - silver.mes_production_context
+    status: active
+    owner: MES team
+  tyre_type:
+    glossary_term_id: onto:measure/tyre_type
+    label: Tyre_Type
+    measurement_type: TYRE_TYPE
+    description: Tyre type (Context) measured on MES/SCADA
+    data_type: string
+    category: Context
+    domain: MES context
+    capture_rule: On change (event)
+    observes: Asset
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    silver_tables:
+    - silver.mes_production_context
+    status: active
+    owner: MES team
+  shift_no:
+    glossary_term_id: onto:measure/shift_no
+    label: Shift_No
+    measurement_type: SHIFT_NO
+    description: Shift no (Context) measured on MES/SCADA
+    data_type: string
+    category: Context
+    domain: MES context
+    capture_rule: On change (event)
+    observes: Asset
+    templates:
+    - Banbury
+    - Building
+    - Calender
+    - Curing
+    - Extruder
+    - Quality
+    - RM
+    silver_tables:
+    - silver.mes_production_context
+    status: active
+    owner: MES team
+  prod_tyres_per_hour:
+    glossary_term_id: onto:measure/prod_tyres_per_hour
+    label: Prod_TyresPerHour
+    measurement_type: PROD_TYRES_PER_HOUR
+    description: Prod tyres per hour (Production) measured on Production Line / MES
+    data_type: double
+    unit: tyres/h
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Production
+    domain: MES production KPI
+    capture_rule: Computed — do not ingest as tags
+    observes: Asset
+    evidence_for:
+    - gold.oee_machine_shift
+    status: derived
+    source_issue: Missing unit; Not instantiated on any machine in Shopfloor Master
+    owner: MES team
+  prod_total_count:
+    glossary_term_id: onto:measure/prod_total_count
+    label: Prod_TotalCount
+    measurement_type: PROD_TOTAL_COUNT
+    description: Prod total count (Production) measured on Production Line / MES
+    data_type: int
+    unit: count
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Production
+    domain: MES production KPI
+    capture_rule: Computed — do not ingest as tags
+    observes: Asset
+    evidence_for:
+    - gold.oee_machine_shift
+    status: derived
+    source_issue: Not instantiated on any machine in Shopfloor Master
+    owner: MES team
+  prod_good_count:
+    glossary_term_id: onto:measure/prod_good_count
+    label: Prod_GoodCount
+    measurement_type: PROD_GOOD_COUNT
+    description: Prod good count (Production) measured on Production Line / MES
+    data_type: int
+    unit: count
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Production
+    domain: MES production KPI
+    capture_rule: Computed — do not ingest as tags
+    observes: Asset
+    evidence_for:
+    - gold.oee_machine_shift
+    status: derived
+    source_issue: Not instantiated on any machine in Shopfloor Master
+    owner: MES team
+  prod_reject_count:
+    glossary_term_id: onto:measure/prod_reject_count
+    label: Prod_RejectCount
+    measurement_type: PROD_REJECT_COUNT
+    description: Prod reject count (Production) measured on Production Line / MES
+    data_type: int
+    unit: count
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Production
+    domain: MES production KPI
+    capture_rule: Computed — do not ingest as tags
+    observes: Asset
+    evidence_for:
+    - gold.oee_machine_shift
+    status: derived
+    source_issue: Not instantiated on any machine in Shopfloor Master
+    owner: MES team
+  prod_scrap_count:
+    glossary_term_id: onto:measure/prod_scrap_count
+    label: Prod_ScrapCount
+    measurement_type: PROD_SCRAP_COUNT
+    description: Prod scrap count (Production) measured on Production Line / MES
+    data_type: int
+    unit: count
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Production
+    domain: MES production KPI
+    capture_rule: Computed — do not ingest as tags
+    observes: Asset
+    evidence_for:
+    - gold.oee_machine_shift
+    status: derived
+    source_issue: Not instantiated on any machine in Shopfloor Master
+    owner: MES team
+  prod_rework_count:
+    glossary_term_id: onto:measure/prod_rework_count
+    label: Prod_ReworkCount
+    measurement_type: PROD_REWORK_COUNT
+    description: Prod rework count (Production) measured on Production Line / MES
+    data_type: int
+    unit: count
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Production
+    domain: MES production KPI
+    capture_rule: Computed — do not ingest as tags
+    observes: Asset
+    evidence_for:
+    - gold.oee_machine_shift
+    status: derived
+    source_issue: Not instantiated on any machine in Shopfloor Master
+    owner: MES team
+  prod_target_count:
+    glossary_term_id: onto:measure/prod_target_count
+    label: Prod_TargetCount
+    measurement_type: PROD_TARGET_COUNT
+    description: Prod target count (Production) measured on Production Line / MES
+    data_type: int
+    unit: count
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Production
+    domain: MES production KPI
+    capture_rule: Computed — do not ingest as tags
+    observes: Asset
+    evidence_for:
+    - gold.oee_machine_shift
+    status: derived
+    source_issue: Not instantiated on any machine in Shopfloor Master
+    owner: MES team
+  prod_oee:
+    glossary_term_id: onto:measure/prod_oee
+    label: Prod_OEE
+    measurement_type: PROD_OEE
+    description: Prod oee (Production) measured on Production Line / MES
+    data_type: double
+    unit: '%'
+    valid_range:
+      min: 0
+      max: 100
+    range_basis: physical
+    category: Production
+    domain: MES production KPI
+    capture_rule: Computed — do not ingest as tags
+    observes: Asset
+    evidence_for:
+    - gold.oee_machine_shift
+    status: derived
+    source_issue: Not instantiated on any machine in Shopfloor Master
+    owner: MES team
+  prod_availability:
+    glossary_term_id: onto:measure/prod_availability
+    label: Prod_Availability
+    measurement_type: PROD_AVAILABILITY
+    description: Prod availability (Production) measured on Production Line / MES
+    data_type: double
+    unit: '%'
+    valid_range:
+      min: 0
+      max: 100
+    range_basis: physical
+    category: Production
+    domain: MES production KPI
+    capture_rule: Computed — do not ingest as tags
+    observes: Asset
+    evidence_for:
+    - gold.oee_machine_shift
+    status: derived
+    source_issue: Not instantiated on any machine in Shopfloor Master
+    owner: MES team
+  prod_performance:
+    glossary_term_id: onto:measure/prod_performance
+    label: Prod_Performance
+    measurement_type: PROD_PERFORMANCE
+    description: Prod performance (Production) measured on Production Line / MES
+    data_type: double
+    unit: '%'
+    valid_range:
+      min: 0
+      max: 100
+    range_basis: physical
+    category: Production
+    domain: MES production KPI
+    capture_rule: Computed — do not ingest as tags
+    observes: Asset
+    evidence_for:
+    - gold.oee_machine_shift
+    status: derived
+    source_issue: Not instantiated on any machine in Shopfloor Master
+    owner: MES team
+  prod_quality_rate:
+    glossary_term_id: onto:measure/prod_quality_rate
+    label: Prod_QualityRate
+    measurement_type: PROD_QUALITY_RATE
+    description: Prod quality rate (Production) measured on Production Line / MES
+    data_type: double
+    unit: '%'
+    valid_range:
+      min: 0
+      max: 100
+    range_basis: physical
+    category: Production
+    domain: MES production KPI
+    capture_rule: Computed — do not ingest as tags
+    observes: Asset
+    evidence_for:
+    - gold.oee_machine_shift
+    status: derived
+    source_issue: Not instantiated on any machine in Shopfloor Master
+    owner: MES team
+  prod_downtime_minutes:
+    glossary_term_id: onto:measure/prod_downtime_minutes
+    label: Prod_DowntimeMinutes
+    measurement_type: PROD_DOWNTIME_MINUTES
+    description: Prod downtime minutes (Production) measured on Production Line / MES
+    data_type: double
+    unit: min
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Production
+    domain: MES production KPI
+    capture_rule: Computed — do not ingest as tags
+    observes: Asset
+    evidence_for:
+    - gold.oee_machine_shift
+    status: derived
+    source_issue: Not instantiated on any machine in Shopfloor Master
+    owner: MES team
+  prod_cycle_time:
+    glossary_term_id: onto:measure/prod_cycle_time
+    label: Prod_CycleTime
+    measurement_type: PROD_CYCLE_TIME
+    description: Prod cycle time (Production) measured on Production Line / MES
+    data_type: double
+    unit: s
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Production
+    domain: MES production KPI
+    capture_rule: Computed — do not ingest as tags
+    observes: Asset
+    evidence_for:
+    - gold.oee_machine_shift
+    status: derived
+    source_issue: Not instantiated on any machine in Shopfloor Master
+    owner: MES team
+  prod_planned_production_time:
+    glossary_term_id: onto:measure/prod_planned_production_time
+    label: Prod_PlannedProductionTime
+    measurement_type: PROD_PLANNED_PRODUCTION_TIME
+    description: Prod planned production time (Production) measured on Production Line / MES
+    data_type: double
+    unit: s
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Production
+    domain: MES production KPI
+    capture_rule: Computed — do not ingest as tags
+    observes: Asset
+    evidence_for:
+    - gold.oee_machine_shift
+    status: derived
+    source_issue: Not instantiated on any machine in Shopfloor Master
+    owner: MES team
+  prod_run_time:
+    glossary_term_id: onto:measure/prod_run_time
+    label: Prod_RunTime
+    measurement_type: PROD_RUN_TIME
+    description: Prod run time (Production) measured on Production Line / MES
+    data_type: double
+    unit: s
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Production
+    domain: MES production KPI
+    capture_rule: Computed — do not ingest as tags
+    observes: Asset
+    evidence_for:
+    - gold.oee_machine_shift
+    status: derived
+    source_issue: Not instantiated on any machine in Shopfloor Master
+    owner: MES team
+  prod_changeover_time:
+    glossary_term_id: onto:measure/prod_changeover_time
+    label: Prod_ChangeoverTime
+    measurement_type: PROD_CHANGEOVER_TIME
+    description: Prod changeover time (Production) measured on Production Line / MES
+    data_type: double
+    unit: s
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Production
+    domain: MES production KPI
+    capture_rule: Computed — do not ingest as tags
+    observes: Asset
+    evidence_for:
+    - gold.oee_machine_shift
+    status: derived
+    source_issue: Not instantiated on any machine in Shopfloor Master
+    owner: MES team
+  prod_machine_running:
+    glossary_term_id: onto:measure/prod_machine_running
+    label: Prod_MachineRunning
+    measurement_type: PROD_MACHINE_RUNNING
+    description: Prod machine running (Production) measured on Production Line / MES
+    data_type: boolean
+    category: Production
+    domain: MES production KPI
+    capture_rule: Computed — do not ingest as tags
+    observes: Asset
+    evidence_for:
+    - gold.oee_machine_shift
+    status: derived
+    source_issue: Not instantiated on any machine in Shopfloor Master
+    owner: MES team
+  quality_radial_force_variation:
+    glossary_term_id: onto:measure/quality_radial_force_variation
+    label: Quality_RadialForceVariation
+    measurement_type: QUALITY_RADIAL_FORCE_VARIATION
+    description: Quality radial force variation (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: double
+    unit: N
+    source_unit: kN
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    source_issue: Uniformity forces are normally reported in N (or kgf); kN loses resolution
+    owner: MES team
+  quality_lateral_force_variation:
+    glossary_term_id: onto:measure/quality_lateral_force_variation
+    label: Quality_LateralForceVariation
+    measurement_type: QUALITY_LATERAL_FORCE_VARIATION
+    description: Quality lateral force variation (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: double
+    unit: N
+    source_unit: kN
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    source_issue: As above
+    owner: MES team
+  quality_dynamic_balance:
+    glossary_term_id: onto:measure/quality_dynamic_balance
+    label: Quality_DynamicBalance
+    measurement_type: QUALITY_DYNAMIC_BALANCE
+    description: Quality dynamic balance (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: double
+    unit: g·cm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    owner: MES team
+  quality_tensile_strength:
+    glossary_term_id: onto:measure/quality_tensile_strength
+    label: Quality_TensileStrength
+    measurement_type: QUALITY_TENSILE_STRENGTH
+    description: Quality tensile strength (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: double
+    unit: MPa
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    source_issue: Lab test (Material-Tester-01 in Variable Master) — wrongly templated on Uniformity Tester in Shopfloor Master
+    owner: MES team
+  quality_elongation:
+    glossary_term_id: onto:measure/quality_elongation
+    label: Quality_Elongation
+    measurement_type: QUALITY_ELONGATION
+    description: Quality elongation (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: double
+    unit: '%'
+    valid_range:
+      min: 0
+      max: 100
+    range_basis: physical
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    source_issue: Lab test (Material-Tester-01 in Variable Master) — wrongly templated on Uniformity Tester in Shopfloor Master
+    owner: MES team
+  quality_adhesion_strength:
+    glossary_term_id: onto:measure/quality_adhesion_strength
+    label: Quality_AdhesionStrength
+    measurement_type: QUALITY_ADHESION_STRENGTH
+    description: Quality adhesion strength (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: double
+    unit: MPa
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    source_issue: Lab test (Material-Tester-01 in Variable Master) — wrongly templated on Uniformity Tester in Shopfloor Master
+    owner: MES team
+  quality_tyre_weight:
+    glossary_term_id: onto:measure/quality_tyre_weight
+    label: Quality_TyreWeight
+    measurement_type: QUALITY_TYRE_WEIGHT
+    description: Quality tyre weight (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: double
+    unit: kg
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    owner: MES team
+  quality_defect_flag:
+    glossary_term_id: onto:measure/quality_defect_flag
+    label: Quality_DefectFlag
+    measurement_type: QUALITY_DEFECT_FLAG
+    description: Quality defect flag (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: boolean
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    owner: MES team
+  quality_defect_type_code:
+    glossary_term_id: onto:measure/quality_defect_type_code
+    label: Quality_DefectTypeCode
+    measurement_type: QUALITY_DEFECT_TYPE_CODE
+    description: Quality defect type code (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: string
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    owner: MES team
+  quality_grade:
+    glossary_term_id: onto:measure/quality_grade
+    label: Quality_Grade
+    measurement_type: QUALITY_GRADE
+    description: Quality grade (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: string
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    owner: MES team
+  quality_uniformity_pass:
+    glossary_term_id: onto:measure/quality_uniformity_pass
+    label: Quality_UniformityPass
+    measurement_type: QUALITY_UNIFORMITY_PASS
+    description: Quality uniformity pass (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: boolean
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    owner: MES team
+  quality_inspection_result:
+    glossary_term_id: onto:measure/quality_inspection_result
+    label: Quality_InspectionResult
+    measurement_type: QUALITY_INSPECTION_RESULT
+    description: Quality inspection result (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: string
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    owner: MES team
+  quality_overall_diameter:
+    glossary_term_id: onto:measure/quality_overall_diameter
+    label: Quality_OverallDiameter
+    measurement_type: QUALITY_OVERALL_DIAMETER
+    description: Quality overall diameter (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    owner: MES team
+  quality_section_width:
+    glossary_term_id: onto:measure/quality_section_width
+    label: Quality_SectionWidth
+    measurement_type: QUALITY_SECTION_WIDTH
+    description: Quality section width (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    owner: MES team
+  quality_tread_depth:
+    glossary_term_id: onto:measure/quality_tread_depth
+    label: Quality_TreadDepth
+    measurement_type: QUALITY_TREAD_DEPTH
+    description: Quality tread depth (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: missing_at_source
+    source_issue: Missing unit
+    owner: MES team
+  quality_radial_runout:
+    glossary_term_id: onto:measure/quality_radial_runout
+    label: Quality_RadialRunout
+    measurement_type: QUALITY_RADIAL_RUNOUT
+    description: Quality radial runout (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: missing_at_source
+    source_issue: Missing unit
+    owner: MES team
+  quality_lateral_runout:
+    glossary_term_id: onto:measure/quality_lateral_runout
+    label: Quality_LateralRunout
+    measurement_type: QUALITY_LATERAL_RUNOUT
+    description: Quality lateral runout (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: missing_at_source
+    source_issue: Missing unit
+    owner: MES team
+  quality_bead_diameter:
+    glossary_term_id: onto:measure/quality_bead_diameter
+    label: Quality_BeadDiameter
+    measurement_type: QUALITY_BEAD_DIAMETER
+    description: Quality bead diameter (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    owner: MES team
+  quality_sidewall_thickness:
+    glossary_term_id: onto:measure/quality_sidewall_thickness
+    label: Quality_SidewallThickness
+    measurement_type: QUALITY_SIDEWALL_THICKNESS
+    description: Quality sidewall thickness (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: double
+    unit: mm
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    owner: MES team
+  quality_hardness:
+    glossary_term_id: onto:measure/quality_hardness
+    label: Quality_Hardness
+    measurement_type: QUALITY_HARDNESS
+    description: Quality hardness (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: double
+    unit: Shore A
+    valid_range:
+      min: 0
+    range_basis: physical
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    source_issue: Lab test (Material-Tester-01 in Variable Master) — wrongly templated on Uniformity Tester in Shopfloor Master
+    owner: MES team
+  quality_air_pressure_retention:
+    glossary_term_id: onto:measure/quality_air_pressure_retention
+    label: Quality_AirPressureRetention
+    measurement_type: QUALITY_AIR_PRESSURE_RETENTION
+    description: Quality air pressure retention (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: double
+    unit: bar
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    owner: MES team
+  quality_visual_inspection:
+    glossary_term_id: onto:measure/quality_visual_inspection
+    label: Quality_VisualInspection
+    measurement_type: QUALITY_VISUAL_INSPECTION
+    description: Quality visual inspection (Quality) measured on Tyre Uniformity & Balance Tester
+    data_type: string
+    category: Quality
+    domain: MES inline quality
+    capture_rule: Per tyre (event)
+    observes: Asset
+    evidence_for:
+    - gold.quality_fpy
+    - gold.spc_characteristic
+    - gold.tyre_traceability
+    templates:
+    - Quality
+    silver_tables:
+    - silver.qa_inspection_result
+    - silver.qa_measurement
+    status: active
+    owner: MES team
+  cure_compliance:
+    glossary_term_id: onto:measure/cure_compliance
+    label: Cure compliance (time/temp/pressure within recipe tolerance per step)
+    measurement_type: CURE_COMPLIANCE
+    description: Cure compliance time temp pressure within recipe tolerance per step (Derived) measured on Silver calc
+    data_type: string
+    category: Derived
+    domain: MES inline quality
+    capture_rule: Per cycle
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    templates:
+    - Curing
+    silver_tables:
+    - silver.qa_cure_compliance
+    status: active
+    source_issue: Needs spec limits (empty today)
+    owner: MES team
+  equivalent_cure:
+    glossary_term_id: onto:measure/equivalent_cure
+    label: Equivalent cure (replaces Cure_DegreeOfCure tag)
+    measurement_type: EQUIVALENT_CURE
+    description: Equivalent cure replaces cure degree of cure tag (Derived) measured on Silver calc
+    data_type: double
+    unit: '%'
+    valid_range:
+      min: 0
+      max: 100
+    range_basis: physical
+    category: Derived
+    domain: MES inline quality
+    capture_rule: Per cycle
+    observes: Asset
+    evidence_for:
+    - gold.curing_cycle_health
+    templates:
+    - Curing
+    silver_tables:
+    - silver.qa_cure_compliance
+    status: active
+    owner: MES team

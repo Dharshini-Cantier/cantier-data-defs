@@ -1,0 +1,61 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: gold.spc_characteristic
+layer: gold
+version: 0.1.0
+description: 'measurement_type × asset × subgroup. Source: qa_measurement + mdm_spec_limit'
+grain: measurement_type × asset × subgroup
+primary_key:
+- measurement_type
+- canonical_asset_id
+- subgroup_id
+owner: Analytics
+freshness: 15min
+source: qa_measurement + mdm_spec_limit
+status: draft
+storage:
+  aws: s3://cantier-lake-<acct>/gold/spc_characteristic/
+columns:
+- name: subgroup_id
+  type: string
+  nullable: false
+  term: subgroup_id
+  description: Grain column (measurement_type × asset × subgroup)
+- name: canonical_asset_id
+  type: string
+  nullable: false
+  term: asset
+  description: Grain column (measurement_type × asset × subgroup)
+- name: measurement_type
+  type: string
+  nullable: false
+  term: measurement_type
+  description: Grain column (measurement_type × asset × subgroup)
+- name: xbar
+  type: double
+  nullable: true
+  term: xbar
+- name: range
+  type: double
+  nullable: true
+  term: range
+- name: sigma
+  type: double
+  nullable: true
+  term: sigma
+- name: cp
+  type: double
+  nullable: true
+  term: cp
+- name: cpk
+  type: double
+  nullable: true
+  term: cpk
+- name: ppk
+  type: double
+  nullable: true
+  term: ppk
+- name: nelson_rule_violations
+  type: int
+  nullable: true
+  term: nelson_rule_violations

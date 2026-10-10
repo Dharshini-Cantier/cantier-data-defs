@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "common.schema.json",
+  "title": "Shared building blocks",
+  "$defs": {
+    "semver": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+      "description": "MAJOR.MINOR.PATCH - see docs/VERSIONING.md"
+    },
+    "snake": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "column_name": {
+      "type": "string",
+      "pattern": "^_?[A-Za-z][A-Za-z0-9_]*$",
+      "description": "Bronze keeps source names; Silver/Gold must be snake_case (checked by 03)"
+    },
+    "table_name": {
+      "type": "string",
+      "pattern": "^(bronze|silver|gold|ops|ref)\\.[a-z][a-z0-9_]*$"
+    },
+    "column_ref": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*\\.\\w+$",
+      "description": "<alias>.<source column>"
+    },
+    "data_type": {
+      "enum": [
+        "string",
+        "int",
+        "bigint",
+        "double",
+        "boolean",
+        "date",
+        "timestamp",
+        "array<string>",
+        "decimal(18,2)"
+      ],
+      "description": "Glue / Athena types"
+    },
+    "status": {
+      "enum": [
+        "active",
+        "draft",
+        "proposed",
+        "derived",
+        "missing_at_source",
+        "deprecated"
+      ]
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

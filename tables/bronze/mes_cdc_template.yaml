@@ -1,0 +1,36 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# TABLE SPEC - shape of one table: columns, key, partition, owner. Every column has a glossary term or technical: true.
+name: bronze.mes_cdc_template
+layer: bronze
+version: 0.1.0
+description: 'one row per change. Source: DMS from MES DB'
+grain: one row per change
+primary_key:
+- dms_lsn
+partition_by:
+- days(dms_commit_ts)
+owner: MES team
+freshness: 15min
+source: DMS from MES DB
+status: draft
+template: true
+notes: 'One Bronze table per source table (mes_cdc_<source_table>): these DMS columns + the source columns as-is.'
+storage:
+  aws: s3://cantier-lake-<acct>/bronze/mes_cdc_template/
+columns:
+- name: dms_op
+  type: string
+  nullable: true
+  technical: true
+  description: I/U/D
+- name: dms_commit_ts
+  type: timestamp
+  nullable: true
+  technical: true
+  description: Source commit
+  partition: true
+- name: dms_lsn
+  type: string
+  nullable: false
+  technical: true
+  description: Ordering

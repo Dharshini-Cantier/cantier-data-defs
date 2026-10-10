@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "iiot_template.schema.json",
+  "title": "IIoT template (mappings/iiot/templates/*.yaml)",
+  "type": "object",
+  "properties": {
+    "template": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "$ref": "common.schema.json#/$defs/semver"
+    },
+    "mapping_version": {
+      "type": "string",
+      "pattern": "^iiot-map-\\d{4}\\.\\d{2}\\.\\d{2}$"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "machines": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "patterns": {
+      "type": "object",
+      "properties": {
+        "uns_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "opc_node_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kepware_device": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kepware_tag": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "uns_path",
+        "opc_node_id",
+        "kepware_device",
+        "kepware_tag"
+      ]
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tag_name": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+          },
+          "measurement_type": {
+            "$ref": "common.schema.json#/$defs/snake"
+          },
+          "domain": {
+            "enum": [
+              "Context",
+              "Process",
+              "Setpoint",
+              "Condition",
+              "State_Alarm",
+              "Quality",
+              "Utility_Environment",
+              "RawMaterial",
+              "Production"
+            ]
+          },
+          "data_type": {
+            "$ref": "common.schema.json#/$defs/data_type"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "access": {
+            "enum": [
+              "Read",
+              "Write",
+              "Read/Write"
+            ]
+          },
+          "simulation_profile": {
+            "type": "string"
+          },
+          "bronze_table": {
+            "$ref": "common.schema.json#/$defs/table_name"
+          },
+          "silver_table": {
+            "$ref": "common.schema.json#/$defs/table_name"
+          },
+          "source_data_type": {
+            "$ref": "common.schema.json#/$defs/data_type",
+            "description": "type at the source when the glossary fixed it (finding)"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "tag_name",
+          "measurement_type",
+          "domain",
+          "data_type"
+        ]
+      },
+      "minItems": 1
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "template",
+    "version",
+    "mapping_version",
+    "description",
+    "machines",
+    "patterns",
+    "tags"
+  ]
+}

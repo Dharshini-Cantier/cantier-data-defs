@@ -1,0 +1,116 @@
+# Draft generated from workbook v3 by tools/import_workbook.py - edit by pull request from now on.
+# KPI DEFINITIONS - formula, grain, sources and owner of each KPI (dbt models generated in B3.7).
+area: Quality
+version: 0.1.0
+kpis:
+- id: kpi_scrap_quantity_scrap
+  number: 11
+  name: Scrap Quantity & Scrap %
+  description: Scrap by process, machine, product and shift.
+  formula: SUM(scrap) / SUM(QuantityIn)
+  grain: process × machine × SKU × shift
+  mes_source_tables: LotActions, LotActionMachines, JobOrders, Shifts
+  sources:
+  - silver.mdm_shift_schedule
+  - silver.mes_job_order
+  - silver.mes_lot_action
+  - silver.mes_lot_action_machine
+  gold_table: gold.quality_scrap
+  tyre_relevance: High
+  owner: Quality owner (to confirm)
+  status: draft
+- id: kpi_ncm_trend
+  number: 12
+  name: NCM Trend
+  description: Count of non-conformance records by day/week/month, held location and held code.
+  formula: COUNT(NCM) BY period, held location, held code
+  grain: day
+  mes_source_tables: NCMHeaders, NCMTransactions, Processes
+  sources:
+  - silver.mdm_process
+  - silver.qa_ncm
+  gold_table: gold.ncm_summary
+  tyre_relevance: High
+  owner: Quality owner (to confirm)
+  status: draft
+- id: kpi_ncm_by_reason_failure_mode
+  number: 13
+  name: NCM by Reason / Failure Mode
+  description: NCM count split by reason and failure mode.
+  formula: COUNT(NCM) BY reason, failure mode group
+  grain: week
+  mes_source_tables: NCMReasons, NCMFailureReasons, NCMFailureModeGroups
+  sources:
+  - silver.mdm_ncm_code
+  gold_table: gold.ncm_summary
+  tyre_relevance: High
+  owner: Quality owner (to confirm)
+  status: draft
+- id: kpi_defect_pareto
+  number: 14
+  name: Defect Pareto
+  description: Defects ranked by count by defect code, group and process.
+  formula: COUNT(defects) BY code/group/process ORDER BY desc
+  grain: week
+  mes_source_tables: LotActionDefects, Defects, DefectGroups
+  sources:
+  - silver.qa_defect
+  gold_table: gold.defect_pareto
+  tyre_relevance: High
+  owner: Quality owner (to confirm)
+  status: draft
+- id: kpi_rework_rate
+  number: 15
+  name: Rework Rate
+  description: Rework quantity and % by reason code.
+  formula: SUM(rework qty) / SUM(QuantityIn) BY reason
+  grain: process × week
+  mes_source_tables: LotActionReworkDetails, ReworkReasonCodes
+  sources:
+  - silver.qa_rework
+  gold_table: gold.quality_scrap
+  tyre_relevance: High
+  owner: Quality owner (to confirm)
+  status: draft
+- id: kpi_open_ncm_hold_ageing
+  number: 16
+  name: Open NCM & Hold Ageing
+  description: NCM still on hold and how long they have been held.
+  formula: NOW − hold_start WHERE status = HELD
+  grain: NCM
+  mes_source_tables: NCMHeaders, NCMTransactions
+  sources:
+  - silver.qa_ncm
+  gold_table: gold.ncm_summary
+  tyre_relevance: High
+  owner: Quality owner (to confirm)
+  status: draft
+- id: kpi_data_collection_pass_fail
+  number: 17
+  name: Data Collection Pass/Fail
+  description: Measured parameters within/out of specification per operation.
+  formula: COUNT(value within LSL..USL) / COUNT(values)
+  grain: parameter × operation × day
+  mes_source_tables: LotActionDataCollectionParameterSets, DataCollectionParameters
+  sources:
+  - silver.qa_measurement
+  gold_table: gold.spc_characteristic
+  reconciliation_note: Inline quality; IIoT quality tags land here
+  tyre_relevance: High
+  owner: Quality owner (to confirm)
+  status: draft
+- id: kpi_weld_test_results
+  number: 18
+  name: Weld Test Results
+  description: Weld test pass/fail by weld spec and joint.
+  formula: pass / tested BY weld spec, joint
+  grain: spec × week
+  mes_source_tables: WeldSpecs, WeldSpecJointTests, LotActions (WeldTestResultId)
+  sources:
+  - silver.mes_lot_action
+  - silver.qa_weld_test
+  gold_table: gold.weld_test_summary
+  reconciliation_note: Low tyre relevance
+  tyre_relevance: Low
+  owner: Quality owner (to confirm)
+  status: draft
